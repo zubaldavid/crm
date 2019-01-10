@@ -1,0 +1,32 @@
+{
+  "name": "crm",
+  "version": "1.0.0",
+  "description": "CRM App",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zubaldavid/crm.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "zubaldavid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zubaldavid/crm/issues"
+  },
+  "homepage": "https://github.com/zubaldavid/crm#readme",
+  "devDependencies": {
+    "concurrently": "^3.6.0",
+    "nodemon": "^1.18.9"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.4",
+    "pg": "^7.7.1"
+  }
+}
