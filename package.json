@@ -4,6 +4,8 @@
   "description": "CRM App",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "npm start --prefix client",
     "server": "nodemon server"
   },
   "repository": {
@@ -20,11 +22,11 @@
   },
   "homepage": "https://github.com/zubaldavid/crm#readme",
   "devDependencies": {
-    "concurrently": "^3.6.0",
     "nodemon": "^1.18.9"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.4",
     "pg": "^7.7.1"

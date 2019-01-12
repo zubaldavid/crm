@@ -9,8 +9,8 @@ class Users {
     });
   }
 
-  static insert (user, callback) {
-    db.query('INSERT INTO users (first_name)', [user], function (err,res) {
+  static insert (first, callback) {
+    db.query('INSERT INTO users (first_name) VALUES ($1)', [first], function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);
