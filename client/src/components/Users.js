@@ -6,19 +6,25 @@ import {
   Icon,
   Input,
   Image,
-  Modal } from 'semantic-ui-react'
+  Modal,
+  Table
+} from 'semantic-ui-react'
 
 class UsersModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      usersList: [],
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: ''
+      showForm: false,
+      showTable: true
     };
+  }
+
+  openForm = () => {
+    this.setState({
+      showForm: true,
+      showTable: false
+    });
   }
 
   getUsersList = () => {
@@ -44,43 +50,25 @@ class UsersModal extends React.Component {
       button: {
         marginLeft: '5%',
         float:'left'
+      },
+      head: {
+        alignItems: 'center'
       }
     };
     return (
       <Modal style={style.modal} trigger={<Button style={style.button}> Users </Button>}>
-        <Modal.Header centered>Users</Modal.Header>
+        <Modal.Header syle={style.head}>USERS</Modal.Header>
          <Modal.Content>
-          <AddNewUser/>
-         </Modal.Content>
-         <Modal.Content>
-             <Input type="select" onChange={this.getUsersList}>
-                { this.state.usersList === 0 && <option> No cities added yet</option>}
-                { this.state.usersList > 0 &&  <option> Select a user</option>}
-                { this.state.usersList.map((user,i) => <option key={i}> {user} </option>)}
-             </Input>
+          { this.state.showTable && <UserTable/> }
+          { this.state.showForm && <AddNewUser/> }
          </Modal.Content>
          <Modal.Actions>
-           <NewUserButton/>
+         <Button primary onClick={this.openForm}>
+            <Icon name='plus'/>
+                Add User
+            </Button>
          </Modal.Actions>
       </Modal>
-    )
-  }
-}
-
-class NewUserButton extends React.Component {
-  constructor() {
-    super();
-    this.state = {}
-  }
-
-  render() {
-    return (
-      <div>
-        <Button primary>
-           <Icon name='plus'/>
-           Add User
-        </Button>
-      </div>
     )
   }
 }
@@ -94,7 +82,9 @@ class AddNewUser extends React.Component {
       lastName: '',
       email: '',
       password: '',
-      usersList: []
+      usersList: [],
+      showTable: false,
+      showForm: true
     };
   }
 
@@ -154,6 +144,76 @@ class AddNewUser extends React.Component {
          </Form.Field>
          <Button style={style.button} type='submit' onClick={this.handleAddUser}>Submit</Button>
       </Form>
+    )
+  }
+}
+
+class UserTable extends React.Component {
+  render() {
+    return (
+      <div>
+      <Table striped>
+         <Table.Header>
+           <Table.Row>
+             <Table.HeaderCell>Name</Table.HeaderCell>
+             <Table.HeaderCell>Date Joined</Table.HeaderCell>
+             <Table.HeaderCell>E-mail</Table.HeaderCell>
+             <Table.HeaderCell>Called</Table.HeaderCell>
+           </Table.Row>
+         </Table.Header>
+
+         <Table.Body>
+           <Table.Row>
+             <Table.Cell>John Lilki</Table.Cell>
+             <Table.Cell>September 14, 2013</Table.Cell>
+             <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
+             <Table.Cell>No</Table.Cell>
+           </Table.Row>
+           <Table.Row>
+             <Table.Cell>Jamie Harington</Table.Cell>
+             <Table.Cell>January 11, 2014</Table.Cell>
+             <Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
+             <Table.Cell>Yes</Table.Cell>
+           </Table.Row>
+           <Table.Row>
+             <Table.Cell>Jill Lewis</Table.Cell>
+             <Table.Cell>May 11, 2014</Table.Cell>
+             <Table.Cell>jilsewris22@yahoo.com</Table.Cell>
+             <Table.Cell>Yes</Table.Cell>
+           </Table.Row>
+           <Table.Row>
+             <Table.Cell>John Lilki</Table.Cell>
+             <Table.Cell>September 14, 2013</Table.Cell>
+             <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
+             <Table.Cell>No</Table.Cell>
+           </Table.Row>
+           <Table.Row>
+             <Table.Cell>John Lilki</Table.Cell>
+             <Table.Cell>September 14, 2013</Table.Cell>
+             <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
+             <Table.Cell>No</Table.Cell>
+           </Table.Row>
+           <Table.Row>
+             <Table.Cell>Jamie Harington</Table.Cell>
+             <Table.Cell>January 11, 2014</Table.Cell>
+             <Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
+             <Table.Cell>Yes</Table.Cell>
+           </Table.Row>
+           <Table.Row>
+             <Table.Cell>Jill Lewis</Table.Cell>
+             <Table.Cell>May 11, 2014</Table.Cell>
+             <Table.Cell>jilsewris22@yahoo.com</Table.Cell>
+             <Table.Cell>Yes</Table.Cell>
+           </Table.Row>
+           <Table.Row>
+             <Table.Cell>John Lilki</Table.Cell>
+             <Table.Cell>September 14, 2013</Table.Cell>
+             <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
+             <Table.Cell>No</Table.Cell>
+           </Table.Row>
+         </Table.Body>
+        </Table>
+      </div>
     )
   }
 }

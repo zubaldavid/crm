@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Tab } from 'semantic-ui-react'
 import Users from './Users'
+import {
+  Button
+} from 'semantic-ui-react'
 
 class TabBar extends Component {
   render() {
@@ -23,7 +26,21 @@ class TabBar extends Component {
         },
     ]
 
-    return <Tab menu={{ borderless: true, attached: false, tabular: false }} panes={panes} />
+    const style = {
+      panes : {
+        width: '92%'
+      }
+    }
+
+    return (
+      <div>
+        <Tab
+          style={style.panes}
+          menu={{ borderless: true, attached: false, tabular: false }}
+          panes={panes}
+        />
+      </div>
+    )
   }
 }
 

@@ -3,12 +3,9 @@ import Login from './Login';
 import UsersModal from './Users'
 import {
   Button,
-  Form,
   Grid,
   Header,
-  Icon,
   Image,
-  Modal,
   Segment,
 } from 'semantic-ui-react'
 
@@ -18,7 +15,8 @@ class TopHeader extends React.Component {
         div : {
         leftheight:'60%',
         width: '90%',
-        display: 'inline-block'
+        display: 'inline-block',
+        topMargin: '100px'
       }
     };
     return (
@@ -39,9 +37,11 @@ class TopHeader extends React.Component {
 }
 
 class LogoutButton extends React.Component {
+  constuctor(){}
   render() {
     return (
       <Button style={{float:'right'}}>
+
         Logout
       </Button>
     )

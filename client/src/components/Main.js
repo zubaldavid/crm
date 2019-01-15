@@ -42,11 +42,4 @@ function Dashboard(props) {
   )
 }
 
-
-// ReactDOM.render(
-//   // Try changing to isLoggedIn={true}:
-//   <Greeting isLoggedIn={false} />,
-//   document.getElementById('root')
-// );
-
 export default Main
