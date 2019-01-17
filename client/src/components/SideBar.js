@@ -4,8 +4,10 @@ import Dashboard from './HomeDashboard'
 import NewQuoteModal from './NewQuoteModal'
 import {
   Button,
+  Grid,
   Header,
   Icon,
+  Input,
   Menu,
   Segment,
   Sidebar,
@@ -23,6 +25,7 @@ class SideBar extends React.Component {
       finance: false,
       header: 'Home',
       newQuote: false,
+      serchBar: false,
     };
   }
   openHome = () => {
@@ -32,7 +35,8 @@ class SideBar extends React.Component {
       grainger: false,
       finance: false,
       header: 'Home',
-      newQuote: false
+      newQuote: false,
+      serchBar: false,
     });
   }
   openQuotes = () => {
@@ -42,7 +46,8 @@ class SideBar extends React.Component {
       grainger: false,
       finance: false,
       header: 'Quotes',
-      newQuote: true
+      newQuote: true,
+      serchBar: true,
     });
   }
   openGrainger = () => {
@@ -52,7 +57,8 @@ class SideBar extends React.Component {
       grainger: true,
       finance: false,
       header: 'Grainger',
-      newQuote: true
+      newQuote: true,
+      serchBar: true,
     });
   }
   openFinance = () => {
@@ -62,14 +68,19 @@ class SideBar extends React.Component {
       grainger: false,
       finance: true,
       header: 'Finance',
-      newQuote: false
+      newQuote: false,
+      serchBar: false,
     });
   }
 
   render() {
     const { visible } = this.state
+    const style = {
+      div : { top:'10%', left:'1%', width: '98%', height: '88%', position:'absolute'},
+      gridCol: {width: '88%'}
+    }
     return (
-      <div  style={{ top:'10%', left:'1%', width: '98%', height: '88%', position:'absolute'}} >
+      <div  style={style.div} >
         <Sidebar.Pushable as={Segment}>
           <Sidebar
             as={Menu}
@@ -99,11 +110,12 @@ class SideBar extends React.Component {
           </Sidebar>
           <Sidebar.Pusher >
             <Segment basic>
-              <Header as='h3' style={{alignItems:'center'}}>
-                {this.state.header}
+              <Grid.Column style={style.gridCol}>
+                <Header as='h2'>{this.state.header} </Header>
+                { this.state.serchBar && <SearchBar/> }
                 { this.state.newQuote && <NewQuoteModal/>}
-              </Header>
-
+              </Grid.Column>
+              <br/>
               { this.state.home && <Dashboard/> }
               { this.state.quotes && <TabBar/>  }
               { this.state.grainger && <TabBar/>}
@@ -115,5 +127,16 @@ class SideBar extends React.Component {
     )
   }
 }
+
+class SearchBar extends React.Component {
+  render () {
+    const style = {
+      search : { left: '8%'}
+    }
+    return (
+       <Input style={style.search} icon='search' placeholder='Search...' />
+    )}
+}
+
 
 export default SideBar

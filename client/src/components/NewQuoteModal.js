@@ -45,12 +45,9 @@ class NewQuoteModal extends React.Component {
   render() {
     const style = {
       modal : {
-        marginTop: '.5%',
-        height: '80%',
-        width: '60%'
+        marginTop: '.5%', height: '80%', width: '60%'
       },
       button: {
-        marginRight: '17%',
         float:'right',
       },
       head: {
@@ -80,14 +77,8 @@ class AddNewQuote extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      usersList: [],
-      showTable: false,
-      showForm: true
+    this.state = {  firstName: '', lastName: '', email: '', password: '', usersList: [],
+      showTable: false, showForm: true
     };
   }
 
@@ -114,14 +105,10 @@ class AddNewQuote extends React.Component {
   render() {
     const style = {
         form : {
-        left: '15%',
-        height:'80%',
-        width: '80%',
+          left: '15%', height:'80%', width: '80%',
       },
         button: {
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center'
+          flex: 1, flexDirection: 'row', alignItems: 'center'
         }
     };
     return (

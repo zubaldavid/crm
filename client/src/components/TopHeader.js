@@ -40,10 +40,7 @@ class LogoutButton extends React.Component {
   constuctor(){}
   render() {
     return (
-      <Button style={{float:'right'}}>
-
-        Logout
-      </Button>
+      <Button style={{float:'right'}}> Logout</Button>
     )
   }
 }

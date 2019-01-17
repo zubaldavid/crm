@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import main from './Main'
 
 class Login extends Component {
-  state = {}
-  hideLogin = () => this.setState({ visible: false })
+  loginToMain() {
+    main.openMain();
+  }
 
   render() {
     return (
@@ -36,9 +37,7 @@ class Login extends Component {
                   placeholder='Password'
                   type='password'
                 />
-                <Link to='/main'>
-                  <Button color='blue' fluid size='large'> Log In</Button>
-                </Link>
+                  <Button color='blue' fluid size='large' onClick={this.loginToMain}> Log In</Button>
               </Segment>
             </Form>
             <Message>
