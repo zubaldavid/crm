@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Login from './Login';
-import UsersModal from './Users'
+import UsersModal from './users/Users'
 import {
   Button,
   Grid,
@@ -9,15 +9,10 @@ import {
   Segment,
 } from 'semantic-ui-react'
 
-class TopHeader extends React.Component {
+class TopHeader extends Component {
   render() {
     const style = {
-        div : {
-        leftheight:'60%',
-        width: '90%',
-        display: 'inline-block',
-        topMargin: '100px'
-      }
+      div : { leftheight:'60%', width: '90%', display: 'inline-block', topMargin: '100px'}
     };
     return (
       <Grid.Row>
@@ -36,7 +31,7 @@ class TopHeader extends React.Component {
   }
 }
 
-class LogoutButton extends React.Component {
+class LogoutButton extends Component {
   constuctor(){}
   render() {
     return (

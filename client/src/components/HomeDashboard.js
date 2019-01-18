@@ -3,7 +3,7 @@ import {
   Card
 } from 'semantic-ui-react'
 
-class Dashboard extends React.Component {
+class Dashboard extends Component {
   render() {
     const items = [
       {

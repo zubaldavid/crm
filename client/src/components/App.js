@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   BrowserRouter,
   Route
@@ -7,11 +6,10 @@ import {
 
 import Login from './Login';
 import Main from './Main';
-import Users from './Users'
+import Users from './users/Users'
 import OpenBids from './OpenBids'
 
 const App = () => (
-
   <BrowserRouter>
       <div className = "container">
         <Route path="/" component= {Main}/>
@@ -19,7 +17,6 @@ const App = () => (
         <Route path="/openBids" component={OpenBids}/>
       </div>
   </BrowserRouter>
-
 );
 
 export default App

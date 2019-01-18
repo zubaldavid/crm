@@ -3,7 +3,7 @@ import SideBar from './SideBar'
 import Login from './Login'
 import TopHeader from './TopHeader'
 
-class Main extends React.Component {
+class Main extends Component {
   constructor(props) {
     super(props);
 

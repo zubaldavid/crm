@@ -3,7 +3,6 @@ import TabBar from './TabBar'
 import Dashboard from './HomeDashboard'
 import NewQuoteModal from './NewQuoteModal'
 import {
-  Button,
   Grid,
   Header,
   Icon,
@@ -13,7 +12,7 @@ import {
   Sidebar,
 } from 'semantic-ui-react'
 
-class SideBar extends React.Component {
+class SideBar extends Component {
   state = { visible: false }
   constructor(props) {
     super(props);
@@ -76,7 +75,7 @@ class SideBar extends React.Component {
   render() {
     const { visible } = this.state
     const style = {
-      div : { top:'10%', left:'1%', width: '98%', height: '88%', position:'absolute'},
+      div : { top:'1em', left:'.5%', width: '99%', height: '61em', position:'relative'},
       gridCol: {width: '88%'}
     }
     return (
@@ -84,9 +83,7 @@ class SideBar extends React.Component {
         <Sidebar.Pushable as={Segment}>
           <Sidebar
             as={Menu}
-            animation='uncover'
             inverted
-            onHide={this.handleSidebarHide}
             vertical
             visible='false'
             width='thin'
@@ -119,7 +116,6 @@ class SideBar extends React.Component {
               { this.state.home && <Dashboard/> }
               { this.state.quotes && <TabBar/>  }
               { this.state.grainger && <TabBar/>}
-
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
@@ -128,7 +124,7 @@ class SideBar extends React.Component {
   }
 }
 
-class SearchBar extends React.Component {
+class SearchBar extends Component {
   render () {
     const style = {
       search : { left: '8%'}
@@ -137,6 +133,5 @@ class SearchBar extends React.Component {
        <Input style={style.search} icon='search' placeholder='Search...' />
     )}
 }
-
 
 export default SideBar

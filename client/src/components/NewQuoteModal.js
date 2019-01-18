@@ -3,16 +3,12 @@ import {
   Button,
   Form,
   Grid,
-  Header,
   Icon,
   Input,
-  Image,
   Modal,
-  Select,
-  Table
 } from 'semantic-ui-react'
 
-class NewQuoteModal extends React.Component {
+class NewQuoteModal extends Component {
   constructor(props) {
     super(props);
 
@@ -73,7 +69,7 @@ class NewQuoteModal extends React.Component {
   }
 }
 
-class AddNewQuote extends React.Component {
+class AddNewQuote extends Component {
   constructor(props) {
     super(props);
 
