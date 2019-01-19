@@ -13,6 +13,10 @@ class Main extends Component {
     };
   }
 
+  componentDidMount() {
+      console.log('User Modal did mount.');
+  }
+
   openMain() {
     this.setState({
       showLogin: false,

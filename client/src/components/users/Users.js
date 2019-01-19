@@ -13,29 +13,40 @@ class UsersModal extends Component {
     this.state = {
       showForm: false,
       showTable: true,
+      addButton: true,
     };
+  }
+
+  componentDidMount() {
+    console.log('User Modal did mount.');
   }
 
   openForm = () => {
     this.setState({
       showForm: true,
-      showTable: false
+      showTable: false,
+      showAddButton: false
     });
+  }
+
+  renderData = () => {
+
   }
 
   render() {
     const style = {
       modal : { marginTop: '.5%', height: '80%', width: '60%'},
       button : { marginLeft: '5%', float:'left'},
-      adduserButton : {float:'right'},
+      addButton : {float:'right'},
       head : { alignItems: 'center'}
     };
     return (
       <Modal style={style.modal} trigger={<Button style={style.button}> <Icon name='user'/> Users </Button>}>
         <Modal.Header syle={style.head}>AVIATE USERS
-        <Button primary onClick={this.openForm} style={style.adduserButton} >
-           <Icon name='plus'/> Add User
-           </Button>
+          <Button primary onClick={this.openForm} style={style.addButton} >
+             <Icon name='plus'/> Add User
+          </Button>
+
         </Modal.Header>
          <Modal.Content>
           { this.state.showTable && <UsersTable/> }

@@ -36,6 +36,7 @@ class NewQuoteModal extends Component {
 
   compontentDidMount () {
     this.getUsersList();
+    console.log('New quote modal did mount.');
   }
 
   render() {
@@ -76,6 +77,10 @@ class AddNewQuote extends Component {
     this.state = {  firstName: '', lastName: '', email: '', password: '', usersList: [],
       showTable: false, showForm: true
     };
+  }
+
+  componentDidMount() {
+      console.log('Add New Quote did mount.');
   }
 
   handleInputChange = (e) => {
@@ -119,12 +124,12 @@ class AddNewQuote extends Component {
              <label>Quote Number</label>
              <Input fluid placeholder='Quote Number' />
            </Form.Field>
-           <Form.Field width={5} options={agency}>
+           <Form.Field width={5}>
              <label>Agency</label>
              <Input fluid placeholder='Agency' />
            </Form.Field>
 
-           <Form.Field width={5} options={pointOfContact}>
+           <Form.Field width={5}>
              <label>Point of Contact</label>
              <Input fluid placeholder='Point of Contact' />
            </Form.Field>
@@ -198,16 +203,6 @@ class AddNewQuote extends Component {
 }
 
 const employees = [
-  { key: 'm', text: 'David', value: 'David' },
-  { key: 'f', text: 'Aaron', value: 'Aaron' },
-]
-
-const agency = [
-  { key: 'm', text: 'David', value: 'David' },
-  { key: 'f', text: 'Aaron', value: 'Aaron' },
-]
-
-const pointOfContact = [
   { key: 'm', text: 'David', value: 'David' },
   { key: 'f', text: 'Aaron', value: 'Aaron' },
 ]

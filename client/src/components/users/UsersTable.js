@@ -24,6 +24,7 @@ class UsersTable extends Component {
 
   compontentDidMount () {
     this.getUsersList();
+    console.log('Users Table did mount.');
   }
 
   render() {
