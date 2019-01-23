@@ -2,16 +2,22 @@ import React, { Component } from 'react';
 import {
   Button,
   Form,
-  Grid
+  Grid,
+  Header,
+  Icon,
+  Segment
 } from 'semantic-ui-react'
 
-class AddNewUser extends React.Component {
+class AddNewUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newFirst: '', newLast: '', newEmail: '', newPassword: ''
+      newFirst: '',
+      newLast: '',
+      newEmail: '',
+      newPassword: '',
+      showComplete: false,
     };
-
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -32,39 +38,36 @@ class AddNewUser extends React.Component {
              ' Email : ' + this.state.newEmail
       );
       event.preventDefault();
+      this.setState({
+       newFirst: '', newLast: '', newEmail: '', newPassword: '', showComplete: true})
   }
 
-  handleAddUser = (e) => {
-    var newUser = {
-      first_name: this.state.newFirst,
-      last_name : this.state.newLast,
-      email:this.state.newEmail,
-      password: this.state.newPassword,
-    }
-
-    fetch('api/users', {
+  handleAddUser = () => {
+    fetch('/api/users', {
       method: 'post',
-      headers: {'Content-Type': 'application.json'},
-      body: JSON.stringify({ newUser})
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        newFirst: this.state.newFirst,
+        newLast : this.state.newLast,
+        newEmail:this.state.newEmail,
+        newPassword: this.state.newPassword
+      })
     })
     .then(res => res.json())
-    .then(res => { this.setState({newFirst: '', newLast: '', newEmail: '', newPassword: ''})
+    .then(res => { this.setState({
+      newFirst: '', newLast: '', newEmail: '', newPassword: '', showComplete:true})
     });
-
-    alert('You have submitted a new user - ' +
-            'First: ' + this.state.newFirst +
-           ' Last: ' + this.state.newLast  +
-           ' Email : ' + this.state.newEmail
-    );
-    e.preventDefault();
   };
 
   render() {
     const style = {
         form : {  left: '20%', height:'60%', width: '60%' },
-        button: {}
     };
     return (
+      <div>
+      { this.state.showComplete && <Submitted/>}
+      <br/>
+      <br/>
       <Form style={style.form}>
          <Form.Field>
            <label>First Name</label>
@@ -82,10 +85,31 @@ class AddNewUser extends React.Component {
            <label>Password</label>
            <input placeholder='Password' name='newPassword' value={this.state.newPassword} onChange={this.handleInputChange}/>
          </Form.Field>
-          <Grid.Row centered>
+         <br/>
+          <Grid centered>
             <Button primary style={style.button} type='submit' onClick={this.handleAddUser}>Submit</Button>
-          </Grid.Row>
-      </Form>
+          </Grid>
+        </Form>
+        </div>
+    )
+  }
+}
+
+class Submitted extends Component {
+  render() {
+    const style = {
+        icon : { marginRight: '4%'},
+        segment: {width:'40%'}
+    };
+    return (
+      <div>
+        <Grid centered>
+          <Segment style={style.segment} inverted color='green'>
+            <Icon style={style.icon} name='check'/>
+            New User Created!
+          </Segment>
+        </Grid>
+      </div>
     )
   }
 }

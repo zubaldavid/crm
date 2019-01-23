@@ -21,6 +21,15 @@ router.post('/', function (req, res) {
     if(err)
       return res.json(err); // response to front end
     return res.json(result);
+  })
+});
+
+router.delete('/', function (req, res) {
+  var id = req.body.id;
+  Users.remove(id, function(err, result) {
+    if(err)
+      return res.json(err);
+    return res.json(result);
   });
 });
 

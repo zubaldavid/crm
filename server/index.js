@@ -1,6 +1,9 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+var bcrypt = require('bcryptjs');
+var saltRounds = bcrypt.genSaltSync(10);
+var hash = bcrypt.hashSync("B4c0/\/", saltRounds);
 
 var db = require('./database');
 

@@ -29,10 +29,6 @@ class UsersModal extends Component {
     });
   }
 
-  renderData = () => {
-
-  }
-
   render() {
     const style = {
       modal : { marginTop: '.5%', height: '80%', width: '60%'},

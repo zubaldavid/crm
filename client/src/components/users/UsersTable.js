@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import {
   Button,
+  Icon,
+  Popup,
   Table
 } from 'semantic-ui-react'
 
 class UsersTable extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
        users: []
     };
+  }
+
+  componentWillMount(){
+      console.log('First call to render');
   }
 
   getUsersList = () => {
@@ -22,6 +27,15 @@ class UsersTable extends Component {
     })
   }
 
+  removeUser = (id, e) => {
+    fetch('/api/users', {
+      method: 'delete',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({id: id})
+    })
+    this.getUsersList();
+  }
+
   compontentDidMount () {
     this.getUsersList();
     console.log('Users Table did mount.');
@@ -29,9 +43,12 @@ class UsersTable extends Component {
 
   render() {
     const {users} = this.state;
+    const style = {
+        edit: { marginLeft: '8%'},
+    };
     return (
       <div>
-          <Button onClick={this.getUsersList}>Get</Button>
+        <Button onClick={this.getUsersList}>Get</Button>
         <Table celled>
           <Table.Header>
             <Table.Row>
@@ -48,6 +65,12 @@ class UsersTable extends Component {
                   <Table.Cell>{d.last_name}</Table.Cell>
                   <Table.Cell>{d.email}</Table.Cell>
                   <Table.Cell>{d.password}</Table.Cell>
+                  <Button style={style.edit}><Icon name='edit'/></Button>
+                  <Popup style={{height:'45px'}}
+                  trigger={<Button onClick={this.removeUser.bind(this, d.id)} color='red'><Icon name='remove'/></Button>}
+                  content='Are you sure you want to delete?'
+                  position='top left'
+                  />
                 </Table.Row>
               )}
           </Table.Body>
