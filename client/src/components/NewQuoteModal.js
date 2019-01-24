@@ -8,6 +8,19 @@ import {
   Modal,
 } from 'semantic-ui-react'
 
+
+const employees = [
+  { key: 'm', text: 'David', value: 'David' },
+  { key: 'f', text: 'Aaron', value: 'Aaron' },
+]
+
+const status = [
+  { key: 'b', text: 'Blue', value: 'Blue' },
+  { key: 'd', text: 'Dead', value: 'Dead' },
+  { key: 'o', text: 'Orange', value: 'Orange' },
+  { key: 'p', text: 'Purple', value: 'Purple' },
+]
+
 class NewQuoteModal extends Component {
   constructor(props) {
     super(props);
@@ -73,21 +86,20 @@ class NewQuoteModal extends Component {
 class AddNewQuote extends Component {
   constructor(props) {
     super(props);
-
     this.state = {  firstName: '', lastName: '', email: '', password: '', usersList: [],
       showTable: false, showForm: true
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
       console.log('Add New Quote did mount.');
   }
 
   handleInputChange = (e) => {
-      this.setState({ firstName: e.target.value});
-      this.setState({ lastName: e.target.value});
-      this.setState({ email: e.target.value});
-      this.setState({ password: e.target.value});
+    const target = e.target;
+    const value = target.value;
+    const name  = target.name;
+    this.setState({ [ name ] : value });
   };
 
   handleAddUser = () => {
@@ -98,19 +110,14 @@ class AddNewQuote extends Component {
     })
     .then(res => res.json())
     .then(res => {
-    //  this.getUsersList();
-      this.setState({firstName : ''});
+      this.setState({});
     });
   };
 
   render() {
     const style = {
-        form : {
-          left: '15%', height:'80%', width: '80%',
-      },
-        button: {
-          flex: 1, flexDirection: 'row', alignItems: 'center'
-        }
+        form : {left: '15%', height:'80%', width: '80%'},
+        button: { flex: 1, flexDirection: 'row', alignItems: 'center'}
     };
     return (
       <div>
@@ -201,17 +208,5 @@ class AddNewQuote extends Component {
     )
   }
 }
-
-const employees = [
-  { key: 'm', text: 'David', value: 'David' },
-  { key: 'f', text: 'Aaron', value: 'Aaron' },
-]
-
-const status = [
-  { key: 'b', text: 'Blue', value: 'Blue' },
-  { key: 'd', text: 'Dead', value: 'Dead' },
-  { key: 'o', text: 'Orange', value: 'Orange' },
-  { key: 'p', text: 'Purple', value: 'Purple' },
-]
 
 export default NewQuoteModal

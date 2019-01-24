@@ -1,8 +1,8 @@
 const db = require('../database');
 
-class NewQuote {
+class OpenBids {
   static retreiveAll (callback) {
-    db.query('SELECT first_name from users', function (err,res) {
+    db.query('SELECT * from quote_tracker', function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);
@@ -18,4 +18,4 @@ class NewQuote {
   }
 }
 
-module.exports = NewQuote;
+module.exports = OpenBids;

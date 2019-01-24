@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-import { Tab } from 'semantic-ui-react'
-import {Button} from 'semantic-ui-react'
-import OpenBids from './quotes/OpenBids'
+import OpenBidsTable from './quotes/OpenBidsTable'
+import {
+  Button,
+  Tab
+} from 'semantic-ui-react'
+
 class TabBar extends Component {
   render() {
     const panes = [
       { menuItem: { key: 'users', icon: 'folder open outline', content: 'Open Bids', color: 'blue'},
           render: () =>
             <Tab.Pane attached={false}>
-              <OpenBids/>
+              <OpenBidsTable/>
             </Tab.Pane>
         },
       { menuItem: { key: 'won', icon: 'folder outline', content: 'Won', color: 'orange'},
@@ -23,6 +26,10 @@ class TabBar extends Component {
           render: () =>
           <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane>
         },
+      { menuItem: { key: 'dead', icon: 'delete',  color: 'gray', content: 'Dead'},
+          render: () =>
+          <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane>
+      },
     ]
 
     const style = {

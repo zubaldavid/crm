@@ -5,12 +5,12 @@ import {
 } from 'semantic-ui-react'
 
 const headers = [
-  'Quote Number','Agency', 'Point of Contact', 'Solictation', 'Revision','Employee',
+  'Invoice', 'Quote Number', 'Point of Contact', 'Solictation', 'Revision','Employee',
   'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent','Date PO',
   'PO Number', 'Comment',
 ]
 
-class OpenBids extends Component {
+class WonBids extends Component {
   render() {
     return (
       <div>
@@ -30,4 +30,4 @@ class OpenBids extends Component {
   }
 }
 
-export default OpenBids
+export default WonBids

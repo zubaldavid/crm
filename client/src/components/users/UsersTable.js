@@ -15,7 +15,8 @@ class UsersTable extends Component {
   }
 
   componentWillMount(){
-      console.log('First call to render');
+    //this.getUsersList();
+    console.log('First call to render');
   }
 
   getUsersList = () => {
@@ -27,6 +28,10 @@ class UsersTable extends Component {
     })
   }
 
+  editUser = (id, e) => {
+
+  }
+
   removeUser = (id, e) => {
     fetch('/api/users', {
       method: 'delete',
@@ -36,7 +41,7 @@ class UsersTable extends Component {
     this.getUsersList();
   }
 
-  compontentDidMount () {
+  compontentDidMount = () => {
     this.getUsersList();
     console.log('Users Table did mount.');
   }
@@ -65,7 +70,7 @@ class UsersTable extends Component {
                   <Table.Cell>{d.last_name}</Table.Cell>
                   <Table.Cell>{d.email}</Table.Cell>
                   <Table.Cell>{d.password}</Table.Cell>
-                  <Button style={style.edit}><Icon name='edit'/></Button>
+                  <Button style={style.edit} onClick={this.editUser}><Icon name='edit'/></Button>
                   <Popup style={{height:'45px'}}
                   trigger={<Button onClick={this.removeUser.bind(this, d.id)} color='red'><Icon name='remove'/></Button>}
                   content='Are you sure you want to delete?'

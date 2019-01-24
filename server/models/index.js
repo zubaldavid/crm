@@ -17,8 +17,6 @@ app.use(bodyParser.json());
 
 // Register created API
 app.use('/api/users', require('./api/users'));
-// Register openbids
-app.use('/api/openQ_bids', require('./api/openQ_bids'));
 
 // Expres will listen to the port and handle the request
 app.listen(PORT, () => {
