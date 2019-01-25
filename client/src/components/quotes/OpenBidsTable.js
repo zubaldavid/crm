@@ -20,7 +20,7 @@ class OpenBidsTable extends Component {
   }
 
   componentWillMount(){
-      console.log('First call to render open bids');
+    console.log('First call to render open bids');
   }
 
   getQuotesList = () => {

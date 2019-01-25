@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import classnames from 'classnames'
+import UsersTable from './UsersTable'
 import {
   Button,
   Form,
   Grid,
   Header,
   Icon,
+  Label,
   Segment
 } from 'semantic-ui-react'
 
@@ -13,94 +14,120 @@ class AddNewUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newFirst: '',
-      newLast: '',
-      newEmail: '',
-      newPassword: '',
       showComplete: false,
+      showForm: true,
+      showTable: false,
+      fields: {},
+      errors: {}
+
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleAddUser = this.handleAddUser.bind(this);
   }
 
   componentDidMount() {
       console.log('Add New User did mount.');
   }
 
-  handleInputChange (e) {
-    if(!!this.state.errors[e.target.name]) {
-      let errors = Object.assign({}, this.state.errors);
-      delete errors[e.target.name];
-      this.setState({
-        [e.target.name] : e.target.value,
-        errors
-      });
-    } else {
-      this.setState({  [e.target.name] : e.target.value});
+  handleInputChange = (e) => {
+    let fields = this.state.fields;
+    fields[e.target.name] = e.target.value;
+    this.setState({fields});
+  }
+
+  handleAddUser = (e) => {
+    e.preventDefault();
+    if(this.validateForm()) {
+      //let fields = this.state.fields;
+      fetch('/api/users', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          //[e.target.name] : this.state.fields[e.target.name]
+          newFirst: this.state.newFirst,
+          newLast : this.state.newLast,
+          newEmail:this.state.newEmail,
+          newPassword: this.state.newPassword
+        })
+      })
+      let fields = {};
+      fields["newFirst"] = "";
+      fields["newLast"] = "";
+      fields["newEmail"] = "";
+      fields["newPassword"] = "";
+      this.setState({fields: fields, showComplete:true, showTable:true, showForm:false});
+    //  this.props.showBoardAgain();
     }
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  validateForm () {
+    let fields = this.state.fields;
     let errors = {};
-    if(this.state.newFirst === '') errors.newFirst = "First Name can't be empty";
-    if(this.state.newLast === '') errors.newLast = "Last Name can't be empty";
-    if(this.state.newEmail === '') errors.newEmail = "Email can't be empty";
-    if(this.state.newPassword === '') errors.newPassword = "Password can't be empty";
-    this.setState({ errors });
-  }
+    let formIsValid = true;
 
-  handleAddUser = () => {
-    fetch('/api/users', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        newFirst: this.state.newFirst,
-        newLast : this.state.newLast,
-        newEmail:this.state.newEmail,
-        newPassword: this.state.newPassword
-      })
-    })
-    .then(res => res.json())
-    .then(res => { this.setState({
-      newFirst: '', newLast: '', newEmail: '', newPassword: '', showComplete:true})
-    });
-  };
+    if(!fields["newFirst"]) {
+      formIsValid = false;
+      errors["newFirst"] = "Enter a first name";
+    }
+
+    if(!fields["newLast"]) {
+      formIsValid = false;
+        errors["newLast"] = "Enter a last name";
+    }
+
+    if(!fields["newEmail"]) {
+      formIsValid = false;
+        errors["newEmail"] = "Enter an email";
+    }
+
+    if(!fields["newPassword"]) {
+      formIsValid = false;
+        errors["newPassword"] = "Enter a password";
+    }
+
+    this.setState({errors: errors});
+    return formIsValid;
+  }
 
   render() {
     const style = {
-        form : {  left: '20%', height:'60%', width: '60%' },
+        form : { left: '20%', height:'60%', width: '60%' },
+        error: { color:'red' }
     };
     return (
       <div>
       { this.state.showComplete && <Submitted/>}
       <br/>
       <br/>
+      { this.state.showForm &&
       <Form style={style.form} onSubmit={this.handleSubmit}>
-         <Form.Field className={classnames('field', {error: !!this.state.errors.newFirst})}>
+         <Form.Field>
            <label>First Name</label>
-           <input placeholder='First Name' type='text' name='newFirst' value={this.state.newFirst}  onChange={this.handleInputChange}/>
+           <input placeholder='First Name' type='text' name='newFirst' value={this.state.fields.newFirst}  onChange={this.handleInputChange}/>
+           <span style={style.error}>{this.state.errors.newFirst}</span>
          </Form.Field>
-         <span>{this.state.errors.newFirst}</span>
-         <Form.Field className={classnames('field', {error: !!this.state.errors.newLast})}>
+         <Form.Field>
            <label>Last Name</label>
-           <input placeholder='Last Name' type='text' name='newLast' value={this.state.newLast} onChange={this.handleInputChange}/>
+           <input placeholder='Last Name' type='text' name='newLast' value={this.state.fields.newLast} onChange={this.handleInputChange}/>
+         <span style={style.error}>{this.state.errors.newLast}</span>
          </Form.Field>
-         <span>{this.state.errors.newLast}</span>
-         <Form.Field className={classnames('field', {error: !!this.state.errors.newFirst})}>
+         <Form.Field>
            <label>Email</label>
-           <input placeholder='Email' name='newEmail' value={this.state.newEmail} onChange={this.handleInputChange}/>
+           <input placeholder='Email' name='newEmail' value={this.state.fields.newEmail} onChange={this.handleInputChange}/>
+         <span style={style.error}>{this.state.errors.newEmail}</span>
          </Form.Field>
-         <span>{this.state.errors.newEmail}</span>
-         <Form.Field className={classnames('field', {error: !!this.state.errors.newFirst})}>
+         <Form.Field>
            <label>Password</label>
-           <input placeholder='Password' name='newPassword' value={this.state.newPassword} onChange={this.handleInputChange}/>
-         </Form.Field>
-         <span>{this.state.errors.newPassword}</span>
+           <input placeholder='Password' name='newPassword' value={this.state.fields.newPassword} onChange={this.handleInputChange}/>
+           <span style={style.error}>{this.state.errors.newPassword}</span>
+          </Form.Field>
          <br/>
           <Grid centered>
             <Button primary style={style.button} type='submit' onClick={this.handleAddUser}>Submit</Button>
           </Grid>
         </Form>
+        }
+        {this.state.showTable && <UsersTable/>}
         </div>
     )
   }

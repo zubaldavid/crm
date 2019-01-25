@@ -33,7 +33,7 @@ class TabBar extends Component {
     ]
 
     const style = {
-      panes : { width: '92%' },
+      panes : { width: '92%'},
     }
 
     return (

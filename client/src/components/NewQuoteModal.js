@@ -1,25 +1,11 @@
 import React, { Component } from 'react';
+import NewQuoteForm from './quotes/NewQuoteForm'
 import {
   Button,
-  Form,
   Grid,
   Icon,
-  Input,
   Modal,
 } from 'semantic-ui-react'
-
-
-const employees = [
-  { key: 'm', text: 'David', value: 'David' },
-  { key: 'f', text: 'Aaron', value: 'Aaron' },
-]
-
-const status = [
-  { key: 'b', text: 'Blue', value: 'Blue' },
-  { key: 'd', text: 'Dead', value: 'Dead' },
-  { key: 'o', text: 'Orange', value: 'Orange' },
-  { key: 'p', text: 'Purple', value: 'Purple' },
-]
 
 class NewQuoteModal extends Component {
   constructor(props) {
@@ -54,22 +40,16 @@ class NewQuoteModal extends Component {
 
   render() {
     const style = {
-      modal : {
-        marginTop: '.5%', height: '80%', width: '60%'
-      },
-      button: {
-        float:'right',
-      },
-      head: {
-        alignItems: 'center'
-      }
+      modal : {marginTop: '.5%', height: '80%', width: '60%'},
+      button: {float:'right'},
+      head: { alignItems: 'center'}
     };
     return (
       <Modal style={style.modal} trigger={<Button primary style={style.button} >
             <Icon name='plus'/> New Quote </Button>}>
-        <Modal.Header syle={style.head}>USERS</Modal.Header>
+        <Modal.Header syle={style.head}>NEW QUOTE</Modal.Header>
          <Modal.Content>
-          <AddNewQuote/>
+          <NewQuoteForm/>
          </Modal.Content>
         <br/>
          <Grid centered>
@@ -79,132 +59,6 @@ class NewQuoteModal extends Component {
             </Button>
          </Grid>
       </Modal>
-    )
-  }
-}
-
-class AddNewQuote extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {  firstName: '', lastName: '', email: '', password: '', usersList: [],
-      showTable: false, showForm: true
-    };
-  }
-
-  componentWillMount() {
-      console.log('Add New Quote did mount.');
-  }
-
-  handleInputChange = (e) => {
-    const target = e.target;
-    const value = target.value;
-    const name  = target.name;
-    this.setState({ [ name ] : value });
-  };
-
-  handleAddUser = () => {
-    fetch('api/users', {
-      method: 'post',
-      headers: {'Content-Type': 'aplication.json'},
-      body: JSON.stringify({user: this.state.firstName})
-    })
-    .then(res => res.json())
-    .then(res => {
-      this.setState({});
-    });
-  };
-
-  render() {
-    const style = {
-        form : {left: '15%', height:'80%', width: '80%'},
-        button: { flex: 1, flexDirection: 'row', alignItems: 'center'}
-    };
-    return (
-      <div>
-      <Button primary ><Icon name='plus'/> New Agency</Button>
-      <br/>
-      <br/>
-      <Grid.Row centered>
-        <Form style={style.form}>
-         <Form.Group>
-           <Form.Field required width={5}>
-             <label>Quote Number</label>
-             <Input fluid placeholder='Quote Number' />
-           </Form.Field>
-           <Form.Field width={5}>
-             <label>Agency</label>
-             <Input fluid placeholder='Agency' />
-           </Form.Field>
-
-           <Form.Field width={5}>
-             <label>Point of Contact</label>
-             <Input fluid placeholder='Point of Contact' />
-           </Form.Field>
-         </Form.Group>
-
-         <Form.Group >
-           <Form.Field width={6} >
-             <label>Solicitation</label>
-             <Input fluid placeholder='Solicitation Number' />
-           </Form.Field>
-           <Form.Field width={2}>
-             <label>Revision</label>
-             <Input fluid placeholder='Revision' />
-           </Form.Field>
-           <Form.Field  options={employees} width={7}>
-             <label>Employee</label>
-             <Input fluid placeholder='Employee' />
-           </Form.Field>
-         </Form.Group>
-
-         <Form.Group >
-           <Form.Field required width={5}>
-             <label>Received</label>
-             <Input fluid placeholder='Recieved Date' />
-           </Form.Field>
-           <Form.Field width={5}>
-             <label>Description</label>
-             <Input fluid placeholder='Description' />
-           </Form.Field>
-           <Form.Field  options={status} width={5}>
-             <label>Status</label>
-             <Input fluid placeholder='Status' />
-           </Form.Field>
-         </Form.Group>
-
-         <Form.Group >
-           <Form.Field required  width={5}>
-             <label>Due Date</label>
-             <Input fluid placeholder='Due Date' />
-           </Form.Field>
-           <Form.Field width={5}>
-             <label>Due Time</label>
-             <Input fluid placeholder='Due Time' />
-           </Form.Field>
-           <Form.Field width={5}>
-             <label>Date Sent</label>
-             <Input fluid placeholder='Date Sent' />
-           </Form.Field>
-         </Form.Group>
-
-         <Form.Group >
-           <Form.Field required width={5}>
-             <label>Date PO Received</label>
-             <Input fluid placeholder='Date PO Received' />
-           </Form.Field>
-           <Form.Field width={5}>
-             <label>PO Number</label>
-             <Input fluid placeholder='PO Number' />
-           </Form.Field>
-           <Form.Field width={5}>
-             <label>Comments</label>
-             <Input fluid placeholder='Comments' />
-           </Form.Field>
-         </Form.Group>
-
-        </Form>
-        </Grid.Row>
-      </div>
     )
   }
 }
