@@ -55,7 +55,7 @@ class AddNewUser extends Component {
       fields["newLast"] = "";
       fields["newEmail"] = "";
       fields["newPassword"] = "";
-      this.setState({fields: fields, showComplete:true, showTable:true, showForm:false});
+      this.setState({fields: fields, showComplete:true});
     //  this.props.showBoardAgain();
     }
   }

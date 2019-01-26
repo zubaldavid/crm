@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   Button,
   Form,
@@ -44,6 +46,7 @@ class NewQuoteForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      startDate: new Date(),
       fields: {},
       errors: {},
       showTable: false,
@@ -55,10 +58,10 @@ class NewQuoteForm extends Component {
       console.log('Add New Quote did mount.');
   }
 
-  handleInputChange = (e) => {
+  handleInputChange = (e,date) => {
     let fields = this.state.fields;
     fields[e.target.name] = e.target.value;
-    this.setState({fields});
+    this.setState({fields, startDate: date});
   };
 
   handleAddQuote = () => {
@@ -82,7 +85,6 @@ class NewQuoteForm extends Component {
     return (
       <div>
       <Button onClick={this.getQuoteNumber}>Get Julian</Button>
-      <Input value={this.getQuoteNumber}></Input>
       <Popup style={style.popup} position='bottom left' trigger={<Button icon='plus' content='New Agency'/>} on='click'>
         <Grid divided columns='equal'>
          <Grid.Column>
@@ -113,7 +115,7 @@ class NewQuoteForm extends Component {
          </Form.Group>
 
          <Form.Group >
-           <Form.Field width={6} >
+           <Form.Field required width={6} >
              <label>Solicitation</label>
              <Input fluid placeholder='Solicitation Number' />
            </Form.Field>
@@ -121,7 +123,7 @@ class NewQuoteForm extends Component {
              <label>Revision</label>
              <Select compact options={revision} defaultValue= '0'/>
            </Form.Field>
-           <Form.Field  width={7}>
+           <Form.Field required width={7}>
              <label>Employee</label>
               <Select compact options={employee} defaultValue= ''/>
            </Form.Field>
@@ -130,13 +132,16 @@ class NewQuoteForm extends Component {
          <Form.Group >
            <Form.Field required width={5}>
              <label>Received</label>
-             <Input fluid placeholder='Recieved Date' />
+             <DatePicker name='received_date' value={this.state.fields.received_date}
+              selected={this.state.startDate}
+              onChange={this.handleInputChange}
+            />
            </Form.Field>
-           <Form.Field width={5}>
+           <Form.Field required width={5}>
              <label>Description</label>
              <Input fluid placeholder='Description' />
            </Form.Field>
-           <Form.Field  options={status} width={5}>
+           <Form.Field required options={status} width={5}>
              <label>Status</label>
              <Select compact options={status} defaultValue= 'yellow'/>
            </Form.Field>
@@ -145,22 +150,40 @@ class NewQuoteForm extends Component {
          <Form.Group >
            <Form.Field required  width={5}>
              <label>Due Date</label>
-             <Input fluid placeholder='Due Date' />
+             <DatePicker name='due_date'
+             placeholderText="Click to select a date"
+             value={this.state.fields.due_date}
+              onChange={this.handleInputChange}
+            />
            </Form.Field>
-           <Form.Field width={5}>
+           <Form.Field required width={5}>
              <label>Due Time</label>
-             <Input fluid placeholder='Due Time' />
+             <DatePicker name='due_time' value={this.state.fields.due_time}
+               placeholderText="Click to select a time"
+              onChange={this.handleInputChange}
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={15}
+              dateFormat="h:mm aa"
+              timeCaption="Time"
+             />
            </Form.Field>
            <Form.Field width={5}>
              <label>Date Sent</label>
-             <Input fluid placeholder='Date Sent' />
+             <DatePicker name='due_date' value={this.state.fields.due_date}
+              placeholderText="Click to select a date"
+              onChange={this.handleInputChange}
+            />
            </Form.Field>
          </Form.Group>
 
          <Form.Group >
-           <Form.Field required width={5}>
+           <Form.Field width={5}>
              <label>Date PO Received</label>
-             <Input fluid placeholder='Date PO Received' />
+             <DatePicker name='po_receive_date' value={this.state.fields.po_receive_date}
+              placeholderText="Click to select a date"
+              onChange={this.handleInputChange}
+            />
            </Form.Field>
            <Form.Field width={5}>
              <label>PO Number</label>

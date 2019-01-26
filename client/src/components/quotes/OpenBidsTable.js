@@ -2,14 +2,43 @@ import React, { Component } from 'react';
 import {
   Button,
   Icon,
+  Menu,
+  Pagination,
   Table
 } from 'semantic-ui-react'
 
 const headers = [
-  'Quote Number','Agency', 'Point of Contact', 'Solictation', 'Revision','Employee',
+  'QuoteNumber','Agency', 'Solictation', 'Revision', 'Point of Contact','Employee',
   'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent','Date PO',
   'PO Number'
 ]
+
+function TableHeader(props) {
+  return (
+    <Table.Header>
+      <Table.Row>
+        {headers.map(header =>
+          <Table.HeaderCell>{header}</Table.HeaderCell>
+        )}
+      </Table.Row>
+    </Table.Header>
+  )
+}
+
+function PaginationCount(props) {
+  return (
+    <Pagination style={{float:'right'}}
+    //  onSelect={props.changePage}
+      boundaryRange={0}
+      defaultActivePage={1}
+      ellipsisItem={null}
+      firstItem={null}
+      lastItem={null}
+      siblingRange={1}
+      totalPages={10}
+    />
+  )
+}
 
 class OpenBidsTable extends Component {
   constructor(props) {
@@ -39,20 +68,20 @@ class OpenBidsTable extends Component {
 
   render() {
     const {quotes} = this.state;
+    // const perPage  = 15;
+    // const pages  = Math.ceil(this.props.quotes.length / perPage );
+    // const currentPage = this.props.page;
+    // const startOffset = (currentPage - 1) * perPage;
+    // let startCount = 0;
     const style = {
-        edit: { marginLeft: '4%'},
+        edit: { marginLeft:'4%'},
+        table: {width: '92%'},
     };
     return (
       <div>
       <Button onClick={this.getQuotesList}>Get</Button>
-        <Table celled>
-          <Table.Header>
-            <Table.Row>
-              {headers.map(header =>
-                <Table.HeaderCell>{header}</Table.HeaderCell>
-              )}
-            </Table.Row>
-          </Table.Header>
+        <Table compact size='small'>
+        <TableHeader/>
           <Table.Body>
             {quotes.map(q =>
               <Table.Row key={q.id}>
@@ -74,6 +103,7 @@ class OpenBidsTable extends Component {
             )}
           </Table.Body>
         </Table>
+        <PaginationCount/>
       </div>
     )
   }

@@ -7,11 +7,22 @@ import {
   Table
 } from 'semantic-ui-react'
 
-
 const headers = [
   'First Name','Last Name', 'Email', 'Email', 'Quoter','General',
   'Grainger',
 ]
+
+function TableHeaders() {
+  return (
+    <Table.Header>
+      <Table.Row>
+      {headers.map(header =>
+        <Table.HeaderCell>{header}</Table.HeaderCell>
+      )}
+      </Table.Row>
+    </Table.Header>
+  )
+}
 
 export class UsersTable extends Component {
   constructor(props) {
@@ -21,9 +32,8 @@ export class UsersTable extends Component {
     };
   }
 
-  componentWillMount(){
-    //this.getUsersList();
-    console.log('First call to render');
+  componentWillMount() {
+    console.log('First call to render users table');
   }
 
   getUsersList = () => {
@@ -38,7 +48,6 @@ export class UsersTable extends Component {
   editUser = (id, e) => {
       console.log('editing user');
       this.props.editUser(this.props.index); // Call to AddNewUser form
-      //this.props.editUser; // Call open form in Users parent class
   }
 
   removeUser = (id, e) => {
@@ -64,21 +73,15 @@ export class UsersTable extends Component {
       <div>
         <Button onClick={this.getUsersList}>Get</Button>
         <Table celled>
-          <Table.Header>
-            <Table.Row>
-            {headers.map(header =>
-              <Table.HeaderCell>{header}</Table.HeaderCell>
-            )}
-            </Table.Row>
-          </Table.Header>
+          <TableHeaders/>
           <Table.Body>
               {users.map(d =>
                 <Table.Row key={d.id}>
                   <Table.Cell>{d.first_name}</Table.Cell>
                   <Table.Cell>{d.last_name}</Table.Cell>
                   <Table.Cell>{d.email}</Table.Cell>
-                  <Table.Cell>{d.password}</Table.Cell>              
-                  <Button style={style.edit} onClick={this.props.editUser}><Icon name='edit'/></Button>
+                  <Table.Cell>{d.password}</Table.Cell>
+                  <Button onClick={this.props.editUser}><Icon name='edit'/></Button>
                   <Popup style={{height:'45px'}}
                   trigger={<Button onClick={this.removeUser.bind(this, d.id)} color='red'><Icon name='remove'/></Button>}
                   content='Are you sure you want to delete?'
