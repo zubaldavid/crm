@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import UsersTable from './UsersTable'
 import {
   Button,
@@ -86,7 +87,7 @@ class AddNewUser extends Component {
     }
 
     this.setState({errors: errors});
-    return formIsValid;
+    return true;
   }
 
   render() {
@@ -151,5 +152,10 @@ class Submitted extends Component {
     )
   }
 }
+
+AddNewUser.propTypes =  {
+  close: PropTypes.func
+}
+
 
 export default AddNewUser

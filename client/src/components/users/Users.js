@@ -52,7 +52,7 @@ class UsersModal extends Component {
         </Modal.Header>
          <Modal.Content editUser={this.openForm}>
           { this.state.showTable && <UsersTable/> }
-          { this.state.showForm && <AddNewUser/> }
+          { this.state.showForm && <AddNewUser close={this.closeForm}/> }
          </Modal.Content>
       </Modal>
     )

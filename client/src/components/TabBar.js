@@ -25,32 +25,35 @@ const panes = [
       <Tab.Pane attached={false}>
       </Tab.Pane>
     },
-  { menuItem: { key: 'billed', icon: 'folder open', color: 'red', content: 'Billed'},
+  { menuItem: { key: 'billed', icon: 'folder open', content: 'Billed', color: 'red'},
       render: () =>
       <Tab.Pane attached={false}>
         Tab 3 Content
       </Tab.Pane>
     },
-  { menuItem: { key: 'completed', icon: 'folder',  color: 'green', content: 'Completed'},
+  { menuItem: { key: 'completed', icon: 'folder',  content: 'Completed', color: 'green'},
       render: () =>
       <Tab.Pane attached={false}>
-        Tab 3 Content
+        Tab 4 Content
       </Tab.Pane>
     },
-  { menuItem: { key: 'dead', icon: 'delete',  color: 'grey', content: 'Dead'},
+  { menuItem: { key: 'dead', icon: 'delete', content: 'Dead', color:'grey'},
       render: () =>
       <Tab.Pane attached={false}>
-        Tab 3 Content
+        Tab 5 Content
       </Tab.Pane>
   },
 ]
 
 class TabBar extends Component {
-  state = {color: colors[0]};
-  handleColorChange = (e) => {
-    this.setState({color: e.target.value});
+  constructor(props) {
+    super(props);
+    this.state = {color: colors[0]};
+  }
+    handleColorChange = (e) => {this.setState({color: e.target.value});
   }
 
+  //if(panes.menu.key = )
   render() {
     const {color} = this.state;
     const style = {

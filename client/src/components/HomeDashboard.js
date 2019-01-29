@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
-  Card
+  Card,
+  Header
 } from 'semantic-ui-react'
 
 class Dashboard extends Component {
@@ -38,6 +39,9 @@ class Dashboard extends Component {
 
     return (
         <div >
+          <Header>Quotes</Header>
+          <Card.Group items={items} />
+          <Header>Grainger</Header>
           <Card.Group items={items} />
         </div>
     )

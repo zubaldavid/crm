@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import {
   Button,
   CheckBox,
@@ -33,6 +34,7 @@ export class UsersTable extends Component {
   }
 
   componentWillMount() {
+    this.getUsersList();
     console.log('First call to render users table');
   }
 

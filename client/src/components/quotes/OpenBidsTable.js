@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import PaginateTables from '../PaginateTables'
 import {
   Button,
+  Grid,
+  Header,
   Icon,
   Menu,
   Pagination,
@@ -25,65 +29,70 @@ function TableHeader(props) {
   )
 }
 
-function PaginationCount(props) {
-  return (
-    <Pagination style={{float:'right'}}
-    //  onSelect={props.changePage}
-      boundaryRange={0}
-      defaultActivePage={1}
-      ellipsisItem={null}
-      firstItem={null}
-      lastItem={null}
-      siblingRange={1}
-      totalPages={10}
-    />
-  )
-}
 
 class OpenBidsTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       quotes: []
+      allQuotes: [],
+      currentQuotes: [],
+      currentPage: null,
+      totalPages: null
     };
   }
 
-  componentWillMount(){
-    console.log('First call to render open bids');
+  compontentDidMount () {
+    this.getQuotesList();
+    console.log('Open Bids Table did mount.');
   }
 
   getQuotesList = () => {
     fetch('/api/openQ_bids')
     .then(res => res.json())
     .then(data => {
-      this.setState({quotes:data});
-      console.log("state", this.state.quotes)
+      this.setState({allQuotes:data});
+      console.log("state", this.state.allQuotes)
     })
   }
 
-  compontentDidMount = () => {
-    this.getQuotesList();
-    console.log('Open Bids Table did mount.');
-  }
+  onPageChanged = (data) => {
+    const { allQuotes} = this.state;
+    const { currentPage, totalPages, pageLimit } = data;
+
+    const offset = (currentPage - 1) * pageLimit;
+    const currentQuotes = allQuotes.slice(offset, offset + pageLimit);
+
+    this.setState({ currentPage, currentQuotes, totalPages });
+  };
 
   render() {
-    const {quotes} = this.state;
-    // const perPage  = 15;
-    // const pages  = Math.ceil(this.props.quotes.length / perPage );
-    // const currentPage = this.props.page;
-    // const startOffset = (currentPage - 1) * perPage;
-    // let startCount = 0;
+    const {allQuotes, currentQuotes, currentPage, totalPages} = this.state;
+    const limit = 25;
+    const totalQuotes = allQuotes.length;
+    const numberPages = totalQuotes / limit;
+  //  if(totalQuotes === 0) return NULL;
+
     const style = {
         edit: { marginLeft:'4%'},
         table: {width: '92%'},
+        grid : {float: 'right'}
     };
     return (
       <div>
       <Button onClick={this.getQuotesList}>Get</Button>
-        <Table compact size='small'>
+        <Grid style={style.grid}>
+          <PaginateTables
+            data={totalQuotes}
+            pageSize={25}
+            startingPage={1}
+          />
+          <Header> Total Pages: {totalQuotes}</Header>
+          <Header> Pages {currentPage} / {totalPages}</Header>
+        </Grid>
+      <Table compact size='small'>
         <TableHeader/>
           <Table.Body>
-            {quotes.map(q =>
+            {currentQuotes.map(q =>
               <Table.Row key={q.id}>
                 <Table.Cell>{q.quote}</Table.Cell>
                 <Table.Cell>{q.agency}</Table.Cell>
@@ -103,7 +112,6 @@ class OpenBidsTable extends Component {
             )}
           </Table.Body>
         </Table>
-        <PaginationCount/>
       </div>
     )
   }
