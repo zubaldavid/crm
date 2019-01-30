@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NewQuoteForm from './quotes/NewQuoteForm'
+import NewQuoteForm from './NewQuoteForm'
 import {
   Button,
   Grid,

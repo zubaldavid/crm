@@ -56,8 +56,11 @@ class AddNewUser extends Component {
       fields["newLast"] = "";
       fields["newEmail"] = "";
       fields["newPassword"] = "";
-      this.setState({fields: fields, showComplete:true});
-    //  this.props.showBoardAgain();
+      setTimeout(function() {
+        this.setState({fields: fields, showComplete:true})
+      }.bind(this), 2500);
+      // Prop used to show Users table
+      this.props.showTableAgain();
     }
   }
 
@@ -87,7 +90,7 @@ class AddNewUser extends Component {
     }
 
     this.setState({errors: errors});
-    return true;
+    return formIsValid;
   }
 
   render() {
@@ -154,8 +157,7 @@ class Submitted extends Component {
 }
 
 AddNewUser.propTypes =  {
-  close: PropTypes.func
+  showTableAgain: PropTypes.func
 }
-
 
 export default AddNewUser

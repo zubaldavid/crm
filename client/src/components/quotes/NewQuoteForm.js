@@ -34,11 +34,11 @@ const employee = [
   { key: '5', text: 'Aaron', value: 'aaron' },
 ]
 
-function getQuoteNumber() {
+function getQuoteNumber () {
   var today = new Date();
   var julday = Math.Floor((today.valueOf() / (1000 * 60 * 60 * 24)) - 0.5) + 2440588;
   return julday;
-  console.log(julday);
+  console.log("today:" + today);
 }
 
 
@@ -52,17 +52,18 @@ class NewQuoteForm extends Component {
       showTable: false,
       showForm: true
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   componentWillMount() {
       console.log('Add New Quote did mount.');
   }
 
-  handleInputChange = (e,date) => {
+  handleInputChange = (e) => {
     let fields = this.state.fields;
     fields[e.target.name] = e.target.value;
-    this.setState({fields, startDate: date});
-  };
+    this.setState({fields});
+  }
 
   handleAddQuote = () => {
     fetch('api/open_q_bids', {
@@ -132,7 +133,10 @@ class NewQuoteForm extends Component {
          <Form.Group >
            <Form.Field required width={5}>
              <label>Received</label>
-             <DatePicker name='received_date' value={this.state.fields.received_date}
+             <DatePicker
+              type='date'
+              name='received_date'
+              value={this.state.fields.received_date}
               selected={this.state.startDate}
               onChange={this.handleInputChange}
             />
@@ -150,10 +154,12 @@ class NewQuoteForm extends Component {
          <Form.Group >
            <Form.Field required  width={5}>
              <label>Due Date</label>
-             <DatePicker name='due_date'
-             placeholderText="Click to select a date"
+             <DatePicker
+             type='date'
+             name='due_date'
              value={this.state.fields.due_date}
-              onChange={this.handleInputChange}
+             placeholderText="Click to select a date"
+             onChange={this.handleInputChange}
             />
            </Form.Field>
            <Form.Field required width={5}>

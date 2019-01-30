@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import TabBar from './TabBar'
-import Dashboard from './HomeDashboard'
-import NewQuoteModal from './NewQuoteModal'
+import Dashboard from './home/HomeDashboard'
+import NewQuoteModal from './quotes/NewQuoteModal'
 import {
   Grid,
   Header,

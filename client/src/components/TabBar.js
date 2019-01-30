@@ -1,5 +1,9 @@
-import React, { Component } from 'react'
-import OpenBidsTable from './quotes/OpenBidsTable'
+import React, { Component } from 'react';
+import OpenBidsTable from './quotes/OpenBidsTable';
+import WonBidsTable from './quotes/WonBidsTable';
+import BilledBidsTable from './quotes/BilledBidsTable';
+import CompletedBidsTable from './quotes/CompletedBidsTable';
+import DeadBidsTable from './quotes/DeadBidsTable';
 import {
   Button,
   Tab
@@ -14,57 +18,53 @@ const colors = [
 ]
 
 const panes = [
-  { menuItem: { key: 'users', icon: 'folder open outline', content: 'Open Bids', color: 'blue'},
+  { menuItem: { key: 'open', icon: 'folder open outline', content: 'Open Bids', color: 'blue'},
       render: () =>
         <Tab.Pane attached={true}>
           <OpenBidsTable/>
         </Tab.Pane>
   },
-  { menuItem: { key: 'won', icon: 'folder outline', content: 'Won', color: 'orange'},
+  { menuItem: { key: 'won', icon: 'folder outline', content: 'Won', },
       render: () =>
       <Tab.Pane attached={false}>
+        <WonBidsTable/>
       </Tab.Pane>
     },
-  { menuItem: { key: 'billed', icon: 'folder open', content: 'Billed', color: 'red'},
+  { menuItem: { key: 'billed', icon: 'folder open', content: 'Billed', },
       render: () =>
       <Tab.Pane attached={false}>
-        Tab 3 Content
+          <BilledBidsTable/>
       </Tab.Pane>
     },
   { menuItem: { key: 'completed', icon: 'folder',  content: 'Completed', color: 'green'},
       render: () =>
       <Tab.Pane attached={false}>
-        Tab 4 Content
+        <CompletedBidsTable/>
       </Tab.Pane>
     },
   { menuItem: { key: 'dead', icon: 'delete', content: 'Dead', color:'grey'},
       render: () =>
       <Tab.Pane attached={false}>
-        Tab 5 Content
+          <DeadBidsTable/>
       </Tab.Pane>
   },
 ]
 
 class TabBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {color: colors[0]};
-  }
-    handleColorChange = (e) => {this.setState({color: e.target.value});
-  }
+  state = {activeIndex: 0, color: colors[0]};
+  handleTabChange = (e, { activeIndex }) => this.setState({color: colors[activeIndex]});
 
-  //if(panes.menu.key = )
   render() {
-    const {color} = this.state;
+    const {color, activeIndex} = this.state;
     const style = {
       panes : { width: '92%'},
     }
     return (
       <div>
         <Tab
-          onClick={this.props.handleColorChange}
+          onTabChange={this.handleTabChange}
           style={style.panes}
-          menu={{ inverted:true, color, borderless: true, attached: false, tabular: false }}
+          menu={{ color, inverted:true, attached: false, tabular: false }}
           panes={panes}
         />
       </div>

@@ -7,7 +7,6 @@ import {
   Header,
   Icon,
   Menu,
-  Pagination,
   Table
 } from 'semantic-ui-react'
 
@@ -29,16 +28,14 @@ function TableHeader(props) {
   )
 }
 
-
 class OpenBidsTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       allQuotes: [],
-      currentQuotes: [],
-      currentPage: null,
-      totalPages: null
+      pageOfItems: [],
     };
+    this.onChangePage = this.onChangePage.bind(this);
   }
 
   compontentDidMount () {
@@ -55,23 +52,14 @@ class OpenBidsTable extends Component {
     })
   }
 
-  onPageChanged = (data) => {
-    const { allQuotes} = this.state;
-    const { currentPage, totalPages, pageLimit } = data;
-
-    const offset = (currentPage - 1) * pageLimit;
-    const currentQuotes = allQuotes.slice(offset, offset + pageLimit);
-
-    this.setState({ currentPage, currentQuotes, totalPages });
-  };
+  onChangePage(totalQuotes) {
+      const { pageOfItems } = this.state;
+      this.setState({pageOfItems:pageOfItems});
+  }
 
   render() {
-    const {allQuotes, currentQuotes, currentPage, totalPages} = this.state;
-    const limit = 25;
+    const {pageOfItems, allQuotes, currentPage, totalPages} = this.state;
     const totalQuotes = allQuotes.length;
-    const numberPages = totalQuotes / limit;
-  //  if(totalQuotes === 0) return NULL;
-
     const style = {
         edit: { marginLeft:'4%'},
         table: {width: '92%'},
@@ -81,18 +69,14 @@ class OpenBidsTable extends Component {
       <div>
       <Button onClick={this.getQuotesList}>Get</Button>
         <Grid style={style.grid}>
-          <PaginateTables
-            data={totalQuotes}
-            pageSize={25}
-            startingPage={1}
-          />
+          <PaginateTables items={allQuotes} onChangePage={this.onChangePage}/>
           <Header> Total Pages: {totalQuotes}</Header>
           <Header> Pages {currentPage} / {totalPages}</Header>
         </Grid>
       <Table compact size='small'>
         <TableHeader/>
           <Table.Body>
-            {currentQuotes.map(q =>
+            {pageOfItems.map(q =>
               <Table.Row key={q.id}>
                 <Table.Cell>{q.quote}</Table.Cell>
                 <Table.Cell>{q.agency}</Table.Cell>

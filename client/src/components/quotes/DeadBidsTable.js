@@ -3,18 +3,13 @@ import PropTypes from 'prop-types';
 import PaginateTables from '../PaginateTables'
 import {
   Button,
-  Grid,
-  Header,
-  Icon,
-  Menu,
-  Pagination,
   Table
 } from 'semantic-ui-react'
 
 const headers = [
-  'QuoteNumber','Agency', 'Solictation', 'Revision', 'Point of Contact','Employee',
+  'Invoice', 'Quote Number', 'Point of Contact', 'Solictation', 'Revision','Employee',
   'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent','Date PO',
-  'PO Number'
+  'PO Number', 'Comment',
 ]
 
 function TableHeader(props) {
@@ -30,7 +25,7 @@ function TableHeader(props) {
 }
 
 
-class CompletedBidsTable extends Component {
+class DeadBidsTable extends Component {
   render() {
     return (
       <div>
@@ -44,4 +39,4 @@ class CompletedBidsTable extends Component {
   }
 }
 
-export default CompletedBidsTable;
+export default DeadBidsTable;
