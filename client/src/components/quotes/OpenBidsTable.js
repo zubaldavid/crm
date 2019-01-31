@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PaginateTables from '../PaginateTables'
+import NewItemModal from './NewItemModal'
 import {
   Button,
+  Dimmer,
   Grid,
   Header,
   Icon,
+  Loader,
   Menu,
   Table
 } from 'semantic-ui-react'
 
 const headers = [
-  'QuoteNumber','Agency', 'Solictation', 'Revision', 'Point of Contact','Employee',
-  'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent','Date PO',
-  'PO Number'
+  'Quote Number','Agency', 'Solictation', 'Revision', 'Point of Contact','Employee',
+  'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent'
 ]
 
 function TableHeader(props) {
@@ -34,6 +36,7 @@ class OpenBidsTable extends Component {
     this.state = {
       allQuotes: [],
       pageOfItems: [],
+      load: false
     };
     this.onChangePage = this.onChangePage.bind(this);
   }
@@ -44,12 +47,15 @@ class OpenBidsTable extends Component {
   }
 
   getQuotesList = () => {
+    // setTimeout(() => {
+    //   this.setState({load: true})
+    // }, 3000);
     fetch('/api/openQ_bids')
     .then(res => res.json())
     .then(data => {
       this.setState({allQuotes:data});
       console.log("state", this.state.allQuotes)
-    })
+    });
   }
 
   onChangePage(totalQuotes) {
@@ -58,25 +64,29 @@ class OpenBidsTable extends Component {
   }
 
   render() {
-    const {pageOfItems, allQuotes, currentPage, totalPages} = this.state;
+    const {pageOfItems, allQuotes, currentPage, totalPages, load} = this.state;
     const totalQuotes = allQuotes.length;
     const style = {
         edit: { marginLeft:'4%'},
         table: {width: '92%'},
-        grid : {float: 'right'}
+        grid : {float: 'left'}
     };
     return (
       <div>
       <Button onClick={this.getQuotesList}>Get</Button>
+        <NewItemModal/>
         <Grid style={style.grid}>
           <PaginateTables items={allQuotes} onChangePage={this.onChangePage}/>
           <Header> Total Pages: {totalQuotes}</Header>
           <Header> Pages {currentPage} / {totalPages}</Header>
         </Grid>
-      <Table compact size='small'>
+      <Table celled fixed compact size='small'>
         <TableHeader/>
-          <Table.Body>
-            {pageOfItems.map(q =>
+        {this.state.load &&<Dimmer active>
+          <Loader/>
+        </Dimmer> }
+          <Table.Body >
+            {allQuotes.map(q =>
               <Table.Row key={q.id}>
                 <Table.Cell>{q.quote}</Table.Cell>
                 <Table.Cell>{q.agency}</Table.Cell>
@@ -90,7 +100,6 @@ class OpenBidsTable extends Component {
                 <Table.Cell>{q.due_date}</Table.Cell>
                 <Table.Cell>{q.due_time}</Table.Cell>
                 <Table.Cell>{q.sent_date}</Table.Cell>
-                <Table.Cell>{q.po_receive_date}</Table.Cell>
                 <Button style={style.edit}><Icon name='edit'/></Button>
               </Table.Row>
             )}

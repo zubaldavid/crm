@@ -56,9 +56,9 @@ class AddNewUser extends Component {
       fields["newLast"] = "";
       fields["newEmail"] = "";
       fields["newPassword"] = "";
-      setTimeout(function() {
+      setTimeout(() => {
         this.setState({fields: fields, showComplete:true})
-      }.bind(this), 2500);
+      }, 2500);
       // Prop used to show Users table
       this.props.showTableAgain();
     }

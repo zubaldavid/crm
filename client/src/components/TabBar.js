@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import OpenBidsTable from './quotes/OpenBidsTable';
-import WonBidsTable from './quotes/WonBidsTable';
+import AwardsBidsTable from './quotes/AwardsBidsTable';
 import BilledBidsTable from './quotes/BilledBidsTable';
 import CompletedBidsTable from './quotes/CompletedBidsTable';
 import DeadBidsTable from './quotes/DeadBidsTable';
@@ -14,6 +14,7 @@ const colors = [
   'orange',
   'red',
   'green',
+  'purple',
   'grey'
 ]
 
@@ -24,30 +25,37 @@ const panes = [
           <OpenBidsTable/>
         </Tab.Pane>
   },
-  { menuItem: { key: 'won', icon: 'folder outline', content: 'Won', },
+  { menuItem: { key: 'awards', icon: 'folder outline', content: 'Awards'},
       render: () =>
       <Tab.Pane attached={false}>
-        <WonBidsTable/>
+        <AwardsBidsTable/>
       </Tab.Pane>
     },
-  { menuItem: { key: 'billed', icon: 'folder open', content: 'Billed', },
+  { menuItem: { key: 'billed', icon: 'folder open', content: 'Billed'},
       render: () =>
       <Tab.Pane attached={false}>
           <BilledBidsTable/>
       </Tab.Pane>
     },
-  { menuItem: { key: 'completed', icon: 'folder',  content: 'Completed', color: 'green'},
+  { menuItem: { key: 'completed', icon: 'folder',  content: 'Completed'},
       render: () =>
       <Tab.Pane attached={false}>
         <CompletedBidsTable/>
       </Tab.Pane>
     },
-  { menuItem: { key: 'dead', icon: 'delete', content: 'Dead', color:'grey'},
+  { menuItem: { key: 'sources sought', icon: 'speakap', content: 'Sources Sought'},
+      render: () =>
+      <Tab.Pane attached={false}>
+
+      </Tab.Pane>
+  },
+  { menuItem: { key: 'dead', icon: 'delete', content: 'Dead',},
       render: () =>
       <Tab.Pane attached={false}>
           <DeadBidsTable/>
       </Tab.Pane>
   },
+
 ]
 
 class TabBar extends Component {

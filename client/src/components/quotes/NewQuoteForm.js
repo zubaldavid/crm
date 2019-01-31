@@ -11,10 +11,10 @@ import {
 } from 'semantic-ui-react'
 
 const status = [
-  { key: 'yellow', text: 'Yellow', value: 'yellow' },
-  { key: 'blue', text: 'Blue', value: 'blue' },
-  { key: 'orange', text: 'Orange', value: 'orange' },
-  { key: 'dead', text: 'Dead', value: 'dead' },
+  { key: 'none', text: ' ', value: 'none' },
+  { key: 'yellow', text: 'Awarded', value: 'yellow' },
+  { key: 'blue', text: 'Dead', value: 'blue' },
+  { key: 'orange', text: 'Submitted', value: 'orange' },
 ]
 
 const revision = [

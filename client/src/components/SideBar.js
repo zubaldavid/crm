@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import TabBar from './TabBar'
 import Dashboard from './home/HomeDashboard'
-import NewQuoteModal from './quotes/NewQuoteModal'
 import {
   Grid,
   Header,
@@ -60,6 +59,17 @@ class SideBar extends Component {
       serchBar: true,
     });
   }
+  openBPA = () => {
+    this.setState({
+      home: false,
+      quotes: false,
+      grainger: false,
+      finance: true,
+      header: 'BPA',
+      newQuote: false,
+      serchBar: false,
+    });
+  }
   openFinance = () => {
     this.setState({
       home: false,
@@ -100,6 +110,10 @@ class SideBar extends Component {
               <Icon name='folder' />
               Grainger
             </Menu.Item>
+            <Menu.Item as='a' onClick={this.openBPA}>
+              <Icon name='database' />
+              BPA
+            </Menu.Item>
             <Menu.Item as='a' onClick={this.openFinance}>
               <Icon name='dollar sign' />
               Finance
@@ -110,9 +124,7 @@ class SideBar extends Component {
               <Grid.Column style={style.gridCol}>
                 <Header as='h2'>{this.state.header} </Header>
                 { this.state.serchBar && <SearchBar/> }
-                { this.state.newQuote && <NewQuoteModal/>}
               </Grid.Column>
-              <br/>
               { this.state.home && <Dashboard/> }
               { this.state.quotes && <TabBar/>  }
               { this.state.grainger && <TabBar/>}
@@ -127,7 +139,7 @@ class SideBar extends Component {
 class SearchBar extends Component {
   render () {
     const style = {
-      search : { left: '8%'}
+      search : { left: '2%', float:'right'}
     }
     return (
        <Input style={style.search} icon='search' placeholder='Search...' />
