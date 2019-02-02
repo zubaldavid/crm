@@ -3,7 +3,6 @@ var OpenBids = require('../models/openQ_bids');
 var router = express.Router();
 
 router.get('/', function(req, res) { // request and response object
-
   OpenBids.retreiveAll(function(err, quotes) {
     if(err)
       return res.json(err);

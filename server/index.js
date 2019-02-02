@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 var bcrypt = require('bcryptjs');
 var saltRounds = bcrypt.genSaltSync(10);

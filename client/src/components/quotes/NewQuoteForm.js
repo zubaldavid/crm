@@ -3,8 +3,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Button,
+  Dropdown,
   Form,
   Grid,
+  Icon,
   Input,
   Popup,
   Select
@@ -12,9 +14,9 @@ import {
 
 const status = [
   { key: 'none', text: ' ', value: 'none' },
-  { key: 'yellow', text: 'Awarded', value: 'yellow' },
-  { key: 'blue', text: 'Dead', value: 'blue' },
-  { key: 'orange', text: 'Submitted', value: 'orange' },
+  { key: 'yellow', text: 'Submitted', value: 'yellow' },
+  { key: 'blue', text: 'Awarded', value: 'blue' },
+  { key: 'orange', text: 'Dead', value: 'orange' },
 ]
 
 const revision = [
@@ -41,22 +43,19 @@ function getQuoteNumber () {
   console.log("today:" + today);
 }
 
-
 class NewQuoteForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       startDate: new Date(),
       fields: {},
+      dates: {},
       errors: {},
-      showTable: false,
-      showForm: true
+      quoters: [],
     };
     this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  componentWillMount() {
-      console.log('Add New Quote did mount.');
+    this.handleChange = this.handleChange.bind(this);
+    this.getQuoters = this.getQuoters.bind(this);
   }
 
   handleInputChange = (e) => {
@@ -65,11 +64,17 @@ class NewQuoteForm extends Component {
     this.setState({fields});
   }
 
+  handleChange = (date, e) => {
+    let dates = this.state.fields;
+    dates[e.target.name] = date;
+    this.setState({dates});
+  }
+
   handleAddQuote = () => {
     fetch('api/open_q_bids', {
       method: 'post',
       headers: {'Content-Type': 'aplication.json'},
-      body: JSON.stringify({user: this.state.firstName})
+      body: JSON.stringify({})
     })
     .then(res => res.json())
     .then(res => {
@@ -77,7 +82,23 @@ class NewQuoteForm extends Component {
     });
   };
 
+  getQuoters = () => {
+    fetch('/api/users')
+    .then(res => res.json())
+    .then(res => {
+      var quoters = res.map(r => r.first_name);
+      this.setState({quoters});
+      console.log("quoters", this.state.quoters)
+    })
+  }
+
+  componentDidMount () {
+    this.getQuoters();
+    console.log('New Quote Form mounted');
+  }
+
   render() {
+    const {quoters} = this.state;
     const style = {
         form : { left: '15%', height:'80%', width: '80%'},
         button:{ flex: 1, flexDirection: 'row', alignItems: 'center'},
@@ -85,7 +106,6 @@ class NewQuoteForm extends Component {
     };
     return (
       <div>
-      <Button onClick={this.getQuoteNumber}>Get Julian</Button>
       <Popup style={style.popup} position='bottom left' trigger={<Button icon='plus' content='New Agency'/>} on='click'>
         <Grid divided columns='equal'>
          <Grid.Column>
@@ -103,30 +123,54 @@ class NewQuoteForm extends Component {
          <Form.Group>
            <Form.Field required width={5}>
              <label>Quote Number</label>
-             <Input fluid placeholder='Quote Number' />
+             <Input fluid placeholder='Quote Number'
+              name='quote_number'
+              value={this.state.fields.quote_number}
+              onChange={this.handleInputChange}
+             />
            </Form.Field>
            <Form.Field required width={5}>
              <label>Agency</label>
-             <Input fluid placeholder='Agency' />
+             <Input fluid placeholder='Agency'
+             name='agency'
+             value={this.state.fields.agency}
+             onChange={this.handleInputChange}
+             />
            </Form.Field>
            <Form.Field required width={5}>
              <label>Point of Contact</label>
-             <Input fluid placeholder='Point of Contact' />
+             <Input fluid placeholder='Point of Contact'
+             name='point_of_contact'
+             value={this.state.fields.point_of_contact}
+             onChange={this.handleInputChange}
+             />
            </Form.Field>
          </Form.Group>
 
          <Form.Group >
            <Form.Field required width={6} >
              <label>Solicitation</label>
-             <Input fluid placeholder='Solicitation Number' />
+             <Input fluid placeholder='Solicitation Number'
+               name='solicitation'
+               value={this.state.fields.solicitation}
+               onChange={this.handleInputChange}
+             />
            </Form.Field>
            <Form.Field width={2}>
              <label>Revision</label>
-             <Select compact options={revision} defaultValue= '0'/>
+             <Select compact options={revision} defaultValue= '0'
+             name='revision'
+             value={this.state.fields.revison}
+             onChange={this.handleInputChange}
+             />
            </Form.Field>
            <Form.Field required width={7}>
              <label>Employee</label>
-              <Select compact options={employee} defaultValue= ''/>
+             <Select options={quoters}
+             name='employee'
+             value={this.state.fields.employee}
+             onChange={this.handleInputChange}
+             />
            </Form.Field>
          </Form.Group>
 
@@ -136,49 +180,60 @@ class NewQuoteForm extends Component {
              <DatePicker
               type='date'
               name='received_date'
-              value={this.state.fields.received_date}
               selected={this.state.startDate}
-              onChange={this.handleInputChange}
+              onChange={this.handleChange}
             />
            </Form.Field>
            <Form.Field required width={5}>
              <label>Description</label>
-             <Input fluid placeholder='Description' />
+             <Input fluid placeholder='Description'
+               name='description'
+               value={this.state.fields.description}
+               onChange={this.handleInputChange}
+             />
            </Form.Field>
            <Form.Field required options={status} width={5}>
              <label>Status</label>
-             <Select compact options={status} defaultValue= 'yellow'/>
+             <Select compact options={status} defaultValue= ' '
+               name='status'
+               value={this.state.fields.status}
+               onChange={this.handleInputChange}
+             />
            </Form.Field>
          </Form.Group>
 
          <Form.Group >
-           <Form.Field required  width={5}>
+           <Form.Field required width={5}>
              <label>Due Date</label>
              <DatePicker
-             type='date'
-             name='due_date'
-             value={this.state.fields.due_date}
              placeholderText="Click to select a date"
-             onChange={this.handleInputChange}
+             name='due_date'
+             selected={this.state.dates.due_date}
+             onChange={this.handleChange}
             />
            </Form.Field>
            <Form.Field required width={5}>
              <label>Due Time</label>
-             <DatePicker name='due_time' value={this.state.fields.due_time}
-               placeholderText="Click to select a time"
-              onChange={this.handleInputChange}
+             <DatePicker
+              placeholderText="Click to select a time"
+              name='due_time'
+              selected={this.state.dates.due_time}
+              onChange={this.handleChange}
+              date={this.state.date}
               showTimeSelect
               showTimeSelectOnly
-              timeIntervals={15}
+              timeIntervals={30}
               dateFormat="h:mm aa"
               timeCaption="Time"
              />
            </Form.Field>
            <Form.Field width={5}>
              <label>Date Sent</label>
-             <DatePicker name='due_date' value={this.state.fields.due_date}
+             <DatePicker
               placeholderText="Click to select a date"
-              onChange={this.handleInputChange}
+              name='due_date'
+              value={this.state.dates.due_date}
+              onChange={this.handleChange}
             />
            </Form.Field>
          </Form.Group>
@@ -186,22 +241,40 @@ class NewQuoteForm extends Component {
          <Form.Group >
            <Form.Field width={5}>
              <label>Date PO Received</label>
-             <DatePicker name='po_receive_date' value={this.state.fields.po_receive_date}
-              placeholderText="Click to select a date"
-              onChange={this.handleInputChange}
+             <DatePicker
+             placeholderText="Click to select a date"
+             name='po_receive_date'
+             selected={this.state.dates.po_receive_date}
+             onChange={this.handleChange}
             />
            </Form.Field>
            <Form.Field width={5}>
              <label>PO Number</label>
-             <Input fluid placeholder='PO Number' />
+             <Input fluid placeholder='PO Number'
+             name='po_number'
+             value={this.state.fields.po_number}
+             onChange={this.handleInputChange}
+             />
            </Form.Field>
            <Form.Field width={5}>
              <label>Comments</label>
-             <Input fluid placeholder='Comments' />
+             <Input fluid placeholder='Comments'
+             name='comments'
+             value={this.state.fields.comments}
+             onChange={this.handleInputChange}
+             />
            </Form.Field>
          </Form.Group>
         </Form>
         </Grid.Row>
+        <br/>
+        <br/>
+        <Grid centered>
+        <Button primary >
+           <Icon name='arrow up'/>
+               Submit
+           </Button>
+        </Grid>
       </div>
     )
   }

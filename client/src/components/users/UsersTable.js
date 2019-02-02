@@ -33,11 +33,6 @@ export class UsersTable extends Component {
     };
   }
 
-  componentWillMount() {
-    this.getUsersList();
-    console.log('First call to render users table');
-  }
-
   getUsersList = () => {
     fetch('/api/users')
     .then(res => res.json())
@@ -61,7 +56,7 @@ export class UsersTable extends Component {
     this.getUsersList();
   }
 
-  compontentDidMount = () => {
+  componentDidMount () {
     this.getUsersList();
     console.log('Users Table did mount.');
   }
@@ -73,7 +68,6 @@ export class UsersTable extends Component {
     };
     return (
       <div>
-        <Button onClick={this.getUsersList}>Get</Button>
         <Table celled>
           <TableHeaders/>
           <Table.Body>

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import OpenBidsTable from './quotes/OpenBidsTable';
-import AwardsBidsTable from './quotes/AwardsBidsTable';
-import BilledBidsTable from './quotes/BilledBidsTable';
-import CompletedBidsTable from './quotes/CompletedBidsTable';
-import DeadBidsTable from './quotes/DeadBidsTable';
+import PropTypes from 'prop-types';
+import OpenBidsTable from './OpenBidsTable';
+import BilledBidsTable from './BilledBidsTable';
+import AwardsBidsTable from './AwardsBidsTable';
+import CompletedBidsTable from './CompletedBidsTable';
+import DeadBidsTable from './DeadBidsTable';
 import {
   Button,
   Tab
@@ -58,7 +59,7 @@ const panes = [
 
 ]
 
-class TabBar extends Component {
+class QuoteTabBar extends Component {
   state = {activeIndex: 0, color: colors[0]};
   handleTabChange = (e, { activeIndex }) => this.setState({color: colors[activeIndex]});
 
@@ -80,4 +81,4 @@ class TabBar extends Component {
   }
 }
 
-export default TabBar
+export default QuoteTabBar;

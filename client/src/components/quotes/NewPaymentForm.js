@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import React, { Component } from 'react';
 import {
   Button,
   Form,
   Grid,
+  Icon,
   Input,
   Popup,
   Select
@@ -74,6 +75,10 @@ class NewPaymentForm extends Component {
     })
   }
 
+  componentDidMount () {
+      console.log('New Payment Form is mounted');
+  }
+
   render() {
     const style = {
         form : { left: '15%', height:'80%', width: '80%'},
@@ -82,7 +87,6 @@ class NewPaymentForm extends Component {
     };
     return (
       <div>
-      <Button onClick={this.getQuoteNumber}>Get Julian</Button>
       <Popup style={style.popup} position='bottom left' trigger={<Button icon='plus' content='New Agency'/>} on='click'>
         <Grid divided columns='equal'>
          <Grid.Column>
@@ -170,6 +174,14 @@ class NewPaymentForm extends Component {
          </Form.Group>
         </Form>
         </Grid.Row>
+        <br/>
+        <br/>
+        <Grid centered>
+        <Button primary>
+           <Icon name='arrow up'/>
+               Submit
+           </Button>
+        </Grid>
       </div>
     )
   }

@@ -29,7 +29,8 @@ class AwardsBidsTable extends Component {
   render() {
     return (
       <div>
-      <NewItemModal/>
+      <NewItemModal buttonName={'New Payment'} header={'NEW PAYMENT'} />
+      <br/>
       <br/>
         <Table celled compact size='small'>
           <TableHeader/>

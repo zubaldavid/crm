@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import TabBar from './TabBar'
+import QuoteTabBar from './quotes/QuoteTabBar'
+import GraingerTabBar from './grainger/GraingerTabBar'
 import Dashboard from './home/HomeDashboard'
 import {
   Grid,
@@ -103,11 +104,11 @@ class SideBar extends Component {
               Home
             </Menu.Item>
             <Menu.Item as='a' onClick={this.openQuotes}>
-              <Icon name='folder'/>
+              <Icon name='quora'/>
               Quotes
             </Menu.Item>
             <Menu.Item as='a' onClick={this.openGrainger}>
-              <Icon name='folder' />
+              <Icon name='gofore' />
               Grainger
             </Menu.Item>
             <Menu.Item as='a' onClick={this.openBPA}>
@@ -126,8 +127,8 @@ class SideBar extends Component {
                 { this.state.serchBar && <SearchBar/> }
               </Grid.Column>
               { this.state.home && <Dashboard/> }
-              { this.state.quotes && <TabBar/>  }
-              { this.state.grainger && <TabBar/>}
+              { this.state.quotes && <QuoteTabBar/>  }
+              { this.state.grainger && <GraingerTabBar/>}
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>

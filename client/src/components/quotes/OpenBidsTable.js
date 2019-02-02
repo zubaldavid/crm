@@ -41,15 +41,7 @@ class OpenBidsTable extends Component {
     this.onChangePage = this.onChangePage.bind(this);
   }
 
-  compontentDidMount () {
-    this.getQuotesList();
-    console.log('Open Bids Table did mount.');
-  }
-
   getQuotesList = () => {
-    // setTimeout(() => {
-    //   this.setState({load: true})
-    // }, 3000);
     fetch('/api/openQ_bids')
     .then(res => res.json())
     .then(data => {
@@ -63,6 +55,11 @@ class OpenBidsTable extends Component {
       this.setState({pageOfItems:pageOfItems});
   }
 
+  componentDidMount () {
+    this.getQuotesList();
+    console.log('Open Bids Table did mount.');
+  }
+
   render() {
     const {pageOfItems, allQuotes, currentPage, totalPages, load} = this.state;
     const totalQuotes = allQuotes.length;
@@ -73,12 +70,11 @@ class OpenBidsTable extends Component {
     };
     return (
       <div>
-      <Button onClick={this.getQuotesList}>Get</Button>
-        <NewItemModal/>
+        <NewItemModal buttonName={'New Quote'} header={'NEW QUOTE'}/>
+        <div> Total Pages: {totalQuotes}</div>
+        <br/>
         <Grid style={style.grid}>
           <PaginateTables items={allQuotes} onChangePage={this.onChangePage}/>
-          <Header> Total Pages: {totalQuotes}</Header>
-          <Header> Pages {currentPage} / {totalPages}</Header>
         </Grid>
       <Table celled fixed compact size='small'>
         <TableHeader/>

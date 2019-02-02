@@ -13,26 +13,32 @@ class NewItemModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showQuote: false,
-      showPayment: false,
+      showQuote: true,
+      showPayment: true,
     };
+    this.openQuoteForm = this.openQuoteForm.bind(this);
+    this.openPaymentForm = this.openPaymentForm.bind(this);
   }
 
   openQuoteForm () {
-    this.setState({
+    this.setState(state => ({
       showQuote: true,
       showPayment: false,
-    });
+    }));
   }
 
   openPaymentForm () {
-    this.setState({
-      showQuote: true,
-      showPayment: false,
-    });
+    this.setState(state => ({
+      showQuote: false,
+      showPayment: true,
+    }));
   }
 
-  compontentDidMount () {
+  componentDidMount () {
+    if(this.props.buttonName == 'New Quote') {
+      this.openQuoteForm();
+    } else { this.openPaymentForm(); }
+    
     console.log('New Item modal did mount.');
   }
 
@@ -43,28 +49,21 @@ class NewItemModal extends Component {
       head: { alignItems: 'center'}
     };
     return (
-      <Modal style={style.modal} trigger={<Button primary style={style.button}>
-            <Icon name='plus'/> New Quote </Button>}>
+      <Modal style={style.modal} trigger={<Button onClick={this.determineForm} primary style={style.button}>
+            <Icon name='plus'/> {this.props.buttonName} </Button>}>
         <Modal.Header syle={style.head}>{this.props.header}</Modal.Header>
          <Modal.Content>
-          { this.state.showQuote &&<NewQuoteForm/> }
-          { this.state.showPayment &&<NewPaymentForm/> }
+          { this.state.showQuote &&<NewQuoteForm/>}
+          { this.state.showPayment &&<NewPaymentForm/>}
          </Modal.Content>
-        <br/>
-         <Grid centered>
-         <Button primary>
-            <Icon name='arrow up'/>
-                Submit
-            </Button>
-         </Grid>
       </Modal>
     )
   }
 }
 
 NewItemModal.propTypes = {
-  showTable: PropTypes.func.required,
-  header: PropTypes.string.required
+  buttonName: PropTypes.string.required,
+  header: PropTypes.string
 }
 
 export default NewItemModal

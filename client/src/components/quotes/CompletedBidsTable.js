@@ -12,9 +12,8 @@ import {
 } from 'semantic-ui-react'
 
 const headers = [
-  'QuoteNumber','Agency', 'Solictation', 'Revision', 'Point of Contact','Employee',
-  'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent','Date PO',
-  'PO Number'
+  'Invoice','Quote Number', 'Agency', 'Cost','Subtotal',
+  'Balance', 'Date Delivered', 'Received Date', 'Received Amount','Profit', 'Profit Margin',
 ]
 
 function TableHeader(props) {
