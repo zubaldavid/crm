@@ -12,11 +12,11 @@ import {
 class TopHeader extends Component {
   render() {
     const style = {
-      div : { leftheight:'60%', width: '90%', display: 'inline-block', topMargin: '100px'}
+      div : { leftheight:'60%', width: '90%', display: 'inline-block', topMargin: '100px'},
+      segment: {height: '65px'}
     };
     return (
-      <Grid.Row>
-        <Segment>
+        <Segment style={style.segment}>
         <div style={style.div}>
           <Header className='hederTitle' as='h3' style={{float:'left'}}>
               <Image src='/aviateLogo.png' size='small' />
@@ -26,18 +26,14 @@ class TopHeader extends Component {
           <LogoutButton/>
           </div>
         </Segment>
-      </Grid.Row>
     )
   }
 }
 
-class LogoutButton extends Component {
-  constuctor(){}
-  render() {
+function LogoutButton () {
     return (
       <Button style={{float:'right'}}> Logout</Button>
     )
-  }
 }
 
 export default TopHeader

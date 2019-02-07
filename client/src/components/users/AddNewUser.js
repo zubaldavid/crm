@@ -44,7 +44,6 @@ class AddNewUser extends Component {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          //[e.target.name] : this.state.fields[e.target.name]
           newFirst: this.state.newFirst,
           newLast : this.state.newLast,
           newEmail:this.state.newEmail,

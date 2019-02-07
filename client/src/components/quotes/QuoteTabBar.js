@@ -7,6 +7,9 @@ import CompletedBidsTable from './CompletedBidsTable';
 import DeadBidsTable from './DeadBidsTable';
 import {
   Button,
+  Input,
+  Label,
+  Menu,
   Tab
 } from 'semantic-ui-react'
 
@@ -16,7 +19,7 @@ const colors = [
   'red',
   'green',
   'purple',
-  'grey'
+  'grey',
 ]
 
 const panes = [
@@ -56,11 +59,17 @@ const panes = [
           <DeadBidsTable/>
       </Tab.Pane>
   },
-
 ]
 
 class QuoteTabBar extends Component {
-  state = {activeIndex: 0, color: colors[0]};
+  constructor(props) {
+      super(props);
+      this.state = {
+        activeIndex: 0,
+        color: colors[0],
+      };
+  }
+
   handleTabChange = (e, { activeIndex }) => this.setState({color: colors[activeIndex]});
 
   render() {

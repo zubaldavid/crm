@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PaginateTables from '../PaginateTables'
 import {
-  Button,
-  Grid,
-  Header,
-  Icon,
-  Menu,
-  Pagination,
   Table
 } from 'semantic-ui-react'
 

@@ -1,10 +1,10 @@
-const path = require('path');
+//const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
-var bcrypt = require('bcryptjs');
-var saltRounds = bcrypt.genSaltSync(10);
-var hash = bcrypt.hashSync("B4c0/\/", saltRounds);
+// var bcrypt = require('bcryptjs');
+// var saltRounds = bcrypt.genSaltSync(10);
+// var hash = bcrypt.hashSync("B4c0/\/", saltRounds);
 
 var db = require('./database');
 
@@ -26,6 +26,7 @@ app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
 
+// Confirms that database is connectd
 db.query('SELECT NOW()', (err, res) => {
   if(err.error)
     return console.log(err.error);

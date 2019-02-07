@@ -9,7 +9,7 @@ import {
   Modal,
 } from 'semantic-ui-react'
 
-class NewItemModal extends Component {
+class EditFileModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +35,7 @@ class NewItemModal extends Component {
   }
 
   componentDidMount () {
-    if(this.props.buttonName == 'New Quote') {
+    if(this.props.header == 'quote') {
       this.openQuoteForm();
     } else { this.openPaymentForm(); }
     console.log('New Item modal did mount.');
@@ -48,11 +48,10 @@ class NewItemModal extends Component {
       head: { alignItems: 'center'}
     };
     return (
-      <Modal style={style.modal} trigger={<Button onClick={this.determineForm} primary style={style.button}>
-            <Icon name='plus'/> {this.props.buttonName} </Button>}>
+      <Modal style={style.modal} trigger={<Icon hover name='edit'/> }>
         <Modal.Header syle={style.head}>{this.props.header}</Modal.Header>
          <Modal.Content>
-          { this.state.showQuote &&<NewQuoteForm/>}
+          { this.state.showQuote &&<NewQuoteForm id={this.props.id} edit={'true'}/>}
           { this.state.showPayment &&<NewPaymentForm/>}
          </Modal.Content>
       </Modal>
@@ -60,9 +59,9 @@ class NewItemModal extends Component {
   }
 }
 
-NewItemModal.propTypes = {
-  buttonName: PropTypes.string.required,
-  header: PropTypes.string
+EditFileModal.propTypes = {
+  header: PropTypes.string,
+  id: PropTypes.string
 }
 
-export default NewItemModal
+export default EditFileModal;

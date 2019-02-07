@@ -3,7 +3,6 @@ var Users = require('../models/users');
 var router = express.Router();
 
 router.get('/', function(req, res) { // request and response object
-
   Users.retreiveAll(function(err, users) {
     if(err)
       return res.json(err);

@@ -86,13 +86,15 @@ class SideBar extends Component {
   render() {
     const { visible } = this.state
     const style = {
-      div : { top:'1em', left:'.5%', width: '99%', height: '61em', position:'relative'},
-      gridCol: {width: '88%'}
+      div : { top:'.02em', left:'.5%', width: '99%', height: '63em', position:'relative'},
+      gridCol: {width: '90%'},
+      sidebar: {position:'sticky'}
     }
     return (
       <div  style={style.div} >
         <Sidebar.Pushable as={Segment}>
           <Sidebar
+
             as={Menu}
             inverted
             vertical
@@ -123,8 +125,7 @@ class SideBar extends Component {
           <Sidebar.Pusher >
             <Segment basic>
               <Grid.Column style={style.gridCol}>
-                <Header as='h2'>{this.state.header} </Header>
-                { this.state.serchBar && <SearchBar/> }
+              
               </Grid.Column>
               { this.state.home && <Dashboard/> }
               { this.state.quotes && <QuoteTabBar/>  }
