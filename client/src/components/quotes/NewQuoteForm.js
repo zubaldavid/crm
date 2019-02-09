@@ -15,9 +15,9 @@ import {
 
 const status = [
   { key: 'none', text: ' ', value: 'none' },
-  { key: 'yellow', text: 'Submitted', value: 'yellow' },
-  { key: 'blue', text: 'Awarded', value: 'blue' },
-  { key: 'orange', text: 'Dead', value: 'orange' },
+  { key: 'sumbitted', text: 'sumbitted', value: 'submitted' },
+  { key: 'awarded', text: 'Awarded', value: 'awarded' },
+  { key: 'dead', text: 'Dead', value: 'dead' },
 ]
 
 const revision = [
@@ -30,10 +30,14 @@ const revision = [
 ]
 
 function getQuoteNumber () {
-  var today = new Date();
-  var julday = 25000;
-  return julday;
-  console.log("today:" + today);
+//  var today = new Date();
+  fetch('/api/openQ_bids/quote')
+  .then(res => res.json())
+  .then(q => {
+    let quote = q[0].quote;
+    console.log("quote", quote);
+    return quote;
+  });
 }
 
 class NewQuoteForm extends Component {
@@ -42,12 +46,12 @@ class NewQuoteForm extends Component {
     this.state = {
       startDate: new Date(),
       fields: {},
+      bid: {},
       errors: {},
       quoters: [],
-      bid: [],
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.getQuoters = this.getQuoters.bind(this);
+    // this.handleInputChange = this.handleInputChange.bind(this);
+    // this.getQuoters = this.getQuoters.bind(this);
   }
 
   handleInputChange = (e) => {
@@ -59,7 +63,7 @@ class NewQuoteForm extends Component {
   handleAddQuote = () => {
     fetch('api/open_q_bids', {
       method: 'post',
-      headers: {'Content-Type': 'aplication.json'},
+      headers: {'Content-Type': 'aplication/json'},
       body: JSON.stringify({})
     })
     .then(res => res.json())
@@ -70,20 +74,30 @@ class NewQuoteForm extends Component {
 
   // Gets a single bid with id
   getSingleBid = (id) => {
-    fetch('/api/open_q_bids', {
-      headers: {'Content-Type': 'aplication.json'},
-      body: JSON.stringify({id: id})
-    })
+    let url = ('/api/openQ_bids/id/?id=' + id);
+    fetch(url)
     .then(res => res.json())
     .then(data => {
       this.setState({bid:data});
       console.log("bid details", this.state.bid);
+      this.state.fields.quote_number = this.state.bid[0].quote;
+      this.state.fields.agency = this.state.bid[0].agency;
+      this.state.fields.point_of_contact = this.state.bid[0].point_of_contact;
+      this.state.fields.solicitation = this.state.bid[0].solicitation;
+      this.state.fields.revision = this.state.bid[0].revision;
+      this.state.fields.employee = this.state.bid[0].employee;
+      this.state.fields.received = this.state.bid[0].received_date;
+      this.state.fields.description = this.state.bid[0].description;
+      this.state.fields.status = this.state.bid[0].status;
+      this.state.fields.due_date = this.state.bid[0].due_time;
+      this.state.fields.due_time = this.state.bid[0].due_date;
+      this.state.fields.date_sent = this.state.bid[0].date_sent;
     });
   };
 
   // Employee dropdown
   getQuoters = () => {
-    fetch('/api/users')
+    fetch('/api/users/quoters')
     .then(res => res.json())
     .then(res => {
       let employeeList = res.map(r => r.first_name);
@@ -96,12 +110,15 @@ class NewQuoteForm extends Component {
     if (this.props.edit == 'true') {
       this.getSingleBid(this.props.id);
     }
+    if (this.props.edit == 'new')  {
+      this.state.fields.quote_number = getQuoteNumber();
+    }
     this.getQuoters();
     console.log('New Quote Form mounted');
   }
 
   render() {
-    const {quoters} = this.state;
+    const {quoters, id} = this.state;
     const style = {
         form : { left: '15%', height:'80%', width: '80%'},
         button:{ flex: 1, flexDirection: 'row', alignItems: 'center'},
@@ -121,6 +138,7 @@ class NewQuoteForm extends Component {
       </Popup>
       <br/>
       <br/>
+        <div>{this.props.id} </div>
       <Grid.Row centered>
         <Form style={style.form}>
          <Form.Group>
@@ -177,7 +195,7 @@ class NewQuoteForm extends Component {
                value={this.state.fields.employee}
                onChange={this.handleInputChange}
               >
-                { this.state.quoters.map((name, i) => <option key={i}>{name}</option>)}
+                {this.state.quoters.map((name, i) => <option key={i}>{name}</option>)}
               </select>
            </Form.Field>
          </Form.Group>

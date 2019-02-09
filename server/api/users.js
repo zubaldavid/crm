@@ -2,11 +2,19 @@ var express = require('express');
 var Users = require('../models/users');
 var router = express.Router();
 
-router.get('/', function(req, res) { // request and response object
+router.get('/', async function(req, res) { // request and response object
   Users.retreiveAll(function(err, users) {
     if(err)
       return res.json(err);
     return res.json(users); //send users list or table
+  });
+});
+
+router.get('/quoters', async function(req, res) { // request and response object
+  Users.getQuoters(function(err, result) {
+    if(err)
+      return res.json(err);
+    return res.json(result); //send users list or table
   });
 });
 

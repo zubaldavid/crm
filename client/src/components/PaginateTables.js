@@ -24,7 +24,6 @@ class PaginateTables extends Component {
         }
         return (
           <Pagination
-  
             activePage={activePage}
             onPageChange={this.handlePaginationChange}
             boundaryRange={1}

@@ -52,7 +52,7 @@ class NewItemModal extends Component {
             <Icon name='plus'/> {this.props.buttonName} </Button>}>
         <Modal.Header syle={style.head}>{this.props.header}</Modal.Header>
          <Modal.Content>
-          { this.state.showQuote &&<NewQuoteForm/>}
+          { this.state.showQuote &&<NewQuoteForm edit={'new'}/>}
           { this.state.showPayment &&<NewPaymentForm/>}
          </Modal.Content>
       </Modal>

@@ -33,7 +33,8 @@ class OpenBidsTable extends Component {
     super(props);
     this.state = {
       allQuotes: [],
-      loading: true
+      loading: true,
+      count: 0
     };
     this.getQuotesList = this.getQuotesList.bind(this);
   }
@@ -50,16 +51,25 @@ class OpenBidsTable extends Component {
     });
   }
 
+  getCount () {
+    fetch('/api/openQ_bids/count')
+    .then(res => res.json())
+    .then(data => {
+      this.setState({count:data[0].count});
+      console.log("state", this.state.count);
+    });
+  }
+
   componentDidMount () {
       setTimeout(() => this.setState({ loading: false }), 1000); // simulates loading of data
+      this.getCount();
       this.getQuotesList();
       console.log('Open Bids Table did mount.');
   }
 
   render() {
-    const {allQuotes, currentPage, itemsPerPage, loading} = this.state;
-    const totalNumQuotes = allQuotes.length;
-    const numberofPages = totalNumQuotes - itemsPerPage;
+    const {allQuotes, loading, count} = this.state;
+    const pages = Math.round(count / 20) + 1;
     const style = {
         edit: { marginLeft:'4%'},
         table: {width: '92%'},
@@ -69,8 +79,7 @@ class OpenBidsTable extends Component {
     return (
       <div>
         <NewItemModal buttonName={'New Quote'} header={'NEW QUOTE'}/>
-        <PaginateTables totalPages={10}  handlePagination={this.getQuotesList}/>
-
+        <PaginateTables totalPages={pages}  handlePagination={this.getQuotesList}/>
       <Table compact size='small'>
         <TableHeader/>
         {this.state.loading &&<Dimmer active>
@@ -90,7 +99,7 @@ class OpenBidsTable extends Component {
                 <Table.Cell>{q.status}</Table.Cell>
                 <Table.Cell>{q.due_date}</Table.Cell>
                 <Table.Cell>{q.due_time}</Table.Cell>
-                <Table.Cell>{q.sent_date}</Table.Cell>
+                <Table.Cell>{q.date_sent}</Table.Cell>
                 <Table.Cell><EditFileModal id={q.id} header={'quote'}/></Table.Cell>
               </Table.Row>
             )}

@@ -1,49 +1,70 @@
 import React, { Component } from 'react';
 import {
   Card,
-  Header
+  Grid,
+  Header,
+  Label,
+  Segment,
+  Statistic
 } from 'semantic-ui-react'
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+
   render() {
-    const items = [
-      {
-        header: 'Project Report - April',
-        description: 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
-        meta: 'ROI: 30%',
-      },
-      {
-        header: 'Project Report - May',
-        description: 'Bring to the table win-win survival strategies to ensure proactive domination.',
-        meta: 'ROI: 34%',
-      },
-      {
-        header: 'Project Report - June',
-        description:
-          'Capitalise on low hanging fruit to identify a ballpark value added activity to beta test.',
-        meta: 'ROI: 27%',
-      },
-      {
-        header: 'Project Report - June',
-        description:
-          'Capitalise on low hanging fruit to identify a ballpark value added activity to beta test.',
-        meta: 'ROI: 27%',
-      },
-    ]
+    const yesterday = new Date();
 
     const style = {
       panes : {
         width: '92%'
       }
     }
-
     return (
-        <div >
-          <Header>Quotes</Header>
-          <Card.Group items={items} />
-          <Header>Grainger</Header>
-          <Card.Group items={items} />
-        </div>
+      <div >
+        <Label> QUOTES </Label>
+        <br/>
+        <br/>
+          <Grid>
+            <Grid.Row>
+              <Grid.Column >
+                <Segment >
+                  <Label attached='top'>Intake</Label>
+                  <Statistic value='20'/>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column>
+                <Segment >
+                <Label attached='top'>Submitted</Label>
+                <Statistic value='20'/>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column>
+                <Segment >
+                  <Label attached='top'>Awarded</Label>
+                  <Statistic value='20'/>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column>
+                <Segment >
+                  <Label attached='top'>Dead</Label>
+                  <Statistic value='20'/>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column>
+                <Segment >
+                  <Label attached='top'>Win Ratio</Label>
+                  <Statistic value='23%'/>
+                </Segment>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          <br/>
+          <Label> Year to Date GRAINGER</Label>
+      </div>
     )
   }
 }

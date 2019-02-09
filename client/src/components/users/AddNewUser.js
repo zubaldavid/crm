@@ -159,4 +159,4 @@ AddNewUser.propTypes =  {
   showTableAgain: PropTypes.func
 }
 
-export default AddNewUser
+export default AddNewUser;

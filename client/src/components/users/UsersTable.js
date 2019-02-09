@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import {
   Button,
-  CheckBox,
+  Checkbox,
   Icon,
   Popup,
   Table
 } from 'semantic-ui-react'
 
 const headers = [
-  'First Name','Last Name', 'Email', 'Email', 'Quoter','General',
-  'Grainger',
+  'First Name','Last Name', 'Email', 'Email', 'Quoter',
+  'Grainger','Admin', '', '',
 ]
 
 function TableHeaders() {
@@ -29,8 +29,17 @@ export class UsersTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       users: []
+       users: [],
+       quoters: {},
+       graingerAccess: {},
+       admins: {}
     };
+  }
+
+  changeQuoters = (e) => {
+    let quoters = this.state.quoters;
+    quoters[e.target.name] = e.target.value;
+    console.log(e.target.name, e.target.value);
   }
 
   getUsersList = () => {
@@ -68,7 +77,7 @@ export class UsersTable extends Component {
     };
     return (
       <div>
-        <Table celled>
+        <Table celled compact >
           <TableHeaders/>
           <Table.Body>
               {users.map(d =>
@@ -77,15 +86,46 @@ export class UsersTable extends Component {
                   <Table.Cell>{d.last_name}</Table.Cell>
                   <Table.Cell>{d.email}</Table.Cell>
                   <Table.Cell>{d.password}</Table.Cell>
-                  <Button onClick={this.props.editUser}><Icon name='edit'/></Button>
-                  <Popup style={{height:'45px'}}
-                  trigger={<Button onClick={this.removeUser.bind(this, d.id)} color='red'><Icon name='remove'/></Button>}
-                  content='Are you sure you want to delete?'
-                  position='top left'
-                  />
+                  <Table.Cell>
+                    <Checkbox slider
+                      name='quoter'
+                      checked={d.quoter}
+                      value={this.state.quoters.quoter}
+                      onChange={this.changeQuoters} />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Checkbox slider
+                      name='quoter'
+                      checked={d.grainger_access}
+                      />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Checkbox slider
+                      name='quoter'
+                      checked={d.admin}
+                      /></Table.Cell>
+                  <Table.Cell>
+                    <Button onClick={this.props.editUser}><Icon name='edit'/></Button>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Popup style={{height:'45px'}}
+                    trigger={<Button onClick={this.removeUser.bind(this, d.id)} color='red'><Icon name='remove'/></Button>}
+                    content='Are you sure you want to delete?'
+                    position='top left'
+                    />
+                  </Table.Cell>
                 </Table.Row>
               )}
           </Table.Body>
+          <Table.Footer compact fullWidth>
+           <Table.Row>
+             <Table.HeaderCell colSpan='9'>
+               <Button floated='right' primary size='small'>
+                      Save
+               </Button>
+             </Table.HeaderCell>
+           </Table.Row>
+         </Table.Footer>
         </Table>
       </div>
     );
