@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PaginateTables from '../PaginateTables'
 import {
+  Header,
   Table
 } from 'semantic-ui-react'
 
@@ -27,6 +28,7 @@ class CompletedBidsTable extends Component {
   render() {
     return (
       <div>
+      <Header>YTD Profit: </Header>
         <Table celled compact size='small'>
           <TableHeader/>
           <Table.Body>

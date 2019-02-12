@@ -1,4 +1,4 @@
-const db = require('../database');
+const db = require('../../database');
 
 class OpenBids {
   static retreiveAll (page, callback) {
@@ -23,7 +23,7 @@ class OpenBids {
   }
 
   static getLastQuote (callback) {
-    let limit = 1
+    let limit = 1;
     db.query('SELECT quote FROM quote_tracker ORDER by id DESC limit ($1)',[limit],  function (err,res) {
       if(err.error)
         return callback(err);

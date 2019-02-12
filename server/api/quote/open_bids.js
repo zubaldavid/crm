@@ -1,14 +1,15 @@
 var express = require('express');
-var OpenBids = require('../models/openQ_bids');
+var OpenBids = require('../../models/quote/open_bids');
 var router = express.Router();
 
 // Get all quotes submitted quotes from the the database by page.
-router.get('/', async function(req, res) { // request and response object
+router.get('/', async function(req, res) {
   let page = req.query.page;
   OpenBids.retreiveAll(page, function(err, result) {
     if(err)
       return res.json(err);
-    return res.json(result); //send users list or table
+    //send users list or table
+    return res.json(result);
   });
 });
 
@@ -33,6 +34,14 @@ router.get('/quote', async function(req, res) {
 
 // Get count of all submitted files for pagination
 router.get('/count', async function(req, res) {
+  OpenBids.getCount(function(err, result) {
+    if(err)
+      return res.json(err);
+    return res.json(result);
+  });
+});
+
+router.get('/awards', async function(req, res) {
   OpenBids.getCount(function(err, result) {
     if(err)
       return res.json(err);

@@ -16,10 +16,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-// Register created API
+// Register created API's
+app.use('/api/quote/open_bids', require('./api/quote/open_bids'));
+app.use('/api/quote/awarded_bids', require('./api/quote/awarded_bids'));
+
 app.use('/api/users', require('./api/users'));
-// Register openbids
-app.use('/api/openQ_bids', require('./api/openQ_bids'));
+app.use('/api/dashBoard', require('./api/dashboard'));
 
 // Expres will listen to the port and handle the request
 app.listen(PORT, () => {

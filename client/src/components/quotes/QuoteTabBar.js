@@ -22,6 +22,36 @@ const colors = [
   'grey',
 ]
 
+// Stores open awards in tab
+class CountFunction extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+
+  getCount () {
+    fetch('/api/quote/awarded_bids/count')
+   .then(res => res.json())
+   .then(data => {
+     let newCount = data[0].count;
+     this.setState({count: newCount});
+   });
+  }
+
+  componentDidMount () {
+    this.getCount();
+  }
+
+  render () {
+    const {count} = this.state;
+    return (
+        <Label>{count}</Label>
+    )
+  }
+}
+
 const panes = [
   { menuItem: { key: 'open', icon: 'folder open outline', content: 'Open Bids', color: 'blue'},
       render: () =>
@@ -29,8 +59,12 @@ const panes = [
           <OpenBidsTable/>
         </Tab.Pane>
   },
-  { menuItem: { key: 'awards', icon: 'folder outline', content: 'Awards'},
-      render: () =>
+  { menuItem: (
+        <Menu.Item key='messages'>
+          Awards <CountFunction/>
+        </Menu.Item>
+    ),
+    render: () =>
       <Tab.Pane attached={false}>
         <AwardsBidsTable/>
       </Tab.Pane>
@@ -63,11 +97,11 @@ const panes = [
 
 class QuoteTabBar extends Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        activeIndex: 0,
-        color: colors[0],
-      };
+    super(props);
+    this.state = {
+      activeIndex: 0,
+      color: colors[0],
+    };
   }
 
   handleTabChange = (e, { activeIndex }) => this.setState({color: colors[activeIndex]});
@@ -82,7 +116,7 @@ class QuoteTabBar extends Component {
         <Tab
           onTabChange={this.handleTabChange}
           style={style.panes}
-          menu={{ color, inverted:true, attached: false, tabular: false }}
+          menu={{color, inverted:true, attached: false, tabular: false }}
           panes={panes}
         />
       </div>

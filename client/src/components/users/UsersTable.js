@@ -9,7 +9,7 @@ import {
 } from 'semantic-ui-react'
 
 const headers = [
-  'First Name','Last Name', 'Email', 'Email', 'Quoter',
+  'First Name','Last Name', 'Email', 'Password', 'Quoter',
   'Grainger','Admin', '', '',
 ]
 
