@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import moment from 'moment';
+import {dateFormat} from '../MomentDateFormat';
 import PropTypes from 'prop-types';
 import NewItemModal from './NewItemModal';
 import EditFileModal from './EditFileModal';
 import PaginateTables from '../PaginateTables';
-import {dateFormat} from '../MomentDateFormat';
 import {
   Button,
   Dimmer,

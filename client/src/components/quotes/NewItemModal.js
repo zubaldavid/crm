@@ -4,7 +4,6 @@ import NewPaymentForm from './NewPaymentForm';
 import PropTypes from 'prop-types';
 import {
   Button,
-  Grid,
   Icon,
   Modal,
 } from 'semantic-ui-react'
@@ -35,7 +34,7 @@ class NewItemModal extends Component {
   }
 
   componentDidMount () {
-    if(this.props.buttonName == 'New Quote') {
+    if(this.props.buttonName === 'New Quote') {
       this.openQuoteForm();
     } else { this.openPaymentForm(); }
     console.log('New Item modal did mount.');
@@ -65,4 +64,4 @@ NewItemModal.propTypes = {
   header: PropTypes.string
 }
 
-export default NewItemModal
+export default NewItemModal;

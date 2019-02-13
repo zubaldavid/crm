@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import {dateFormat} from '../MomentDateFormat';
-import moment from 'moment'
-import PropTypes from 'prop-types';
 import PaginateTables from '../PaginateTables';
 import NewItemModal from './NewItemModal';
 import EditFileModal from './EditFileModal';
 import {
   Dimmer,
-  Grid,
   Loader,
-  Menu,
   Table
 } from 'semantic-ui-react'
 

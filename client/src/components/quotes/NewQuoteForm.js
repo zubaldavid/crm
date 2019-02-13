@@ -6,7 +6,6 @@ import Select from 'react-select';
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Button,
-  Dropdown,
   Form,
   Grid,
   Icon,
@@ -81,8 +80,10 @@ class NewQuoteForm extends Component {
     .then(data => {
       this.setState({bid:data});
       console.log("bid details", this.state.bid);
-      this.state.fields.quote_number = this.state.bid[0].quote;
-      this.state.fields.agency = this.state.bid[0].agency;
+      this.setState({
+      quote_number : this.state.bid[0].quote,
+      agency : this.state.bid[0].agency,
+      })
       this.state.fields.point_of_contact = this.state.bid[0].point_of_contact;
       this.state.fields.solicitation = this.state.bid[0].solicitation;
       this.state.fields.revision = this.state.bid[0].revision;
@@ -93,14 +94,15 @@ class NewQuoteForm extends Component {
       this.state.fields.due_date = this.state.bid[0].due_time;
       this.state.fields.due_time = dateFormat(this.state.bid[0].due_date);
       this.state.fields.date_sent = dateFormat(this.state.bid[0].date_sent);
+
     });
   };
 
   componentDidMount () {
-    if (this.props.edit == 'true') {
+    if (this.props.edit === 'true') {
       this.getSingleBid(this.props.id);
     }
-    if (this.props.edit == 'new')  {
+    if (this.props.edit === 'new')  {
       this.state.fields.quote_number = getQuoteNumber();
     }
     //this.getQuoters();

@@ -3,8 +3,6 @@ import NewQuoteForm from './NewQuoteForm';
 import NewPaymentForm from './NewPaymentForm';
 import PropTypes from 'prop-types';
 import {
-  Button,
-  Grid,
   Icon,
   Modal,
 } from 'semantic-ui-react'
@@ -35,7 +33,7 @@ class EditFileModal extends Component {
   }
 
   componentDidMount () {
-    if(this.props.header == 'quote') {
+    if(this.props.header === 'quote') {
       this.openQuoteForm();
     } else { this.openPaymentForm(); }
     console.log('New Item modal did mount.');
