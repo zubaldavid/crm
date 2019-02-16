@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {dateFormat} from '../MomentDateFormat';
+import {dateFormat} from '../Formats';
 import PaginateTables from '../PaginateTables';
 import NewItemModal from './NewItemModal';
 import EditFileModal from './EditFileModal';
@@ -64,8 +64,7 @@ class OpenBidsTable extends Component {
     this.getQuotesList();
     console.log('Open Bids Table did mount.');
   }
-
-  change
+  
   render() {
     const {allQuotes, loading, count} = this.state;
     const pages = Math.round(count / 20) + 1;

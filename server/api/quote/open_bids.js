@@ -1,5 +1,5 @@
 var express = require('express');
-var OpenBids = require('../../models/quote/open_bids');
+var OpenBids=require('../../models/quote/open_bids');
 var router = express.Router();
 
 // Get all quotes submitted quotes from the the database by page.

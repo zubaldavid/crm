@@ -50,7 +50,7 @@ class EditFileModal extends Component {
         <Modal.Header syle={style.head}>{this.props.header}</Modal.Header>
          <Modal.Content>
           { this.state.showQuote &&<NewQuoteForm id={this.props.id} edit={'true'}/>}
-          { this.state.showPayment &&<NewPaymentForm/>}
+          { this.state.showPayment &&<NewPaymentForm id={this.props.id}/>}
          </Modal.Content>
       </Modal>
     )

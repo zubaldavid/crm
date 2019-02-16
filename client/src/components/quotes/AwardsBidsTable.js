@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import {dateFormat} from '../MomentDateFormat';
+import React, { Lazy, Component } from 'react';
+import {dateFormat, numberFormat} from '../Formats';
 import PropTypes from 'prop-types';
 import NewItemModal from './NewItemModal';
 import EditFileModal from './EditFileModal';
+import PayementsTableModal from './PaymentsTableModal';
 import PaginateTables from '../PaginateTables';
 import {
   Button,
   Dimmer,
-  Header,
+  Label,
   Loader,
   Table
 } from 'semantic-ui-react'
@@ -72,9 +73,6 @@ class AwardsBidsTable extends Component {
   render() {
     const {allQuotes, loading, count} = this.state;
     const pages = Math.round(count / 20) + 1;
-    const style = {
-      awardCount: {float:'right', marginRight: '10%'}
-    }
     return (
       <div>
       <NewItemModal buttonName={'New Payment'} header={'NEW PAYMENT'} />
@@ -97,10 +95,11 @@ class AwardsBidsTable extends Component {
               <Table.Cell>{q.employee}</Table.Cell>
               <Table.Cell>{dateFormat(q.date_po_received)}</Table.Cell>
               <Table.Cell>{q.po_number}</Table.Cell>
-              <Table.Cell>{q.cost}</Table.Cell>
+              <Table.Cell>{numberFormat(q.cost)}</Table.Cell>
               <Table.Cell>{dateFormat(q.date_exp_delivery)}</Table.Cell>
               <Table.Cell>{dateFormat(q.date_po_ordered)}</Table.Cell>
               <Table.Cell><EditFileModal id={q.id} header={'quote'}/></Table.Cell>
+              <Table.Cell><PayementsTableModal invoice={q.invoice}  /></Table.Cell>
             </Table.Row>
           )}
         </Table>

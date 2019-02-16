@@ -7,9 +7,9 @@ import {
 } from 'semantic-ui-react'
 
 const headers = [
-  'Invoice', 'Quote Number', 'Point of Contact', 'Solictation', 'Revision','Employee',
-  'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent','Date PO',
-  'PO Number', 'Comment',
+  'Invoice', 'Agency', 'PO #', 'Date Billed', 'ZipCode', 'Tax District', 'Delivery City','Tracking #',
+  'NT Misc', 'Taxable', 'Subtotal', 'Sales Tax','Total', 'Due Date','Date Delivered',
+  'Rec Date', 'Received Amount', 'Balance',
 ]
 
 function TableHeader(props) {
@@ -29,9 +29,11 @@ class BilledBidsTable extends Component {
   render() {
     return (
       <div>
+      <PaginateTables  handlePagination={this.getQuotesList}/>
         <Table celled compact size='small'>
           <TableHeader/>
           <Table.Body>
+              
           </Table.Body>
         </Table>
       </div>

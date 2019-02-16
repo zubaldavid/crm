@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {dateFormat} from '../MomentDateFormat';
+import {dateFormat} from '../Formats';
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
 import Select from 'react-select';
@@ -47,7 +47,7 @@ class NewQuoteForm extends Component {
       fields: {},
       bid: {},
       errors: {},
-      quoters: [],
+      employees: [],
       agencies: [],
       pointsOfContact: []
     };
@@ -71,6 +71,28 @@ class NewQuoteForm extends Component {
       this.setState({});
     });
   };
+
+  getDropDowns = () => {
+    fetch('/api/dropdowns')
+    .then(res => res.json())
+    .then(res => {
+      let tempContact = res.map(r => ({label: r.point_of_contact, value: r.point_of_contact}));
+      let tempAgency = res.map(r => ({label: r.agency, value: r.agency}));
+      this.setState({agencies:tempAgency, pointsOfContact :tempContact });
+      console.log("agencies", this.state.agencies);
+      console.log("contacts", this.state.pointsOfContact);
+    })
+  }
+
+  getQuoters = () => {
+    fetch('/api/users/quoters')
+    .then(res => res.json())
+    .then(res => {
+      let employeeList = res.map(r => ({label: r.first_name, value: r.first_name}));
+      this.setState({employees:employeeList});
+      console.log("quoters", this.state.employees);
+    })
+  }
 
   // Gets a single bid with id
   getSingleBid = (id) => {
@@ -105,12 +127,13 @@ class NewQuoteForm extends Component {
     if (this.props.edit === 'new')  {
       this.state.fields.quote_number = getQuoteNumber();
     }
-    //this.getQuoters();
+    this.getQuoters();
+    this.getDropDowns();
     console.log('Quotes Form mounted');
   }
 
   render() {
-    const {quoters, id, agencies,pointsOfContact} = this.state;
+    const {employees, id, agencies,pointsOfContact} = this.state;
     const style = {
         form : { left: '15%', height:'80%', width: '80%'},
         button:{ flex: 1, flexDirection: 'row', alignItems: 'center'},
@@ -186,15 +209,14 @@ class NewQuoteForm extends Component {
            </Form.Field>
            <Form.Field required width={7}>
              <label>Employee</label>
-              <select
+              <Select
                placeholder=''
                name='employee'
                type='text'
+               options={employees}
                value={this.state.fields.employee}
                onChange={this.handleInputChange}
-              >
-                {this.state.quoters.map((name, i) => <option key={i}>{name}</option>)}
-              </select>
+              />
            </Form.Field>
          </Form.Group>
 
@@ -304,4 +326,4 @@ NewQuoteForm.propTypes = {
   edit: PropTypes.String,
 }
 
-export default NewQuoteForm
+export default NewQuoteForm;

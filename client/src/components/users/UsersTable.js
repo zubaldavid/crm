@@ -53,7 +53,7 @@ export class UsersTable extends Component {
 
   editUser = (id, e) => {
       console.log('editing user');
-      this.props.editUser(this.props.index); // Call to AddNewUser form
+      this.props.edituser(this.props.index); // Call to AddNewUser form
   }
 
   removeUser = (id, e) => {
@@ -105,7 +105,7 @@ export class UsersTable extends Component {
                       checked={d.admin}
                       /></Table.Cell>
                   <Table.Cell>
-                    <Button onClick={this.props.editUser}><Icon name='edit'/></Button>
+                    <Button onClick={this.props.edituser}><Icon name='edit'/></Button>
                   </Table.Cell>
                   <Table.Cell>
                     <Popup style={{height:'45px'}}

@@ -23,12 +23,16 @@ function TableHeader(props) {
   )
 }
 
-
 class CompletedBidsTable extends Component {
   render() {
+    const style = {
+      header: {float: 'right', marginLeft: '5%'},
+    }
     return (
       <div>
-      <Header>YTD Profit: </Header>
+      <PaginateTables   handlePagination={this.getQuotesList}/>
+      <Header style={style.header}> YTD Ratio: 12.22%</Header>
+      <Header style={style.header}> YTD Profit: 1,000,000</Header>
         <Table celled compact size='small'>
           <TableHeader/>
           <Table.Body>

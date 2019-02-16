@@ -1,5 +1,6 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Select from 'react-select';
 import React, { Component } from 'react';
 import {
   Button,
@@ -8,7 +9,6 @@ import {
   Icon,
   Input,
   Popup,
-  Select
 } from 'semantic-ui-react'
 
 const status = [
@@ -45,19 +45,15 @@ class NewPaymentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date(),
       fields: {},
       errors: {},
       showTable: false,
       showForm: true,
       vendors: [],
-
+      quoters: [],
+      newAgency: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  componentWillMount() {
-      console.log('Add New Quote did mount.');
   }
 
   handleInputChange = (e) => {
@@ -66,20 +62,60 @@ class NewPaymentForm extends Component {
     this.setState({fields});
   }
 
-  getVendorsList = () => {
-    fetch('/api/miscel')
+  handleAddUser = (e) => {
+    e.preventDefault();
+    if(this.validateForm()) {
+      //let fields = this.state.fields;
+      fetch('/api/users', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          newFirst: this.state.newFirst,
+          newLast : this.state.newLast,
+          newEmail:this.state.newEmail,
+          newPassword: this.state.newPassword
+        })
+      })
+      let fields = {};
+      fields["newFirst"] = "";
+      fields["newLast"] = "";
+      fields["newEmail"] = "";
+      fields["newPassword"] = "";
+      setTimeout(() => {
+        this.setState({fields: fields, showComplete:true})
+      }, 2500);
+      // Prop used to show Users table
+      this.props.showTableAgain();
+    }
+  }
+
+  // postNewAgency = (e) => {
+  //   fetch('/api/dropdowns', {
+  //     method: 'post',
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: JSON.stringify({
+  //       newAgency: this.state.newAgency,
+  //     })
+  //   })
+  // }
+
+  getVendors = () => {
+    fetch('/api/dropdowns')
     .then(res => res.json())
-    .then(data => {
-      this.setState({vendors:data});
-      console.log("state", this.state.vendors)
+    .then(res => {
+      let tempVendors = res.map(r => ({label: r.vendor, value: r.vendor}));
+      this.setState({vendors: tempVendors});
+      console.log("agencies", this.state.vendors);
     })
   }
 
   componentDidMount () {
-      console.log('New Payment Form is mounted');
+    this.getVendors();
+    console.log('New Payment Form is mounted');
   }
 
   render() {
+    const {vendors, quoters} = this.state;
     const style = {
         form : { left: '15%', height:'80%', width: '80%'},
         button:{ flex: 1, flexDirection: 'row', alignItems: 'center'},
@@ -90,10 +126,14 @@ class NewPaymentForm extends Component {
       <Popup style={style.popup} position='bottom left' trigger={<Button icon='plus' content='New Agency'/>} on='click'>
         <Grid divided columns='equal'>
          <Grid.Column>
-            <Input fluid placeholder='...'/>
+            <Input fluid placeholder='...'
+            name='newAgency'
+            value={this.state.newAgency}
+            onChange={this.handleInputChange}
+            />
          </Grid.Column>
          <Grid.Column>
-            <Button>Submit</Button>
+            <Button >Submit</Button>
          </Grid.Column>
         </Grid>
       </Popup>
@@ -111,16 +151,15 @@ class NewPaymentForm extends Component {
              <Input fluid placeholder='Quote Number' />
            </Form.Field>
            <Form.Field required width={5}>
-             <label>Agency</label>
-             <Input fluid placeholder='Agency' />
+             <label>Vendor</label>
+             <Select fluid placeholder='Agency'
+               name='vendor'
+               options={vendors}
+             />
            </Form.Field>
          </Form.Group>
 
          <Form.Group>
-         <Form.Field required width={7}>
-           <label>Employee</label>
-            <Select compact options={employee} defaultValue= ''/>
-         </Form.Field>
          <Form.Field required width={5}>
            <label>Date Ordered</label>
            <DatePicker
@@ -165,11 +204,17 @@ class NewPaymentForm extends Component {
          <Form.Group >
            <Form.Field required  width={5}>
              <label>Payment Method</label>
-             <Select compact options={paymentMethod} defaultValue= 'Credit Line'/>
+             <Select
+             compact
+             options={paymentMethod}
+             defaultValue= 'Credit Line'/>
            </Form.Field>
            <Form.Field width={5}>
              <label>Status</label>
-              <Select compact options={status} defaultValue= 'Pending'/>
+              <Select
+              compact
+              options={status}
+              defaultValue= 'Pending'/>
            </Form.Field>
          </Form.Group>
         </Form>

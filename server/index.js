@@ -19,9 +19,11 @@ app.use(bodyParser.json());
 // Register created API's
 app.use('/api/quote/open_bids', require('./api/quote/open_bids'));
 app.use('/api/quote/awarded_bids', require('./api/quote/awarded_bids'));
+app.use('/api/quote/payments', require('./api/quote/payments'));
 
 app.use('/api/users', require('./api/users'));
 app.use('/api/dashBoard', require('./api/dashboard'));
+app.use('/api/dropdowns', require('./api/dropdowns'));
 
 // Expres will listen to the port and handle the request
 app.listen(PORT, () => {

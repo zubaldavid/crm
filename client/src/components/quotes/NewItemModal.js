@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component } from 'react';
 import NewQuoteForm from './NewQuoteForm';
 import NewPaymentForm from './NewPaymentForm';
 import PropTypes from 'prop-types';
@@ -49,10 +49,10 @@ class NewItemModal extends Component {
     return (
       <Modal style={style.modal} trigger={<Button onClick={this.determineForm} primary style={style.button}>
             <Icon name='plus'/> {this.props.buttonName} </Button>}>
-        <Modal.Header syle={style.head}>{this.props.header}</Modal.Header>
+        <Modal.Header style={style.head}>{this.props.header}</Modal.Header>
          <Modal.Content>
-          { this.state.showQuote &&<NewQuoteForm edit={'new'}/>}
-          { this.state.showPayment &&<NewPaymentForm/>}
+          { this.state.showQuote && <NewQuoteForm new={'quote'}/>}
+          { this.state.showPayment && <NewPaymentForm />}
          </Modal.Content>
       </Modal>
     )

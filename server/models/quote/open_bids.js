@@ -5,7 +5,7 @@ class OpenBids {
     let submitted = 'Submitted';
     let yellow = '';
     let itemsPerPage = 20;
-    let offset = 25;
+    let offset = 20;
     let dataSet = ((page - 1) * itemsPerPage);
     db.query('SELECT * FROM quote_tracker WHERE (status = ($1) or status = ($2)) LIMIT ($3) OFFSET ($4) ',[submitted, yellow, itemsPerPage, dataSet],  function (err,res) {
       if(err.error)

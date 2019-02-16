@@ -10,7 +10,8 @@ import {
   Input,
   Label,
   Menu,
-  Tab
+  Tab,
+  Select
 } from 'semantic-ui-react'
 
 const colors = [
@@ -50,6 +51,26 @@ class CountFunction extends Component {
         <Label>{count}</Label>
     )
   }
+}
+
+const searchOptions = [
+  { key: 'page', text: 'All Bids', value: 'all' },
+  { key: 'page', text: 'Invoice', value: 'invoice' },
+  { key: 'org', text: 'Quote', value: 'quote' },
+  { key: 'site', text: 'PO Number', value: 'poNumber' },
+  { key: 'site', text: 'Solicitation', value: 'soliciation' },
+]
+
+function searchBar () {
+  return (
+    <Menu.Item disabled position='right'>
+      <Input type='text' placeholder='Search...' action>
+        <input />
+        <Select compact options={searchOptions} defaultValue='all' />
+        <Button type='submit'>Search</Button>
+      </Input>
+    </Menu.Item>
+  )
 }
 
 const panes = [
@@ -92,6 +113,10 @@ const panes = [
       <Tab.Pane attached={false}>
           <DeadBidsTable/>
       </Tab.Pane>
+  },
+  { menuItem: (
+    searchBar()
+  ),
   },
 ]
 

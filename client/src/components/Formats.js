@@ -7,3 +7,11 @@ export function dateFormat (date) {
     return newDate;
   }
 }
+
+export function numberFormat (dollar) {
+  if (dollar == null || dollar === 0 ) {}
+  else {
+    let cost  = ("$" + dollar.toLocaleString());
+    return cost;
+  }
+}
