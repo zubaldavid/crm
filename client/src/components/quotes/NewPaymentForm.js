@@ -12,18 +12,18 @@ import {
 } from 'semantic-ui-react'
 
 const status = [
-  { key: 'none', text: ' ', value: 'none' },
-  { key: 'deposit', text: 'Deposit', value: 'deposit' },
-  { key: 'full', text: 'Paid In Full', value: 'full' },
-  { key: 'pending', text: 'Pending ', value: 'pending' },
+  { label: ' ', value: 'none' },
+  { label: 'Deposit', value: 'deposit' },
+  { label: 'Paid In Full', value: 'full' },
+  { label: 'Pending ', value: 'pending' },
 ]
 
 const paymentMethod = [
-  { key: '0', text: '', value: '0' },
-  { key: '1', text: 'Credit Line', value: '1' },
-  { key: '2', text: 'Cap1', value: '2' },
-  { key: '3', text: 'Mech', value: '3' },
-  { key: '4', text: 'Boa', value: '4' },
+  { label: '', value: '0' },
+  { label: 'Credit Line', value: '1' },
+  { label: 'Cap1', value: '2' },
+  { label: 'Mech', value: '3' },
+  { label: 'Boa', value: '4' },
 ]
 
 const employee = [
@@ -100,12 +100,12 @@ class NewPaymentForm extends Component {
   // }
 
   getVendors = () => {
-    fetch('/api/dropdowns')
+    fetch('/api/dropdowns/vendors')
     .then(res => res.json())
     .then(res => {
-      let tempVendors = res.map(r => ({label: r.vendor, value: r.vendor}));
+      let tempVendors = res.map(r => ({label: r.vendors, value: r.vendors}));
       this.setState({vendors: tempVendors});
-      console.log("agencies", this.state.vendors);
+      console.log("vendors", this.state.vendors);
     })
   }
 
@@ -152,7 +152,7 @@ class NewPaymentForm extends Component {
            </Form.Field>
            <Form.Field required width={5}>
              <label>Vendor</label>
-             <Select fluid placeholder='Agency'
+             <Select fluid placeholder='Vendor'
                name='vendor'
                options={vendors}
              />

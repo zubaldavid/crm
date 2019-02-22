@@ -8,7 +8,6 @@ import PaginateTables from '../PaginateTables';
 import {
   Button,
   Dimmer,
-  Label,
   Loader,
   Table
 } from 'semantic-ui-react'

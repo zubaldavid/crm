@@ -15,3 +15,10 @@ export function numberFormat (dollar) {
     return cost;
   }
 }
+
+export function percentFormat (double) {
+  if ( double == null ) {}
+  else {
+    return double.toLocaleString("en", {style:'percent'});
+  }
+}

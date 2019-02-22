@@ -9,8 +9,8 @@ import {
 } from 'semantic-ui-react'
 
 const headers = [
-  'First Name','Last Name', 'Email', 'Password', 'Quoter',
-  'Grainger','Admin', '', '',
+  '','First Name','Last Name', 'Email', 'Password', 'Quoter',
+  'Grainger','Admin', '',
 ]
 
 function TableHeaders() {
@@ -77,11 +77,16 @@ export class UsersTable extends Component {
     };
     return (
       <div>
-        <Table celled compact >
+        <Table celled compact definition>
           <TableHeaders/>
           <Table.Body>
               {users.map(d =>
                 <Table.Row key={d.id}>
+                  <Table.Cell collapsing>
+                    <Checkbox slider
+                    name='quoter'
+                    checked={d.admin}
+                  /></Table.Cell>
                   <Table.Cell>{d.first_name}</Table.Cell>
                   <Table.Cell>{d.last_name}</Table.Cell>
                   <Table.Cell>{d.email}</Table.Cell>
@@ -93,26 +98,21 @@ export class UsersTable extends Component {
                       value={this.state.quoters.quoter}
                       onChange={this.changeQuoters} />
                   </Table.Cell>
+
                   <Table.Cell>
                     <Checkbox slider
                       name='quoter'
                       checked={d.grainger_access}
-                      />
-                  </Table.Cell>
+                      /></Table.Cell>
+
                   <Table.Cell>
                     <Checkbox slider
                       name='quoter'
                       checked={d.admin}
                       /></Table.Cell>
+
                   <Table.Cell>
                     <Button onClick={this.props.edituser}><Icon name='edit'/></Button>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Popup style={{height:'45px'}}
-                    trigger={<Button onClick={this.removeUser.bind(this, d.id)} color='red'><Icon name='remove'/></Button>}
-                    content='Are you sure you want to delete?'
-                    position='top left'
-                    />
                   </Table.Cell>
                 </Table.Row>
               )}

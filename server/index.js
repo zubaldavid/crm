@@ -17,9 +17,13 @@ app.use(express.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 // Register created API's
-app.use('/api/quote/open_bids', require('./api/quote/open_bids'));
 app.use('/api/quote/awarded_bids', require('./api/quote/awarded_bids'));
+app.use('/api/quote/billed_bids', require('./api/quote/billed_bids'));
+app.use('/api/quote/completed_bids', require('./api/quote/completed_bids'));
+app.use('/api/quote/dead_bids', require('./api/quote/dead_bids'));
+app.use('/api/quote/open_bids', require('./api/quote/open_bids'));
 app.use('/api/quote/payments', require('./api/quote/payments'));
+app.use('/api/quote/ss_bids', require('./api/quote/ss_bids'));
 
 app.use('/api/users', require('./api/users'));
 app.use('/api/dashBoard', require('./api/dashboard'));

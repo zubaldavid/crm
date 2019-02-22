@@ -36,12 +36,12 @@ class DeadBidsTable extends Component {
       loading: true,
       count: 0
     };
-    this.getDeadList = this.getDeadList.bind(this);
+    this.getSourcesList = this.getSourcesList.bind(this);
   }
 
-  getDeadList (activePage) {
+  getSourcesList (activePage) {
     if ( activePage === undefined) {activePage = 1;}
-    let url = ('/api/quote/dead_bids/?page=' + activePage);
+    let url = ('/api/quote/ss_bids/?page=' + activePage);
     console.log('Quote List:', url);
     fetch(url)
     .then(res => res.json())
@@ -52,7 +52,7 @@ class DeadBidsTable extends Component {
   }
 
   getCount () {
-    fetch('/api/quote/dead_bids/count')
+    fetch('/api/quote/ss_bids/count')
     .then(res => res.json())
     .then(data => {
       this.setState({count:data[0].count});
@@ -63,8 +63,8 @@ class DeadBidsTable extends Component {
   componentDidMount () {
     setTimeout(() => this.setState({ loading: false }), 1000); // simulates loading of data
     this.getCount();
-    this.getDeadList();
-    console.log('Dead Bids Table did mount.');
+    this.getSourcesList();
+    console.log('Sources Table did mount.');
   }
 
   render() {
@@ -79,7 +79,7 @@ class DeadBidsTable extends Component {
     return (
       <div>
       <NewItemModal buttonName={'New Quote'} header={'NEW QUOTE'}/>
-      <PaginateTables totalPages={pages}  handlePagination={this.getDeadList}/>
+      <PaginateTables totalPages={pages}  handlePagination={this.getSourcesList}/>
     <Table compact size='small'>
       <TableHeader/>
       {this.state.loading &&<Dimmer active>

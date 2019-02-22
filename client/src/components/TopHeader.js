@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Login from './Login';
-import UsersModal from './users/Users'
+import { Link } from 'react-router-dom';
+import UsersModal from './users/Users';
 import {
   Button,
   Grid,
@@ -23,7 +23,9 @@ class TopHeader extends Component {
               AVIATE ENTERPRISES, INC.
           </Header>
           <UsersModal/>
-          <LogoutButton/>
+          <Link to='/'>
+            <LogoutButton/>
+          </Link>
           </div>
         </Segment>
     )

@@ -11,7 +11,8 @@ import Users from './users/Users'
 const App = () => (
   <BrowserRouter>
       <div className = "container">
-        <Route path="/" component= {Main}/>
+        <Route exact path="/" component= {Login}/>
+        <Route path="/Main" component={Main}/>
         <Route path="/users" component={Users}/>
       </div>
   </BrowserRouter>

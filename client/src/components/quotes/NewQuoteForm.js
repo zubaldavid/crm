@@ -29,7 +29,7 @@ const revision = [
   {  value: '5', label: '5' },
 ]
 
-export function getQuoteNumber () {
+function getQuoteNumber () {
   fetch('/api/quote/open_bids/quote')
   .then(res => res.json())
   .then(q => {
@@ -49,7 +49,8 @@ class NewQuoteForm extends Component {
       errors: {},
       employees: [],
       agencies: [],
-      pointsOfContact: []
+      pointsOfContact: [],
+      agency: null,
     };
   }
 
@@ -57,6 +58,11 @@ class NewQuoteForm extends Component {
     let fields = this.state.fields;
     fields[e.target.name] = e.target.value;
     this.setState({fields});
+  }
+
+  handleChange = (agency) => {
+      this.setState({agency});
+      console.log('Chosen Agency: ', agency);
   }
 
   // Add a new bid to the database
@@ -72,27 +78,6 @@ class NewQuoteForm extends Component {
     });
   };
 
-  getDropDowns = () => {
-    fetch('/api/dropdowns')
-    .then(res => res.json())
-    .then(res => {
-      let tempContact = res.map(r => ({label: r.point_of_contact, value: r.point_of_contact}));
-      let tempAgency = res.map(r => ({label: r.agency, value: r.agency}));
-      this.setState({agencies:tempAgency, pointsOfContact :tempContact });
-      console.log("agencies", this.state.agencies);
-      console.log("contacts", this.state.pointsOfContact);
-    })
-  }
-
-  getQuoters = () => {
-    fetch('/api/users/quoters')
-    .then(res => res.json())
-    .then(res => {
-      let employeeList = res.map(r => ({label: r.first_name, value: r.first_name}));
-      this.setState({employees:employeeList});
-      console.log("quoters", this.state.employees);
-    })
-  }
 
   // Gets a single bid with id
   getSingleBid = (id) => {
@@ -102,10 +87,9 @@ class NewQuoteForm extends Component {
     .then(data => {
       this.setState({bid:data});
       console.log("bid details", this.state.bid);
-      this.setState({
-      quote_number : this.state.bid[0].quote,
-      agency : this.state.bid[0].agency,
-      })
+
+      this.state.fields.quote_number = this.state.bid[0].quote;
+      this.state.fields.agency = this.state.bid[0].agency;
       this.state.fields.point_of_contact = this.state.bid[0].point_of_contact;
       this.state.fields.solicitation = this.state.bid[0].solicitation;
       this.state.fields.revision = this.state.bid[0].revision;
@@ -120,6 +104,33 @@ class NewQuoteForm extends Component {
     });
   };
 
+  getAgencies = () => {
+    fetch('/api/dropdowns/agencies')
+    .then(res => res.json())
+    .then(res => {
+      let agencyList = res.map(r => ({label: r.agency, value: r.agency}));
+      this.setState({agencies:agencyList});
+    })
+  }
+
+  getContacts = () => {
+    fetch('/api/dropdowns/poc')
+    .then(res => res.json())
+    .then(res => {
+      let contacts = res.map(r => ({label: r.point_of_contact, value: r.point_of_contact}));
+      this.setState({pointsOfContact:contacts});
+    })
+  }
+
+  getQuoters = () => {
+    fetch('/api/users/quoters')
+    .then(res => res.json())
+    .then(res => {
+      let employeeList = res.map(r => ({label: r.first_name, value: r.first_name}));
+      this.setState({employees:employeeList});
+    })
+  }
+
   componentDidMount () {
     if (this.props.edit === 'true') {
       this.getSingleBid(this.props.id);
@@ -127,13 +138,14 @@ class NewQuoteForm extends Component {
     if (this.props.edit === 'new')  {
       this.state.fields.quote_number = getQuoteNumber();
     }
+    this.getAgencies();
+    this.getContacts();
     this.getQuoters();
-    this.getDropDowns();
     console.log('Quotes Form mounted');
   }
 
   render() {
-    const {employees, id, agencies,pointsOfContact} = this.state;
+    const {employees, id, agencies, pointsOfContact, agency} = this.state;
     const style = {
         form : { left: '15%', height:'80%', width: '80%'},
         button:{ flex: 1, flexDirection: 'row', alignItems: 'center'},
@@ -155,11 +167,11 @@ class NewQuoteForm extends Component {
       <br/>
         <div>{this.props.id} </div>
       <Grid.Row centered>
-        <Form style={style.form}>
+        <Form style={style.form} onSubmit={this.submitForm}>
          <Form.Group>
-           <Form.Field required width={5}>
+           <Form.Field disabled required width={5}>
              <label>Quote Number</label>
-             <Input fluid placeholder='Quote Number'
+             <Input  fluid placeholder='Quote Number'
               name='quote_number'
               type='text'
               value={this.state.fields.quote_number}
@@ -171,8 +183,8 @@ class NewQuoteForm extends Component {
              <Select fluid placeholder='Agency'
              name='agency'
              options={agencies}
-             value={this.state.fields.agency}
-             onChange={this.handleInputChange}
+             value={agency}
+             onChange={this.handleChange}
              />
            </Form.Field>
            <Form.Field required width={5}>
@@ -203,7 +215,7 @@ class NewQuoteForm extends Component {
              options={revision}
              defaultValue= '0'
              name='revision'
-             value={this.state.fields.revison}
+             value={this.state.fields.revision}
              onChange={this.handleInputChange}
              />
            </Form.Field>

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import OpenBidsTable from './OpenBidsTable';
-import BilledBidsTable from './BilledBidsTable';
 import AwardsBidsTable from './AwardsBidsTable';
+import BilledBidsTable from './BilledBidsTable';
 import CompletedBidsTable from './CompletedBidsTable';
+import OpenBidsTable from './OpenBidsTable';
+import SourcesSoughtTable from './SourcesSoughtTable';
 import DeadBidsTable from './DeadBidsTable';
 import {
   Button,
@@ -105,7 +106,7 @@ const panes = [
   { menuItem: { key: 'sources sought', icon: 'speakap', content: 'Sources Sought'},
       render: () =>
       <Tab.Pane attached={false}>
-
+          <SourcesSoughtTable/>
       </Tab.Pane>
   },
   { menuItem: { key: 'dead', icon: 'delete', content: 'Dead',},

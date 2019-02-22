@@ -1,9 +1,24 @@
 const db = require('../database');
 
 class DropDowns {
-  static retreiveAll(callback) {
-    let limit = 50;
-    db.query('SELECT * from dropdowns limit ($1)',[limit], function (err,res) {
+  static retreiveAgencies(callback) {
+    db.query('SELECT * from agency_dropdown', function (err,res) {
+      if(err.error)
+      return callback(err);
+      callback(res);
+    });
+  }
+
+  static retreiveContacts(callback) {
+    db.query('SELECT * from poc_dropdown', function (err,res) {
+      if(err.error)
+      return callback(err);
+      callback(res);
+    });
+  }
+
+  static retreiveVendors(callback) {
+    db.query('SELECT * from vendor_dropdown', function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);

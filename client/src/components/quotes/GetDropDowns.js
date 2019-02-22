@@ -14,14 +14,3 @@ export const revision = [
   {  value: '4', label: '4' },
   {  value: '5', label: '5' },
 ]
-
-// Quote Form - Employee
-export function getQuoters (){
-  fetch('/api/users/quoters')
-  .then(res => res.json())
-  .then(res => {
-    let employeeList = res.map(r => r.first_name);
-    this.setState({quoters: employeeList});
-    console.log("quoters", this.state.quoters)
-  })
-}

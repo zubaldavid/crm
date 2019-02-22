@@ -1,20 +1,20 @@
 var express = require('express');
-var BilledBids = require('../../models/quote/billed_bids');
+var DeadBids =require('../../models/quote/dead_bids');
 var router = express.Router();
 
-// Get all awarded quotes from the the database by page.
+// Get all quotes dead quotes from the the database by page.
 router.get('/', async function(req, res) {
   let page = req.query.page;
-  BilledBids.retreiveAll(page, function(err, result) {
+  DeadBids.retreiveAll(page, function(err, result) {
     if(err)
       return res.json(err);
     return res.json(result);
   });
 });
 
-// Get count of all awarded files for pagination
+// Get count of all dead files for pagination
 router.get('/count', async function(req, res) {
-  BilledBids.getCount(function(err, result) {
+  DeadBids.getCount(function(err, result) {
     if(err)
       return res.json(err);
     return res.json(result);

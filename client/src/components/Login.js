@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import main from './Main'
 
@@ -37,7 +38,9 @@ class Login extends Component {
                   placeholder='Password'
                   type='password'
                 />
-                  <Button color='blue' fluid size='large' onClick={this.loginToMain}> Log In</Button>
+                <Link to='/main' >
+                  <Button color='blue' fluid size='large'> Log In</Button>
+                </Link>
               </Segment>
             </Form>
             <Message>
