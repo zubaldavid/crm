@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AwardsBidsTable from './AwardsBidsTable';
-import BilledBidsTable from './BilledBidsTable';
-import CompletedBidsTable from './CompletedBidsTable';
-import OpenBidsTable from './OpenBidsTable';
-import SourcesSoughtTable from './SourcesSoughtTable';
-import DeadBidsTable from './DeadBidsTable';
+import AwardsBidsTable from './tables/AwardsBidsTable';
+import BilledBidsTable from './tables/BilledBidsTable';
+import CompletedBidsTable from './tables/CompletedBidsTable';
+import OpenBidsTable from './tables/OpenBidsTable';
+import SourcesSoughtTable from './tables/SourcesSoughtTable';
+import DeadBidsTable from './tables/DeadBidsTable';
 import {
   Button,
   Input,

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {dateFormat, numberFormat, percentFormat} from '../Formats';
 import PropTypes from 'prop-types';
-import PaginateTables from '../PaginateTables'
-import EditFileModal from './EditFileModal'
+import MainModal from '../MainModal'
+import {dateFormat, numberFormat, percentFormat} from '../../Formats';
+import PaginateTables from '../../PaginateTables'
 import {
   Button,
   Dimmer,
@@ -93,7 +93,7 @@ class BilledBidsTable extends Component {
                 <Table.Cell>{q.delivery_city}</Table.Cell>
                 <Table.Cell>{q.tracking_number}</Table.Cell>
                 <Table.Cell>{q.bill_balance}</Table.Cell>
-                <Table.Cell><EditFileModal id={q.id} header={'quote'}/></Table.Cell>
+                <Table.Cell><MainModal icon={true} id={q.id} header={'EDIT BILLED'}/></Table.Cell>
               </Table.Row>
             )}
         </Table>

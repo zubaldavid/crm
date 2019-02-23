@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {dateFormat} from '../Formats';
+import {dateFormat} from '../../Formats';
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
 import Select from 'react-select';
@@ -87,7 +87,6 @@ class NewQuoteForm extends Component {
     .then(data => {
       this.setState({bid:data});
       console.log("bid details", this.state.bid);
-
       this.state.fields.quote_number = this.state.bid[0].quote;
       this.state.fields.agency = this.state.bid[0].agency;
       this.state.fields.point_of_contact = this.state.bid[0].point_of_contact;
@@ -100,7 +99,6 @@ class NewQuoteForm extends Component {
       this.state.fields.due_date = this.state.bid[0].due_time;
       this.state.fields.due_time = dateFormat(this.state.bid[0].due_date);
       this.state.fields.date_sent = dateFormat(this.state.bid[0].date_sent);
-
     });
   };
 
@@ -131,13 +129,17 @@ class NewQuoteForm extends Component {
     })
   }
 
-  componentDidMount () {
+  chooseAction = () => {
     if (this.props.edit === 'true') {
       this.getSingleBid(this.props.id);
     }
-    if (this.props.edit === 'new')  {
+    if (this.props.edit === 'new quote')  {
       this.state.fields.quote_number = getQuoteNumber();
     }
+  }
+
+  componentDidMount () {
+    this.chooseAction();
     this.getAgencies();
     this.getContacts();
     this.getQuoters();

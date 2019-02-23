@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {dateFormat} from '../Formats';
 import PropTypes from 'prop-types';
-import PaginateTables from '../PaginateTables'
-import NewItemModal from './NewItemModal';
-import EditFileModal from './EditFileModal';
+//import {} from '../FetchCalls'
+import {dateFormat} from '../../Formats';
+import MainModal from '../MainModal';
+import PaginateTables from '../../PaginateTables'
 import {
   Button,
   Dimmer,
@@ -36,12 +36,12 @@ class DeadBidsTable extends Component {
       loading: true,
       count: 0
     };
-    this.getSourcesList = this.getSourcesList.bind(this);
+    this.getDeadList = this.getDeadList.bind(this);
   }
 
-  getSourcesList (activePage) {
+  getDeadList (activePage) {
     if ( activePage === undefined) {activePage = 1;}
-    let url = ('/api/quote/ss_bids/?page=' + activePage);
+    let url = ('/api/quote/dead_bids/?page=' + activePage);
     console.log('Quote List:', url);
     fetch(url)
     .then(res => res.json())
@@ -52,7 +52,7 @@ class DeadBidsTable extends Component {
   }
 
   getCount () {
-    fetch('/api/quote/ss_bids/count')
+    fetch('/api/quote/dead_bids/count')
     .then(res => res.json())
     .then(data => {
       this.setState({count:data[0].count});
@@ -63,8 +63,8 @@ class DeadBidsTable extends Component {
   componentDidMount () {
     setTimeout(() => this.setState({ loading: false }), 1000); // simulates loading of data
     this.getCount();
-    this.getSourcesList();
-    console.log('Sources Table did mount.');
+    this.getDeadList();
+    console.log('Dead Bids Table did mount.');
   }
 
   render() {
@@ -78,8 +78,7 @@ class DeadBidsTable extends Component {
     };
     return (
       <div>
-      <NewItemModal buttonName={'New Quote'} header={'NEW QUOTE'}/>
-      <PaginateTables totalPages={pages}  handlePagination={this.getSourcesList}/>
+      <PaginateTables totalPages={pages}  handlePagination={this.getDeadList}/>
     <Table compact size='small'>
       <TableHeader/>
       {this.state.loading &&<Dimmer active>
@@ -99,7 +98,7 @@ class DeadBidsTable extends Component {
               <Table.Cell>{dateFormat(q.due_date)}</Table.Cell>
               <Table.Cell>{q.due_time}</Table.Cell>
               <Table.Cell>{dateFormat(q.date_sent)}</Table.Cell>
-              <Table.Cell><EditFileModal id={q.id} header={'quote'}/></Table.Cell>
+              <Table.Cell><MainModal icon={true} id={q.id} header={'EDIT BID'}/></Table.Cell>
             </Table.Row>
           )}
       </Table>

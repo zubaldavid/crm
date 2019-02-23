@@ -1,14 +1,15 @@
 import React, { Lazy, Component } from 'react';
-import {dateFormat, numberFormat} from '../Formats';
 import PropTypes from 'prop-types';
-import NewItemModal from './NewItemModal';
-import EditFileModal from './EditFileModal';
-import PayementsTableModal from './PaymentsTableModal';
-import PaginateTables from '../PaginateTables';
+//import {getBidsList, getCount} from '../FetchCalls'
+import {dateFormat, numberFormat} from '../../Formats';
+import MainModal from '../MainModal';
+import PaginateTables from '../../PaginateTables';
+import PayementsTableModal from '../PaymentsTableModal';
 import {
   Button,
   Dimmer,
   Loader,
+  Segment,
   Table
 } from 'semantic-ui-react'
 
@@ -53,7 +54,7 @@ class AwardsBidsTable extends Component {
     });
   }
 
-  getCount (count) {
+  getCount () {
     fetch('/api/quote/awarded_bids/count')
     .then(res => res.json())
     .then(data => {
@@ -74,9 +75,8 @@ class AwardsBidsTable extends Component {
     const pages = Math.round(count / 20) + 1;
     return (
       <div>
-      <NewItemModal buttonName={'New Payment'} header={'NEW PAYMENT'} />
+      <MainModal button={'true'} buttonName={'New Payment'} header={'NEW PAYMENT'} />
       <PaginateTables totalPages={pages} handlePagination={this.getQuotesList}/>
-      <br/>
       <Table compact size='small'>
         <TableHeader/>
         {this.state.loading &&<Dimmer active>
@@ -97,7 +97,7 @@ class AwardsBidsTable extends Component {
               <Table.Cell>{numberFormat(q.cost)}</Table.Cell>
               <Table.Cell>{dateFormat(q.date_exp_delivery)}</Table.Cell>
               <Table.Cell>{dateFormat(q.date_po_ordered)}</Table.Cell>
-              <Table.Cell><EditFileModal id={q.id} header={'quote'}/></Table.Cell>
+              <Table.Cell><MainModal icon={'true'} id={q.id} header={'EDIT QUOTE'}/></Table.Cell>
               <Table.Cell><PayementsTableModal invoice={q.invoice}  /></Table.Cell>
             </Table.Row>
           )}

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import {dateFormat} from '../Formats';
-import PaginateTables from '../PaginateTables';
-import NewItemModal from './NewItemModal';
-import EditFileModal from './EditFileModal';
+import {dateFormat} from '../../Formats';
+import MainModal from '../MainModal';
+import PaginateTables from '../../PaginateTables';
 import {
   Dimmer,
   Loader,
@@ -64,7 +63,7 @@ class OpenBidsTable extends Component {
     this.getQuotesList();
     console.log('Open Bids Table did mount.');
   }
-  
+
   render() {
     const {allQuotes, loading, count} = this.state;
     const pages = Math.round(count / 20) + 1;
@@ -76,7 +75,7 @@ class OpenBidsTable extends Component {
     };
     return (
       <div>
-        <NewItemModal buttonName={'New Quote'} header={'NEW QUOTE'}/>
+        <MainModal button={'true'} buttonName={'New Quote'} header={'NEW QUOTE'} />
         <PaginateTables totalPages={pages}  handlePagination={this.getQuotesList}/>
       <Table compact size='small'>
         <TableHeader/>
@@ -98,7 +97,7 @@ class OpenBidsTable extends Component {
                 <Table.Cell>{dateFormat(q.due_date)}</Table.Cell>
                 <Table.Cell>{q.due_time}</Table.Cell>
                 <Table.Cell>{dateFormat(q.date_sent)}</Table.Cell>
-                <Table.Cell><EditFileModal id={q.id} header={'quote'}/></Table.Cell>
+                <Table.Cell><MainModal icon={'true'} id={q.id} header={'EDIT QUOTE'}/></Table.Cell>
               </Table.Row>
             )}
         </Table>

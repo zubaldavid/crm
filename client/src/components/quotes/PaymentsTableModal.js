@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {dateFormat} from '../Formats';
 import PropTypes from 'prop-types';
-import NewItemModal from './NewItemModal';
-import EditFileModal from './EditFileModal';
+import MainModal from './MainModal';
 import {
   Dimmer,
   Icon,
@@ -65,7 +64,7 @@ class PaymentsTableModal extends Component {
      <Modal style={style.modal} trigger={<Icon hover name='bars'/> }>
        <Modal.Header style={style.head}> PAYMENT(S) FOR INV: {this.props.invoice}</Modal.Header>
        <Modal.Content>
-          <NewItemModal buttonName={'New Quote'} header={'NEW QUOTE'}/>
+          <MainModal  button={'true'} buttonName={'New Payment'} header={'NEW PAYMENT'}/>
           <br/>
           <br/>
          <Table compact size='small'>
@@ -86,7 +85,7 @@ class PaymentsTableModal extends Component {
                    <Table.Cell>{q.payment_method}</Table.Cell>
                    <Table.Cell>{q.status}</Table.Cell>
                    <Table.Cell>{q.comment}</Table.Cell>
-                   <Table.Cell><EditFileModal id={q.id} header={'quote'}/></Table.Cell>
+                   <Table.Cell><MainModal icon={'true'} id={q.id} header={'EDIT PAYMENT'}/></Table.Cell>
                  </Table.Row>
                )}
          </Table>

@@ -77,7 +77,7 @@ export class UsersTable extends Component {
     };
     return (
       <div>
-        <Table celled compact definition>
+        <Table  compact definition>
           <TableHeaders/>
           <Table.Body>
               {users.map(d =>
@@ -112,7 +112,7 @@ export class UsersTable extends Component {
                       /></Table.Cell>
 
                   <Table.Cell>
-                    <Button onClick={this.props.edituser}><Icon name='edit'/></Button>
+                    <Icon name='edit' onClick={this.props.edituser}/>
                   </Table.Cell>
                 </Table.Row>
               )}

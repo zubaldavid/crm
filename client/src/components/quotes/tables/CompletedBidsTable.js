@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { dateFormat, percentFormat} from '../Formats';
 import PropTypes from 'prop-types';
-import EditFileModal from './EditFileModal'
-import PaginateTables from '../PaginateTables'
+import MainModal from '../MainModal'
+import { dateFormat, percentFormat} from '../../Formats';
+import PaginateTables from '../../PaginateTables'
 import {
   Dimmer,
   Header,
@@ -114,7 +114,7 @@ class CompletedBidsTable extends Component {
                 <Table.Cell>{q.profit}</Table.Cell>
                 <Table.Cell>{percentFormat(q.profit_margin)}</Table.Cell>
                 <Table.Cell>{q.balance}</Table.Cell>
-                <Table.Cell><EditFileModal id={q.id} header={'quote'}/></Table.Cell>
+                <Table.Cell><MainModal icon={true} id={q.id} header={'quote'}/></Table.Cell>
               </Table.Row>
             )}
         </Table>
