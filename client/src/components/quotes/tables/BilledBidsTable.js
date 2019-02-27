@@ -93,7 +93,7 @@ class BilledBidsTable extends Component {
                 <Table.Cell>{q.delivery_city}</Table.Cell>
                 <Table.Cell>{q.tracking_number}</Table.Cell>
                 <Table.Cell>{q.bill_balance}</Table.Cell>
-                <Table.Cell><MainModal icon={true} id={q.id} header={'EDIT BILLED'}/></Table.Cell>
+                <Table.Cell><MainModal icon={'true'} invoice={q.invoice} header={'EDIT BILLED'}/></Table.Cell>
               </Table.Row>
             )}
         </Table>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NewQuoteForm from './forms/NewQuoteForm';
-import NewPaymentForm from './forms/NewPaymentForm';
+import NewPaymentForm from './forms/NewPaymentForm'
+import BilledForm from './forms/BilledForm';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -18,7 +19,7 @@ function buttonTrigger (buttonName) {
 
 function iconTrigger () {
   return (
-    <Icon hover name='edit'/>
+    <Icon name='edit'/>
   )
 }
 
@@ -26,55 +27,70 @@ class MainModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showQuote: true,
-      showPayment: true,
+      showQuote: true, showPayment: true, showBilled: true,
     };
-    this.openQuoteForm = this.openQuoteForm.bind(this);
-    this.openPaymentForm = this.openPaymentForm.bind(this);
   }
 
-  openQuoteForm () {
+  openQuoteForm = () => {
     this.setState(state => ({
-      showQuote: true,
-      showPayment: false,
+      showQuote: true, showPayment: false, showBilled:false
     }));
   }
 
-  openPaymentForm () {
+  openPaymentForm = () => {
     this.setState(state => ({
-      showQuote: false,
-      showPayment: true,
+      showQuote: false, showPayment: true,showBilled: false
     }));
   }
 
-  displayForm () {
-    if (this.props.header === 'NEW QUOTE' || this.props.header === 'EDIT QUOTE')
-      this.openQuoteForm();
-    if (this.props.header === 'NEW PAYMENT' || this.props.header === 'EDIT PAYMENT')
-      this.openPaymentForm();
+  openBilledForm = () => {
+    this.setState(state => ({
+      showQuote: false,  showPayment: false, showBilled: true
+    }));
   }
 
-  showTrigger () {
+  displayForm (header) {
+    switch(header) {
+      case 'NEW QUOTE':
+        return this.openQuoteForm();
+        break;
+      case 'EDIT QUOTE':
+        return this.openQuoteForm();
+        break;
+      case 'NEW PAYMENT':
+        return this.openPaymentForm();
+        break;
+      case 'EDIT PAYMENT':
+        return this.openPaymentForm();
+        break;
+      case 'EDIT BILLED':
+        return this.openBilledForm();
+        break;
+      default:
+  }
+}
+
+  showTrigger = () => {
     if (this.props.button === 'true')  return buttonTrigger(this.props.buttonName);
     if (this.props.icon === 'true')  return iconTrigger();
   }
 
   componentDidMount () {
-    this.displayForm();
+    this.displayForm(this.props.header);
     this.showTrigger();
     console.log('New Item modal did mount.');
   }
 
   render() {
     return (
-      <Modal style={style.modal} trigger={this.showTrigger()}>
+      <Modal style={style.modal} trigger={this.showTrigger()} closeIcon>
         <Modal.Header style={style.head}>{this.props.header}</Modal.Header>
          <Modal.Content>
-          { this.state.showQuote && <NewQuoteForm edit={'new quote'}/>}
-          { this.state.showPayment && <NewPaymentForm />}
+          { this.state.showQuote && <NewQuoteForm id={this.props.id} form={'quote'} type={'new'} />}
+          { this.state.showPayment && <NewPaymentForm id={this.props.id} form={'payemnt'} type={'new'}/>}
+          { this.state.showBilled && <BilledForm invoice={this.props.invoice} form={'billed'}/>}
          </Modal.Content>
       </Modal>
-
     )
   }
 }
@@ -90,7 +106,8 @@ MainModal.propTypes = {
   buttonName: PropTypes.string,
   header: PropTypes.string,
   icon: PropTypes.string,
-  id: PropTypes.string
+  id: PropTypes.string,
+  invoice: PropTypes.string
 }
 
 export default MainModal;

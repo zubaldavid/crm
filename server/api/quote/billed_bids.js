@@ -21,4 +21,14 @@ router.get('/count', async function(req, res) {
   });
 });
 
+// Get sing bill of all awarded files for pagination
+router.get('/invoice', async function(req, res) {
+  let invoice = req.query.invoice;
+  BilledBids.getSingleBill(invoice, function(err, result) {
+    if(err)
+      return res.json(err);
+    return res.json(result);
+  });
+});
+
 module.exports = router;

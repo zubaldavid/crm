@@ -57,7 +57,7 @@ class Dashboard extends Component {
               <Grid.Column>
                 <Segment >
                   <Label attached='top'>Win Ratio</Label>
-                  <Statistic value='23%'/>
+                  <Statistic  value='23%'/>
                 </Segment>
               </Grid.Column>
             </Grid.Row>

@@ -42,3 +42,12 @@ export function getMargin () {
   });
   return margin;
 }
+
+
+export async function getQuoters () {
+  const result = await fetch('/api/users/quoters')
+    const quoters = await result.json();
+    Promise.resolve(quoters);
+    return quoters;
+    console.log("Async Quoters: ", quoters);
+};
