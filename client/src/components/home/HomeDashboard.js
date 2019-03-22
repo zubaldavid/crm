@@ -4,9 +4,16 @@ import {
   Grid,
   Header,
   Label,
+  Progress,
   Segment,
   Statistic
 } from 'semantic-ui-react'
+
+const quoters = [ {name:'Aaron', value:10},{name:'Erica', value:5}, {name:'Julie', value:8}, {name:'Kendall', value:10},
+{name:'Nadia', value:4}, {name:'Nina', value:5}, {name:'Sergio',value:7}, {name:'Tiffany', value:9}];
+
+const quoteStats = [{label:'Intake', value:12},{label:'Submitted', value:5},{label:'Awarded', value:10},{label:'Dead', value:12},{label:'Win Ratio', value:'88%'}]
+const graingerStats = [{label:'Intake', value:8},{label:'Submitted', value:3},{label:'Awarded', value:2},{label:'Dead', value:1},{label:'Win Ratio', value:'25%'}]
 
 class Dashboard extends Component {
   constructor(props) {
@@ -15,58 +22,61 @@ class Dashboard extends Component {
     };
   }
 
-  render() {
-    const yesterday = new Date();
+  componentDidMount () {
 
-    const style = {
-      panes : {
-        width: '92%'
-      }
-    }
+  }
+
+  render() {
     return (
       <div >
-        <Label> QUOTES </Label>
-        <br/>
-        <br/>
-          <Grid>
-            <Grid.Row>
-              <Grid.Column >
-                <Segment >
-                  <Label attached='top'>Intake</Label>
-                  <Statistic value='20'/>
-                </Segment>
-              </Grid.Column>
-              <Grid.Column>
-                <Segment >
-                <Label attached='top'>Submitted</Label>
-                <Statistic value='20'/>
-                </Segment>
-              </Grid.Column>
-              <Grid.Column>
-                <Segment >
-                  <Label attached='top'>Awarded</Label>
-                  <Statistic value='20'/>
-                </Segment>
-              </Grid.Column>
-              <Grid.Column>
-                <Segment >
-                  <Label attached='top'>Dead</Label>
-                  <Statistic value='20'/>
-                </Segment>
-              </Grid.Column>
-              <Grid.Column>
-                <Segment >
-                  <Label attached='top'>Win Ratio</Label>
-                  <Statistic  value='23%'/>
-                </Segment>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-          <br/>
-          <Label> Year to Date GRAINGER</Label>
+      <Grid columns={2} style={style.grid}>
+      <Grid.Column>
+          <Grid.Column> <Segment compact raised > <Header> QUOTES | $25,721</Header></Segment> </Grid.Column>
+          <Segment raised >
+            <Statistic.Group >
+            { quoteStats.map(stats =>
+              <Statistic>
+              <Statistic.Value>{stats.value}</Statistic.Value>
+              <Statistic.Label>{stats.label}</Statistic.Label>
+              </Statistic>
+            )}
+            </Statistic.Group>
+          </Segment>
+          <Segment style={style.graph} raised>
+            <Header> Quoters Awards Q1 </Header>
+            { quoters.map(quoter =>
+            <Progress progress='value' value={quoter.value} total={25} size='small' color='blue'> {quoter.name} </Progress>
+            )}
+          </Segment>
+          </Grid.Column>
+
+          <Grid.Column>
+          <Segment compact raised> <Header> GRAINGER | $17,026</Header></Segment>
+            <Segment raised >
+              <Statistic.Group >
+              { graingerStats.map(stats =>
+                <Statistic>
+                <Statistic.Value>{stats.value}</Statistic.Value>
+                <Statistic.Label>{stats.label}</Statistic.Label>
+                </Statistic>
+              )}
+              </Statistic.Group>
+            </Segment>
+            <Segment style={style.graph} raised>
+              <Header> Grainger Awards Q1</Header>
+              <Progress progress='value' value={6} total={20} size='small' color='blue'> Michael </Progress>
+              <Progress progress='value' value={10} total={20} size='small' color='blue'> Jared </Progress>
+              <Progress progress='value' value={16} total={20} size='small'color='blue'> Sergio </Progress>
+              <Progress progress='value' value={3} total={20} size='small'color='blue'> Steven </Progress>
+            </Segment>
+            </Grid.Column>
+            </Grid>
       </div>
     )
   }
 }
 
+const style = {
+  grid:{width: '90%'},
+}
 export default Dashboard

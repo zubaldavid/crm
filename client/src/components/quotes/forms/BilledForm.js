@@ -72,82 +72,83 @@ class BilledForm extends Component {
     const {dateBilled, value, dateDelivered, receivedDate} = this.state;
     return (
       <Grid.Row centered>
-        <Form style={style.form}>
-         <Form.Group>
-           {disabledFields1.map((field) => {
-           let value = `this.state.field.${field}`
-           return (
-             <Form.Field disabled width={6}>
+
+          <Form style={style.form}>
+           <Form.Group>
+             {disabledFields1.map((field) => {
+             let value = `this.state.field.${field}`
+             return (
+               <Form.Field width={6}>
+               <label>{field}</label>
+               <Input readOnly type='text'
+                placeholder={field}
+                name={field}
+                value={value.value}
+                onChange={this.handleInputChange}
+              /></Form.Field> )})}
+          </Form.Group>
+
+          <Form.Group>
+              {disabledFields2.map((field) => {
+              let value = `this.state.field.${field}`
+              return (
+                <Form.Field width={6}>
+                <label>{field}</label>
+                <Input readOnly type='text'
+                 placeholder={field}
+                 name={field}
+                 value={value.value}
+                 onChange={this.handleInputChange}
+               /></Form.Field> )})}
+
+               <Form.Field readOnly width={5}>
+                 <label>Date Billed</label>
+                 <DatePicker type='date'
+                 name='received_date'
+                 selected={dateBilled}
+                 onChange={this.handleDateBilled}
+               /></Form.Field>
+          </Form.Group>
+
+          <Form.Group>
+             {locationFields.map((field) => {
+             let value = `this.state.field.${field}`
+             return (
+             <Form.Field width={5}>
              <label>{field}</label>
              <Input type='text'
               placeholder={field}
               name={field}
               value={value.value}
               onChange={this.handleInputChange}
-            /></Form.Field> )})}
-        </Form.Group>
+              /></Form.Field> )})}
+          </Form.Group>
 
-        <Form.Group>
-          {disabledFields2.map((field) => {
-          let value = `this.state.field.${field}`
-          return (
-            <Form.Field disabled width={6}>
-            <label>{field}</label>
-            <Input type='text'
+          <Form.Group>
+             {netEvents.map((field) => {
+             let value = `this.state.field.${field}`
+             return (
+             <Form.Field width={4}>
+             <label>{field}</label>
+             <Input
+             icon='dollar'
+             iconPosition='left
              placeholder={field}
              name={field}
              value={value.value}
              onChange={this.handleInputChange}
-           /></Form.Field> )})}
+             /></Form.Field> )})}
+          </Form.Group>
 
-           <Form.Field disabled width={5}>
-             <label>Date Billed</label>
-             <DatePicker type='date'
-             name='received_date'
-             selected={dateBilled}
-             onChange={this.handleDateBilled}
-           /></Form.Field>
-        </Form.Group>
-        <br/>
-
-       <Form.Group>
-       {locationFields.map((field) => {
-        let value = `this.state.field.${field}`
-        return (
-           <Form.Field width={5}>
-            <label>{field}</label>
-           <Input type='text'
-            placeholder={field}
-            name={field}
-            value={value.value}
-            onChange={this.handleInputChange}
-        /></Form.Field> )})}
-       </Form.Group>
-
-       <Form.Group>
-       {netEvents.map((field) => {
-         let value = `this.state.field.${field}`
-         return (
-           <Form.Field width={4}>
-           <label>{field}</label>
-           <Input
-           icon='dollar'
-           iconPosition='left
-           placeholder={field}
-           name={field}
-           value={value.value}
-           onChange={this.handleInputChange}
-           /></Form.Field> )})}
-         </Form.Group>
-
-         <Form.Group>
-           {billing.map((field) => {
-            let value = `this.state.field.${field}`
-            return (
+          <Form.Group>
+             {billing.map((field) => {
+             let value = `this.state.field.${field}`
+             return (
              <Form.Field width={4}>
              <label>{field}</label>
              <Input
               iconPosition='left
+              type='text'
               icon='dollar'
               placeholder={field}
               name={field}
@@ -157,25 +158,25 @@ class BilledForm extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Field width={5}>
-              <label>Date Delivered</label>
-              <DatePicker type='date'
-              selected={dateDelivered}
-              onChange={this.handleDateDelivered}
-            /></Form.Field>
-            <Form.Field  width={5}>
-              <label>Due Date</label>
-              <DatePicker type='date'
-              name='received_date'
-              selected={dateBilled}
-              onChange={this.handleDateBilled}
-            /></Form.Field>
-            <Form.Field  width={5}>
-              <label>Received Date</label>
-              <DatePicker type='date'
-              selected={receivedDate}
-              onChange={this.handleReceivedDate}
-            /></Form.Field>
+              <Form.Field width={5}>
+                <label>Date Delivered</label>
+                <DatePicker type='date'
+                selected={dateDelivered}
+                onChange={this.handleDateDelivered}
+              /></Form.Field>
+              <Form.Field  width={5}>
+                <label>Due Date</label>
+                <DatePicker type='date'
+                name='received_date'
+                selected={dateBilled}
+                onChange={this.handleDateBilled}
+              /></Form.Field>
+              <Form.Field  width={5}>
+                <label>Received Date</label>
+                <DatePicker type='date'
+                selected={receivedDate}
+                onChange={this.handleReceivedDate}
+              /></Form.Field>
           </Form.Group>
 
           <Grid.Row centered>

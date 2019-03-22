@@ -3,7 +3,9 @@ import { PropTypes } from 'prop-types';
 import {
   Button,
   Checkbox,
+  Dimmer,
   Icon,
+  Loader,
   Popup,
   Table
 } from 'semantic-ui-react'
@@ -32,7 +34,8 @@ export class UsersTable extends Component {
        users: [],
        quoters: {},
        graingerAccess: {},
-       admins: {}
+       admins: {},
+       loading: true
     };
   }
 
@@ -66,6 +69,7 @@ export class UsersTable extends Component {
   }
 
   componentDidMount () {
+      setTimeout(() => this.setState({ loading: false }), 800); // simulates loading of data
     this.getUsersList();
     console.log('Users Table did mount.');
   }
@@ -79,6 +83,9 @@ export class UsersTable extends Component {
       <div>
         <Table  compact definition>
           <TableHeaders/>
+          {this.state.loading &&<Dimmer active>
+            <Loader/>
+          </Dimmer> }
           <Table.Body>
               {users.map(d =>
                 <Table.Row key={d.id}>

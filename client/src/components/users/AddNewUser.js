@@ -38,7 +38,7 @@ class AddNewUser extends Component {
 
   handleAddUser = (e) => {
     e.preventDefault();
-    if(this.validateForm()) {
+    // if(this.validateForm()) {
       //let fields = this.state.fields;
       fetch('/api/users', {
         method: 'post',
@@ -57,10 +57,12 @@ class AddNewUser extends Component {
       fields["newPassword"] = "";
       setTimeout(() => {
         this.setState({fields: fields, showComplete:true})
+      }, 1000);
+      setTimeout(() => {
+        // Prop used to show Users table
+        this.props.showTableAgain();
       }, 2500);
-      // Prop used to show Users table
-      this.props.showTableAgain();
-    }
+  // }
   }
 
   validateForm () {

@@ -86,15 +86,14 @@ class SideBar extends Component {
   render() {
     const { visible } = this.state
     const style = {
-      div : { top:'.02em', left:'.5%', width: '99%', height: '63em', position:'relative'},
+      div : { top:'.01em', left:'.5%', width: '99%', height: '61em', position:'relative'},
       gridCol: {width: '90%'},
-      sidebar: {position:'sticky'}
     }
+    
     return (
       <div  style={style.div} >
         <Sidebar.Pushable as={Segment}>
           <Sidebar
-
             as={Menu}
             inverted
             vertical
@@ -105,7 +104,7 @@ class SideBar extends Component {
               <Icon name='home'/>
               Home
             </Menu.Item>
-            <Menu.Item as='a' onClick={this.openQuotes}>
+            <Menu.Item as='a' color='red' onClick={this.openQuotes}>
               <Icon name='quora'/>
               Quotes
             </Menu.Item>
@@ -125,10 +124,10 @@ class SideBar extends Component {
           <Sidebar.Pusher >
             <Segment basic>
               <Grid.Column style={style.gridCol}>
-              
+
               </Grid.Column>
               { this.state.home && <Dashboard/> }
-              { this.state.quotes && <QuoteTabBar/>  }
+              { this.state.quotes && <QuoteTabBar header='Quotes'/>  }
               { this.state.grainger && <GraingerTabBar/>}
             </Segment>
           </Sidebar.Pusher>

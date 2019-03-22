@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {dateFormat, numberFormat} from '../../Formats';
 import MainModal from '../MainModal';
 import PaginateTables from '../../PaginateTables';
-import PayementsTableModal from '../PaymentsTableModal';
+import PaymentsTableModal from '../PaymentsTableModal';
 import {
   Button,
   Dimmer,
@@ -14,7 +14,7 @@ import {
 } from 'semantic-ui-react'
 
 const headers = [
-  'INV', 'Q-Number', 'Agency','Point of Contact','Description','Status',
+  'INV', 'Quote Number', 'Agency','Point of Contact','Description','Status',
   'Buyer', 'Employee', 'Date PO Rec','PO Number', 'Cost','Date Exp Del',
   'Date PO Ordered',
 ]
@@ -98,7 +98,7 @@ class AwardsBidsTable extends Component {
               <Table.Cell>{dateFormat(q.date_exp_delivery)}</Table.Cell>
               <Table.Cell>{dateFormat(q.date_po_ordered)}</Table.Cell>
               <Table.Cell><MainModal icon={'true'} id={q.id} header={'EDIT QUOTE'}/></Table.Cell>
-              <Table.Cell><PayementsTableModal invoice={q.invoice}  /></Table.Cell>
+              <Table.Cell><PaymentsTableModal invoice={q.invoice}  /></Table.Cell>
             </Table.Row>
           )}
         </Table>

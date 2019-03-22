@@ -89,15 +89,15 @@ class NewPaymentForm extends Component {
     }
   }
 
-  // postNewAgency = (e) => {
-  //   fetch('/api/dropdowns', {
-  //     method: 'post',
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: JSON.stringify({
-  //       newAgency: this.state.newAgency,
-  //     })
-  //   })
-  // }
+  postNewVendor = (e) => {
+    fetch('/api/dropdowns/vendors', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        newAgency: this.state.newAgency,
+      })
+    })
+  }
 
   getVendors = () => {
     fetch('/api/dropdowns/vendors')
@@ -123,7 +123,7 @@ class NewPaymentForm extends Component {
     };
     return (
       <div>
-      <Popup style={style.popup} position='bottom left' trigger={<Button icon='plus' content='New Agency'/>} on='click'>
+      <Popup style={style.popup} position='bottom left' trigger={<Button icon='plus' content='New Vendor'/>} on='click'>
         <Grid divided columns='equal'>
          <Grid.Column>
             <Input fluid placeholder='...'

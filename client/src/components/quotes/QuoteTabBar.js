@@ -8,6 +8,7 @@ import SourcesSoughtTable from './tables/SourcesSoughtTable';
 import DeadBidsTable from './tables/DeadBidsTable';
 import {
   Button,
+  Header,
   Input,
   Label,
   Menu,
@@ -74,11 +75,19 @@ function searchBar () {
   )
 }
 
+function sideBarMenu (header) {
+  return (
+    <Menu.Item disabled position='right'>
+      <Header>{header}</Header>
+    </Menu.Item>
+  )
+}
+
 const panes = [
   { menuItem: { key: 'open', icon: 'folder open outline', content: 'Open Bids', color: 'blue'},
       render: () =>
         <Tab.Pane attached={true}>
-          <OpenBidsTable/>
+          <OpenBidsTable />
         </Tab.Pane>
   },
   { menuItem: (
@@ -134,12 +143,9 @@ class QuoteTabBar extends Component {
 
   render() {
     const {color, activeIndex} = this.state;
-    const style = {
-      panes : { width: '92%'},
-    }
     return (
       <div>
-        <Tab
+        <Tab style={style.tabBar}
           onTabChange={this.handleTabChange}
           style={style.panes}
           menu={{color, inverted:true, attached: false, tabular: false }}
@@ -150,4 +156,11 @@ class QuoteTabBar extends Component {
   }
 }
 
+const style = {
+  panes : { width: '92%', height: '80%'},
+}
+
+QuoteTabBar.propTypes = {
+  header : PropTypes.string,
+}
 export default QuoteTabBar;
