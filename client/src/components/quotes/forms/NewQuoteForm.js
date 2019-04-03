@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {dateFormat} from '../../Formats';
+import {publishLog} from '../../appLogs';
 import {getQuoters} from '../FetchCalls'
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
@@ -37,11 +38,11 @@ class NewQuoteForm extends Component {
       //  Object stores multiple values
       bid: {}, errors: {}, fields: {}, employees: [], agencies: [], pointsOfContact: [],
       // Select option states
-      agency: '', employee: '', poc: '', revision: 0, status: '',
+      agency: this.props.tableAgency, employee: '', poc: '', revision: 0, status: '',
       //Dates
       receivedDate: 0, dueDate: 0,dueTime: 0,dateSent:0,datePO: 0,
       // Misc
-      poFields: false, editSelect: false,
+      poFields: false, editSelect: false, buttonAction: 'edit'
     };
   }
   // Input field handler
@@ -53,8 +54,8 @@ class NewQuoteForm extends Component {
   }
 
   // All the select handlers for the quote form
-  handleAgency = (agency, newAgency) => { this.setState({agency: newAgency}); console.log(agency); }
-  handleEmployee = (employee) => { this.setState({employee}); console.log(employee);}
+  handleAgency = (agency) => { this.setState({agency}); console.log(agency); }
+  handleEmployee = (employee) => { this.setState({employee:employee}); console.log(employee);}
   handlePOC = (poc) => { this.setState({poc});; console.log(poc);}
   handleRevision = (revision) => { this.setState({revision}); console.log(revision);}
   handleStatus = (status) => {
@@ -69,27 +70,23 @@ class NewQuoteForm extends Component {
   handleDateSent = (dateSent) => { this.setState({dateSent}); console.log(dateSent);}
   handleDatePO = (datePO) => { this.setState({datePO}); console.log(datePO);}
 
-  validInput () {
-    let fields = this.state.fields;
-    let errors = this.state.errors;
-    let formIsValid = true;
+  submitForm = () => {
+    console.log("What is this:", this.state.agency, this.state.poc, this.state.employee );
+    console.log(this.state.fields);
+    publishLog("David", "Edit quote:" + this.state.fields.quote_number);
+    fetch('api/quote/open_bids', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
 
-    if (!fields["newAgency"]) {
-      formIsValid = false;
-      errors["newAgency"] = "Please enter an agency."
-    }
+      })
+    })
+    .then(res => res.json())
+    .then(res => {
+      this.setState({});
+    });
+  };
 
-    if (!fields["newPOC"]) {
-      formIsValid = false;
-      errors["newPOC"] = "Please enter a POC."
-    }
-    this.setState({errors:errors});
-    return formIsValid;
-  }
-
-  submitForm = (fields, agency, employee, poc) => {
-    console.log(fields +  agency + employee + poc);
-  }
 
   //Add new agency to the dropdown
   addAgency = (e) => {
@@ -121,11 +118,13 @@ class NewQuoteForm extends Component {
     this.setState({fields});
   };
   // Add a new bid to the database
-  handleAddQuote = (e) => {
+  AddQuote = (e) => {
     fetch('api/quote/open_bids', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
+          quote: this.state.fields.quote_number,
+          
 
       })
     })
@@ -134,17 +133,10 @@ class NewQuoteForm extends Component {
       this.setState({});
     });
   };
-  getQuoteNumber = () => {
-    fetch('/api/quote/open_bids/quote')
-    .then(res => res.json())
-    .then(q => {
-      console.log("Not clean:", q);
-      this.state.fields.quote_number = q[0].quote;
-      console.log("quote", this.state.fields.quote_number);
-    });
-  }
-  editQuote = () => {
-    fetch('api/quote/open_bids', {
+
+  EditQuote = (id) => {
+    let url = ('api/quote/open_bids/edit/?id=' + id);
+    fetch(url, {
       method: 'put',
       headers: {'Content-Type': 'aplication/json'},
       body: JSON.stringify({})
@@ -180,6 +172,35 @@ class NewQuoteForm extends Component {
     });
   };
 
+  getQuoteNumber = () => {
+    // Get latest quote - Q18023-01
+    fetch('/api/quote/open_bids/quote')
+    .then(res => res.json())
+    .then(q => {
+      var prevJulDay = q[0].quote.slice(3,6); // 034
+      // Check if Solictation
+      if ( q[0].quote.slice(-1) === "S" ) { var suffix = q[0].quote.slice(7,9);}
+      else { suffix = q[0].quote.slice(-2)}
+      // Get year
+      var currentYear = new Date().getFullYear().toString().substr(-2);
+      // Get Julain Date - 035
+      var now = new Date();
+      var start = new Date(now.getFullYear(), 0, 0);
+      var diff = now - start;
+      var oneDay = 1000 * 60 * 60 * 24;
+      var day = Math.floor(diff / oneDay);
+      var julDay = ("00" + day).slice(-3);
+      //Check if need to increment count
+      if (prevJulDay < julDay) { var count  = "01";}
+      else { count = ( "00" + suffix + 1).slice(-2);}
+      //Concatenation
+      var finalQuoteString = "Q" + currentYear + julDay + "-" + count;
+      this.state.fields.quote_number = finalQuoteString;
+    });
+    // Set received date to current date
+    const today = new Date();
+    this.handleReceived(today);
+  }
   getAgencies = () => {
     fetch('/api/dropdowns/agencies')
     .then(res => res.json())
@@ -205,17 +226,20 @@ class NewQuoteForm extends Component {
       this.setState({employees:employeeList});
     })
   }
-  chooseAction = () => {
-    if (this.props.type  === 'edit') {
-      this.getSingleBid(this.props.id);
-    }
-    if (this.props.type === 'new')  {
-      this.getQuoteNumber(this.state.fields.quote_number);
-    }
+
+  chooseButtonAction = () => {
+    if (this.props.type  === 'edit') { this.EditQuote(this.props.id);}
+    if (this.props.type === 'new')   { this.AddQuote();}
+  }
+
+  chooseFormAction = () => {
+    if (this.props.type  === 'edit') { this.getSingleBid(this.props.id);}
+    if (this.props.type === 'new')   { this.getQuoteNumber(this.state.fields.quote_number);}
   }
 
   componentDidMount () {
-    this.chooseAction();
+    this.chooseFormAction();
+    this.chooseButtonAction();
     this.getAgencies();
     this.getContacts();
     this.getQuoters();
@@ -224,10 +248,6 @@ class NewQuoteForm extends Component {
 
   render() {
     const {employees, id, agencies, agency, pointsOfContact} = this.state;
-    const addOptions = [
-      { key: '1', text: 'Agency', value: 'agency' },
-      { key: '2', text: 'POC', value: 'poc' },
-    ]
     return (
       <div>
       <Popup style={style.popup} position='bottom left' trigger={<Button icon='plus' content='New Agency'/>} on='click'>
@@ -253,7 +273,6 @@ class NewQuoteForm extends Component {
       <br/>
       <br/>
       <br/>
-        <div>{this.props.id} </div>
       <Grid.Row centered>
         <Form style={style.form} onSubmit={this.submitForm}>
 
@@ -264,11 +283,11 @@ class NewQuoteForm extends Component {
            </Form.Field>
            <Form.Field required width={5}>
              <label>Agency</label>
-             <Select fluid placeholder='Agency' name='agency' defaultValue={{label:this.agency, value:this.agency}} options={agencies} value={this.agency}  onChange={this.handleAgency} />
+             <Select fluid placeholder='Agency' name='agency' defaultValue={{label:this.props.tableAgency, value:this.props.tableAgency}} options={agencies} value={this.agency}  onChange={this.handleAgency} />
            </Form.Field>
            <Form.Field required width={5}>
              <label>Point of Contact</label>
-             <Select name='point_of_contact' placeholder='Point of Contact' options={pointsOfContact}  value={this.poc} defaultValue={{label:this.poc, value:this.poc}}  onChange={this.handlePOC} />
+             <Select name='point_of_contact' placeholder='Point of Contact' options={pointsOfContact} defaultValue={{label:this.props.tablePOC, value:this.props.tablePOC}} value={this.poc}  onChange={this.handlePOC} />
            </Form.Field>
          </Form.Group>
 
@@ -279,16 +298,16 @@ class NewQuoteForm extends Component {
            </Form.Field>
            <Form.Field width={2}>
              <label>Revision</label>
-             <Select compact options={revisionList} defaultValue= '0' name='revision' value={this.state.fields.revision} onChange={this.handleRevision} />
+             <Select compact options={revisionList} defaultValue= '0' name='revision' defaultValue={{label:this.props.tableRev, value:this.props.tableRev}} value={this.state.fields.revision} onChange={this.handleRevision} />
            </Form.Field>
            <Form.Field required width={7}>
              <label>Employee</label>
-              <Select placeholder='' name='employee' options={employees} value={this.employee} onChange={this.handleEmployee} />
+              <Select placeholder='' name='employee' options={employees} defaultValue={{label:this.props.tableEmployee, value:this.props.tableEmployee}} value={this.employee} onChange={this.handleEmployee} />
            </Form.Field>
          </Form.Group>
 
          <Form.Group >
-           <Form.Field required width={5}>
+           <Form.Field required width={3}>
              <label>Received</label>
              <DatePicker name= 'receivedDate' type= 'date' selected={this.state.receivedDate} onChange={this.handleReceived} />
            </Form.Field>
@@ -296,9 +315,9 @@ class NewQuoteForm extends Component {
              <label>Description</label>
              <Input fluid placeholder='Description' name='description' value={this.state.fields.description} onChange={this.handleInputChange} />
            </Form.Field>
-           <Form.Field required width={4}>
+           <Form.Field required width={6}>
              <label>Status</label>
-             <Select defaultValue= '' options={statusList} name='status' value={this.status} onChange={this.handleStatus} />
+             <Select options={statusList} name='status' defaultValue={{label:this.props.tableStatus, value:this.props.tableStatus}} value={this.status} onChange={this.handleStatus} />
            </Form.Field>
          </Form.Group>
 
@@ -338,9 +357,8 @@ class NewQuoteForm extends Component {
         <br/>
         <br/>
         <Grid centered>
-        <Button primary onClick={this.submitForm}> <Icon name='arrow up'/> Submit </Button>
+        <Button primary onClick={this.chooseButtonAction}> <Icon name='arrow up'/> Add </Button>
         </Grid>
-        <pre>{this.state.fields.newAgency} -- {this.state.fields.revision}</pre>
       </div>
     )
   }

@@ -1,7 +1,8 @@
 
 const newDate = new Date();
 //Add new log to the appLogs table
-export publishLog (name, action) {
+export function publishLog(name, action,newDate,e) {
+  e.preventDefault();
   fetch('api/logs/', {
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -10,6 +11,6 @@ export publishLog (name, action) {
       action : action,
       date: newDate
     })
-    console.log("New log has been published!");
   })
+  console.log("New log has been published!");
 }

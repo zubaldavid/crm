@@ -21,9 +21,7 @@ function buttonTrigger (buttonName) {
     </Button>
   )
 }
-// { this.state.showQuote && <NewQuoteForm id={this.props.id} form={'quote'} new={'true'} edit={'true'}/>}
-// { this.state.showPayment && <NewPaymentForm id={this.props.id} form={'payemnt'} type={'new'}/>}
-// { this.state.showBilled && <BilledForm invoice={this.props.invoice} form={'billed'}/>}
+
 function iconTrigger () {
   return ( <Icon name='edit'/> )
 }
@@ -112,8 +110,15 @@ class MainModal extends Component {
             <Message color='green'>{message}</Message>
             </Transition>
            <Modal.Content>
-             { this.state.showQuote && <NewQuoteForm id={this.props.id} form={'quote'} type={quoteAction} confirmation={this.handleMessage} />}
-             { this.state.showNewPayment && <NewPaymentForm id={this.props.id} form={'payment'} type={paymentAction}/>}
+             { this.state.showQuote && <NewQuoteForm id={this.props.id} form={'quote'}
+                tableAgency={this.props.tableAgency}
+                tablePOC={this.props.tablePOC}
+                tableRev={this.props.tableRev}
+                tableEmployee={this.props.tableEmployee}
+                tableStatus={this.props.tableStatus}
+                type={quoteAction}
+                confirmation={this.handleMessage} />}
+             { this.state.showPayment && <NewPaymentForm id={this.props.id} form={'payment'} type={paymentAction}/>}
              { this.state.showBilled && <BilledForm invoice={this.props.invoice} form={'billed'}/>}
            </Modal.Content>
         </Modal>

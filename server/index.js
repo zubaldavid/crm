@@ -2,9 +2,8 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
-// var bcrypt = require('bcryptjs');
-// var saltRounds = bcrypt.genSaltSync(10);
-// var hash = bcrypt.hashSync("B4c0/\/", saltRounds);
+const expressValidator = require('express-validator');
+const passport = require('passport-local');
 
 var db = require('./database');
 
@@ -15,6 +14,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(bodyParser.json());
+app.use(expressValidator());
+
 
 // Register created API's
 app.use('/api/quote/awarded_bids', require('./api/quote/awarded_bids'));
@@ -26,10 +27,11 @@ app.use('/api/quote/payments', require('./api/quote/payments'));
 app.use('/api/quote/ss_bids', require('./api/quote/ss_bids'));
 
 app.use('/api/users', require('./api/users'));
+//app.use('/api/logs', require('./api/logs'));
 app.use('/api/dashBoard', require('./api/dashboard'));
 app.use('/api/dropdowns', require('./api/dropdowns'));
 
-// Expres will listen to the port and handle the request
+// Express will listen to the port and handle the request
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });

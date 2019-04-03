@@ -4,8 +4,21 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 import main from './Main'
 
 class Login extends Component {
-  loginToMain() {
-    main.openMain();
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    this.setState({
+      res: stringifyFormData(data)
+    })
+    fetch('/api/users/login', {
+      method: 'POST',
+      body: data,
+    })
   }
 
   render() {
@@ -17,7 +30,7 @@ class Login extends Component {
           verticalAlign='middle'>
 
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Form size='large'>
+            <Form onSubmit={this.onSubmit} size='large'>
               <Segment raised>
               <Header as='h2' color='00BAB4' textAlign='center'>
                <Image src='/aviateLogo.png'/>
@@ -29,6 +42,7 @@ class Login extends Component {
                   fluid
                   icon='mail'
                   iconPosition='left'
+                  name='email'
                   placeholder='E-mail address'
                 />
                 <Form.Input
@@ -36,6 +50,7 @@ class Login extends Component {
                   icon='lock'
                   iconPosition='left'
                   placeholder='Password'
+                  name='password'
                   type='password'
                 />
                 <Link to='/main' >
@@ -54,3 +69,12 @@ class Login extends Component {
 }
 
 export default Login;
+
+
+function stringifyFormData(fd) {
+  const data = {};
+	for (let key of fd.keys()) {
+  	data[key] = fd.get(key);
+  }
+  return JSON.stringify(data, null, 2);
+}

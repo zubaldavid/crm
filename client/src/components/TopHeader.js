@@ -22,7 +22,7 @@ class TopHeader extends Component {
               <Image src='/aviateLogo.png' size='small' />
               AVIATE ENTERPRISES, INC.
           </Header>
-          <UsersModal/>
+          <UsersModal button={'true'}/>
           <Link to='/'>
             <LogoutButton/>
           </Link>

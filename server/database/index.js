@@ -1,7 +1,7 @@
 var { Pool } = require('pg');
 
 const CONNECTION_STRING = process.env.DATABASE_URL;
-const SSL = process.env.NODE_ENV === 'production';
+const SSL = process.env.NODE_ENV;
 
 class Database {
   constructor() {

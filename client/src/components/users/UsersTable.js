@@ -39,12 +39,6 @@ export class UsersTable extends Component {
     };
   }
 
-  changeQuoters = (e) => {
-    let quoters = this.state.quoters;
-    quoters[e.target.name] = e.target.value;
-    console.log(e.target.name, e.target.value);
-  }
-
   getUsersList = () => {
     fetch('/api/users')
     .then(res => res.json())
@@ -54,22 +48,12 @@ export class UsersTable extends Component {
     })
   }
 
-  editUser = (id, e) => {
-      console.log('editing user');
-      this.props.edituser(this.props.index); // Call to AddNewUser form
-  }
-
-  removeUser = (id, e) => {
-    fetch('/api/users', {
-      method: 'delete',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({id: id})
-    })
-    this.getUsersList();
+  openEditForm (id) {
+      this.props.editUser(id);
   }
 
   componentDidMount () {
-      setTimeout(() => this.setState({ loading: false }), 800); // simulates loading of data
+    setTimeout(() => this.setState({ loading: false }), 800); // simulates loading of data
     this.getUsersList();
     console.log('Users Table did mount.');
   }
@@ -90,49 +74,27 @@ export class UsersTable extends Component {
               {users.map(d =>
                 <Table.Row key={d.id}>
                   <Table.Cell collapsing>
-                    <Checkbox slider
-                    name='quoter'
-                    checked={d.admin}
-                  /></Table.Cell>
+                    <Checkbox slider name='quoter'checked={d.active}/>
+                  </Table.Cell>
                   <Table.Cell>{d.first_name}</Table.Cell>
                   <Table.Cell>{d.last_name}</Table.Cell>
                   <Table.Cell>{d.email}</Table.Cell>
                   <Table.Cell>{d.password}</Table.Cell>
                   <Table.Cell>
-                    <Checkbox slider
-                      name='quoter'
-                      checked={d.quoter}
-                      value={this.state.quoters.quoter}
-                      onChange={this.changeQuoters} />
+                    <Checkbox slider name='quoter' checked={d.quoter}/>
                   </Table.Cell>
-
                   <Table.Cell>
-                    <Checkbox slider
-                      name='quoter'
-                      checked={d.grainger_access}
-                      /></Table.Cell>
-
+                    <Checkbox slider name='graingerAccess' checked={d.grainger_access}/>
+                  </Table.Cell>
                   <Table.Cell>
-                    <Checkbox slider
-                      name='quoter'
-                      checked={d.admin}
-                      /></Table.Cell>
-
+                    <Checkbox slider name='admin' checked={d.admin} />
+                  </Table.Cell>
                   <Table.Cell>
-                    <Icon name='edit' onClick={this.props.edituser}/>
+                    <Icon name='edit' on={this.openEditForm(d.id)}/>
                   </Table.Cell>
                 </Table.Row>
               )}
           </Table.Body>
-          <Table.Footer compact fullWidth>
-           <Table.Row>
-             <Table.HeaderCell colSpan='9'>
-               <Button floated='right' primary size='small'>
-                      Save
-               </Button>
-             </Table.HeaderCell>
-           </Table.Row>
-         </Table.Footer>
         </Table>
       </div>
     );

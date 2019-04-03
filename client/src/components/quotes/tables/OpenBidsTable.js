@@ -97,7 +97,15 @@ class OpenBidsTable extends Component {
                 <Table.Cell>{dateFormat(q.due_date)}</Table.Cell>
                 <Table.Cell>{q.due_time}</Table.Cell>
                 <Table.Cell>{dateFormat(q.date_sent)}</Table.Cell>
-                <Table.Cell><MainModal icon={'true'} id={q.id} header={'EDIT QUOTE'}/></Table.Cell>
+                <Table.Cell><MainModal
+                icon={'true'}
+                id={q.id}
+                tableAgency={q.agency}
+                tablePOC={q.point_of_contact}
+                tableRev={q.revision}
+                tableEmployee={q.employee}
+                tableStatus={q.status}
+                header={'EDIT QUOTE'}/></Table.Cell>
               </Table.Row>
             )}
         </Table>
