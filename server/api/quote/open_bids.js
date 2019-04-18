@@ -49,26 +49,25 @@ router.get('/awards', async function(req, res) {
   });
 });
 
-router.post('/', function (req, res) {
-  OpenBids.insert(first, last, email, password, function(err, result) { // insert into datbase
+router.post('/create', function (req, res) {
+  OpenBids.insert(req.body, function(err, result) { // insert into datbase
     if(err)
       return res.json(err); // response to front end
     return res.json(result);
   })
 });
 
-router.delete('/', function (req, res) {
-  var id = req.body.id;
-  Users.remove(id, function(err, result) {
-    if(err)
-      return res.json(err);
-    return res.json(result);
-  });
-});
+router.put('/edit', function (req, res) {
 
-router.put('/', function (req, res) {
-  var id = req.body.id;
-  Users.edit(id, function(err, result) {
+  // Check for objects in body values
+  for( var key in req.body) {
+    if(typeof req.body[key] === 'object' && req.body[key] !== null) {
+        var obj = req.body[key];
+        req.body[key] = obj.value;
+    }
+  }
+
+  OpenBids.editQuote(req.body, function(err, result) {
     if(err)
       return res.json(err);
     return res.json(result);

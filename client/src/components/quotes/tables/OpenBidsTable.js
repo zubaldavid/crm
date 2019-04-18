@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+  import React, { Component } from 'react';
 import {dateFormat} from '../../Formats';
 import MainModal from '../MainModal';
 import PaginateTables from '../../PaginateTables';
+import { PropTypes } from 'react'
 import {
   Dimmer,
   Loader,
@@ -9,7 +10,7 @@ import {
 } from 'semantic-ui-react'
 
 const headers = [
-  'ID', 'Quote Number','Agency', 'Solictation', 'Revision', 'Point of Contact','Employee',
+  'Quote Number','Agency', 'Solictation', 'Revision', 'Point of Contact','Employee',
   'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent'
 ]
 
@@ -75,7 +76,7 @@ class OpenBidsTable extends Component {
     };
     return (
       <div>
-        <MainModal button={'true'} buttonName={'New Quote'} header={'NEW QUOTE'} />
+        <MainModal button={'true'} buttonName={'New Quote'} header={'NEW QUOTE'} updateBidsList={this.getQuotesList} />
         <PaginateTables totalPages={pages}  handlePagination={this.getQuotesList}/>
       <Table compact size='small'>
         <TableHeader/>
@@ -84,7 +85,6 @@ class OpenBidsTable extends Component {
         </Dimmer> }
             {allQuotes.map(q =>
               <Table.Row key={q.id}>
-                <Table.Cell>{q.id}</Table.Cell>
                 <Table.Cell>{q.quote}</Table.Cell>
                 <Table.Cell>{q.agency}</Table.Cell>
                 <Table.Cell>{q.solicitation}</Table.Cell>

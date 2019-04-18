@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {dateFormat, numberFormat} from '../../Formats';
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
 import Select from 'react-select';
@@ -27,11 +28,8 @@ class BilledForm extends Component {
       fields: {},
       errors: {},
       bills: {},
-      showTable: false,
-      showForm: true,
-      dateBilled:0,
-      dateDelivered:0,
-      receivedDate: 0,
+      showTable: false,showForm: true,
+      dateBilled: null, dateDelivered: null, receivedDate: null,
     };
   }
 
@@ -52,19 +50,20 @@ class BilledForm extends Component {
     .then(data => {
       this.setState({bills:data});
       console.log("All Bills:", this.state.bills);
-      this.state.fields.Invoice = this.state.bills[0].invoice;
-      console.log('Invoice state', this.state.fields.Invoice);
-      this.state.fields.Agency = this.state.bills[0].agency;
-      console.log('agency Data',  this.state.bills[0].agency);
-      console.log('Invoice state', this.state.fields.Agency);
-      this.state.fields.POC = this.state.bills[0].point_of_contact;
-      this.state.fields.Description = this.state.bills[0].description;
-      this.state.fields.NFTFreight = this.state.bills[0].nft_freight;
+      this.state.fields.invoice = this.state.bills[0].invoice;
+      console.log("Practice Invoice:",this.state.bills[0].invoice );
+      console.log("Field Invoice:",this.state.fields.invoice);
+      this.state.fields.agency = this.state.bills[0].agency;
+      this.state.fields.point_of_contact = this.state.bills[0].point_of_contact;
+      this.state.fields.description = this.state.bills[0].description;
+      this.state.fields.poNumber = this.state.bills[0].po_number;
+      this.state.fields.employee = this.state.bills[0].employee;
+      this.state.fields.cost = this.state.bills[0].cost;
+      this.handleDateBilled(this.state.bills[0].date_billed);
     });
   }
 
   componentDidMount () {
-     this.state.fields.invoice = '1206';
      this.getSingleBill(this.props.invoice);
   }
 
@@ -72,42 +71,44 @@ class BilledForm extends Component {
     const {dateBilled, value, dateDelivered, receivedDate} = this.state;
     return (
       <Grid.Row centered>
+          <Form style={style.form} onSubmit={this.submitForm}>
 
-          <Form style={style.form}>
            <Form.Group>
-             {disabledFields1.map((field) => {
-             let value = `this.state.field.${field}`
-             return (
-               <Form.Field width={6}>
-               <label>{field}</label>
-               <Input readOnly type='text'
-                placeholder={field}
-                name={field}
-                value={value.value}
-                onChange={this.handleInputChange}
-              /></Form.Field> )})}
+             <Form.Field disabled width={2}>
+               <label>Invoice</label>
+               <Input  name='invoice' placeholder='Invoice' value={this.state.fields.invoice} onChange={this.handleInputChange} />
+             </Form.Field>
+             <Form.Field disabled width={5}>
+               <label>Agency</label>
+               <Input  fluid placeholder='Agency' name='agency'  value={this.state.fields.agency}  onChange={this.handleInputChange} />
+             </Form.Field>
+             <Form.Field disabled width={6}>
+               <label>Point of Contact</label>
+               <Input name='point_of_contact' placeholder='Point of Contact' value={this.state.fields.point_of_contact}  onChange={this.handleInputChange} />
+             </Form.Field>
+             <Form.Field disabled width={7}>
+               <label>Description</label>
+               <Input readOnly fluid placeholder='Description' name='description' value={this.state.fields.description} onChange={this.handleInputChange} />
+             </Form.Field>
           </Form.Group>
 
           <Form.Group>
-              {disabledFields2.map((field) => {
-              let value = `this.state.field.${field}`
-              return (
-                <Form.Field width={6}>
-                <label>{field}</label>
-                <Input readOnly type='text'
-                 placeholder={field}
-                 name={field}
-                 value={value.value}
-                 onChange={this.handleInputChange}
-               /></Form.Field> )})}
-
-               <Form.Field readOnly width={5}>
-                 <label>Date Billed</label>
-                 <DatePicker type='date'
-                 name='received_date'
-                 selected={dateBilled}
-                 onChange={this.handleDateBilled}
-               /></Form.Field>
+            <Form.Field disabled width={5}>
+              <label>PO Number</label>
+              <Input readOnly name='poNumber' placeholder='PO Number' value={this.state.fields.poNumber} onChange={this.handleInputChange} />
+            </Form.Field>
+            <Form.Field disabled width={5}>
+              <label>Employee</label>
+              <Input readOnly fluid placeholder='Agency' name='employee'  value={this.state.fields.employee}  onChange={this.handleInputChange} />
+            </Form.Field>
+            <Form.Field disabled required width={6}>
+              <label>Cost</label>
+              <Input readOnly  icon='dollar' iconPosition='left' name='cost' placeholder='Point of Contact' value={numberFormat(this.state.fields.cost)} onChange={this.handleInputChange} />
+            </Form.Field>
+             <Form.Field readOnly width={5}>
+               <label>Date Billed</label>
+               <DatePicker type='date' name='received_date' selected={dateBilled} onChange={this.handleDateBilled} />
+             </Form.Field>
           </Form.Group>
 
           <Form.Group>

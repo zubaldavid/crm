@@ -42,6 +42,10 @@ class MainModal extends Component {
     };
   }
 
+  updateBidsTable () {
+    this.props.updateBidsList();
+  }
+
   openQuoteForm = (type) => {
     this.setState(state => ({
       showQuote: true, showPayment: false, showBilled:false, quoteAction: type,
@@ -58,6 +62,11 @@ class MainModal extends Component {
     this.setState(state => ({
       showQuote: false,  showPayment: false, showBilled: true
     }));
+  }
+
+  updateBidsTable = (page) => {
+    console.log("Page to update:", page);
+    this.props.updateBidsList(page);
   }
 
   handleMessage = (newMessage) => {
@@ -117,8 +126,16 @@ class MainModal extends Component {
                 tableEmployee={this.props.tableEmployee}
                 tableStatus={this.props.tableStatus}
                 type={quoteAction}
+                extended={this.props.cost}
+                confirmation={this.handleMessage}
+                costExtention={this.props.costExtention}
+                tableBuyer={this.props.buyer}
+                updateBidsTable={this.updateBidsTable}
+                />
+              }
+             { this.state.showPayment && <NewPaymentForm id={this.props.id} form={'payment'}
+                type={paymentAction}
                 confirmation={this.handleMessage} />}
-             { this.state.showPayment && <NewPaymentForm id={this.props.id} form={'payment'} type={paymentAction}/>}
              { this.state.showBilled && <BilledForm invoice={this.props.invoice} form={'billed'}/>}
            </Modal.Content>
         </Modal>

@@ -97,8 +97,20 @@ class AwardsBidsTable extends Component {
               <Table.Cell>{numberFormat(q.cost)}</Table.Cell>
               <Table.Cell>{dateFormat(q.date_exp_delivery)}</Table.Cell>
               <Table.Cell>{dateFormat(q.date_po_ordered)}</Table.Cell>
-              <Table.Cell><MainModal icon={'true'} id={q.id} header={'EDIT QUOTE'}/></Table.Cell>
-              <Table.Cell><PaymentsTableModal invoice={q.invoice}  /></Table.Cell>
+              <Table.Cell><MainModal
+                icon={'true'}
+                id={q.id}
+                header={'EDIT QUOTE'}
+                tableAgency={q.agency}
+                tablePOC={q.point_of_contact}
+                tableRev={q.revision}
+                tableEmployee={q.employee}
+                tableStatus={q.status}
+                costExtention={'true'}
+                buyer={q.buyer}
+              />
+              </Table.Cell>
+              <Table.Cell><PaymentsTableModal invoice={q.invoice}/></Table.Cell>
             </Table.Row>
           )}
         </Table>

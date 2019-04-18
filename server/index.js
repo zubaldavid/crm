@@ -3,6 +3,7 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+//const expressSession = require('express-session');
 const passport = require('passport-local');
 
 var db = require('./database');
@@ -15,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(expressValidator());
-
+//app.use(expressSession({secret: 'max', saveUninitialized: false, resave: false}));
 
 // Register created API's
 app.use('/api/quote/awarded_bids', require('./api/quote/awarded_bids'));

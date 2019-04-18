@@ -36,7 +36,7 @@ class PaymentsTableModal extends Component {
   }
 
   getPaymentsList (invoice) {
-    let url = ('/api/quote/payments/?invoice=' + invoice);
+    let url = ('/api/quote/payments/inv/?invoice=' + invoice);
     console.log('Payment url:', url);
     fetch(url)
     .then(res => res.json())

@@ -1,4 +1,5 @@
 const db = require('../database');
+const saltRounds = 8;
 
 class Users {
   static retreiveAll (callback) {
@@ -35,14 +36,14 @@ class Users {
   }
 
   static insert (first, last, email, password, grainger, quoter, admin, active, callback) {
-     //bcrypt.hash(password, saltRounds, function(err,hash) {
+      bcrypt.hash(password, saltRounds, function(err,hash) {
       db.query('INSERT INTO users (first_name, last_name, email, password, grainger_access, quoter, admin, active) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-      [first, last, email, password, grainger, quoter, admin, active], function (err,res) {
+      [first, last, email, hash, grainger, quoter, admin, active], function (err,res) {
         if(err.error)
           return callback(err);
         callback(res);
       })
-    //});
+    });
   }
 
   static remove (id, callback) {

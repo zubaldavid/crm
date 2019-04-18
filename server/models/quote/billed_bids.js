@@ -29,7 +29,7 @@ class BilledBids {
   }
 
   static getSingleBill (invoice, callback) {
-    let sql_string = "select quote_tracker.po_number, quote_tracker.agency, quote_tracker.point_of_contact, quote_tracker.description, quote_tracker.employee, quote_billing.* "
+    let sql_string = "select quote_tracker.po_number,quote_tracker.cost, quote_tracker.agency, quote_tracker.point_of_contact, quote_tracker.description, quote_tracker.employee, quote_billing.* "
      + "from quote_billing "
      + "inner join quote_tracker on quote_tracker.invoice = quote_billing.invoice "
      + "where  quote_billing.invoice = ($1)";
