@@ -12,7 +12,9 @@ import {
   Grid,
   Icon,
   Input,
+  Message,
   Popup,
+  Rail,
   TextArea
 } from 'semantic-ui-react'
 
@@ -36,7 +38,7 @@ class NewQuoteForm extends Component {
     super(props);
     this.state = {
       //  Object stores multiple values
-      bid: {}, errors: {}, fields: {}, employees: [], agencies: [], pointsOfContact: [],
+      bid: {}, errors: [], fields: {}, employees: [], agencies: [], pointsOfContact: [],
       // Select option states
       agency: '', employee: '', buyer: '', poc: '', revision: 0, status: '', dueTime: '',
       //Dates
@@ -108,23 +110,29 @@ class NewQuoteForm extends Component {
   };
 
   // Add a new bid to the database
-  addNewQuote = (bodyData) => {
+  addNewQuote = (bodyData, errors) => {
     fetch('api/quote/open_bids/create', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         quote: this.state.fields.quote_number, agency: this.state.agency, poc: this.state.poc,
         solicitation: this.state.fields.solicitation, revision: this.state.revision, employee: this.state.employee,
-        received: this.state.received, description: this.state.fields.description, status: this.state.status,
+        received: this.state.receivedDate, description: this.state.fields.description, status: this.state.status,
         dueDate: this.state.dueDate, dueTime: this.state.fields.time, dateSent: this.state.dateSent,
         datePO: this.state.datePO, poNumber: this.state.fields.po_number
       })
-    }).then(res => res.json())
-    .then(response => console.log('Succes:', JSON.stringify(response)))
-    .catch(error => console.error('Error:', error));
-
-    const message = "You have added a new quote: " + this.state.fields.quote_number;
-    this.props.confirmation(message);
+    }).then(response => response.json())
+    .then((data) => {
+      console.log('Return Data', data);
+      if (data === undefined || data.length == 0) {
+        this.setState({errors: []});
+        const message = "You have added a new quote: " + this.state.fields.quote_number;
+        this.props.confirmation(message);
+      } else {
+        this.setState({errors: data.errors});
+        this.props.error(data.errors);
+      }
+    });
   };
 
   editQuote = (id) => {
@@ -135,7 +143,7 @@ class NewQuoteForm extends Component {
       body: JSON.stringify({
         invoice: this.state.fields.invoice, quote: this.state.fields.quote_number, agency: this.state.agency, poc: this.state.poc,
         solicitation: this.state.fields.solicitation, revision: this.state.revision, employee: this.state.employee,
-        received: this.state.received, description: this.state.fields.description, status: this.state.status,
+        received: this.state.receivedDate, description: this.state.fields.description, status: this.state.status,
         dueDate: this.state.dueDate, dueTime: this.state.fields.time, dateSent: this.state.dateSent,
         datePO: this.state.datePO, poNumber: this.state.fields.po_number, buyer: this.state.buyer,
         orderPO: this.state.dateOrderPO, cost: this.state.fields.cost, expDelivery: this.state.expDelivery,
@@ -206,7 +214,9 @@ class NewQuoteForm extends Component {
     });
     // Set received date to current date
     const today = new Date();
+    const zero = '0';
     this.handleReceived(today);
+    this.handleRevision(zero);
   }
 
   getAgencies = () => {
@@ -249,7 +259,7 @@ class NewQuoteForm extends Component {
   }
 
   render() {
-    const {employees, id, agencies, agency, pointsOfContact} = this.state;
+    const {errors, employees, id, agencies, agency, pointsOfContact} = this.state;
     return (
       <div>
       <Popup style={style.popup} position='bottom left' trigger={<Button icon='plus' content='New Agency'/>} on='click'>
@@ -312,7 +322,7 @@ class NewQuoteForm extends Component {
            </Form.Field>
            <Form.Field required width={3}>
            <label>Received</label>
-           <DatePicker name= 'receivedDate' type= 'date' selected={this.state.receivedDate} onChange={this.handleReceived} />
+           <DatePicker selected={this.state.receivedDate} onChange={this.handleReceived} />
            </Form.Field>
          </Form.Group>
 
@@ -321,7 +331,7 @@ class NewQuoteForm extends Component {
              <label>Description</label>
              <Input fluid placeholder='Description' name='description' value={this.state.fields.description} onChange={this.handleInputChange} />
            </Form.Field>
-           <Form.Field required width={6}>
+           <Form.Field width={6}>
              <label>Status</label>
              <Select options={statusList} name='status' defaultValue={{label:this.props.tableStatus, value:this.props.tableStatus}} value={this.status} onChange={this.handleStatus} />
            </Form.Field>

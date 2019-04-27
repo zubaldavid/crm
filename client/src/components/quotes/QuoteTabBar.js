@@ -6,6 +6,7 @@ import CompletedBidsTable from './tables/CompletedBidsTable';
 import OpenBidsTable from './tables/OpenBidsTable';
 import SourcesSoughtTable from './tables/SourcesSoughtTable';
 import DeadBidsTable from './tables/DeadBidsTable';
+
 import {
   Button,
   Header,
@@ -157,10 +158,7 @@ class QuoteTabBar extends Component {
 }
 
 const style = {
-  panes : { width: '92%', height: '80%'},
+  panes : {marginLeft:'1%', width: '98%', height: '80%'},
 }
 
-QuoteTabBar.propTypes = {
-  header : PropTypes.string,
-}
 export default QuoteTabBar;

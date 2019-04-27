@@ -7,6 +7,7 @@ import {
   Icon,
   Loader,
   Modal,
+  Segment,
   Table,
 } from 'semantic-ui-react'
 
@@ -31,7 +32,7 @@ class PaymentsTableModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      payments: [],
+      payments: [], total: 0,
     };
   }
 
@@ -46,9 +47,21 @@ class PaymentsTableModal extends Component {
     });
   }
 
+  getPaymentsTotalBill (invoice) {
+    let url = ('/api/quote/payments/getTotal/?invoice=' + invoice);
+    console.log('Payment url:', url);
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      this.setState({total:data});
+      console.log("payments", this.state.total);
+    });
+  }
+
   componentDidMount () {
     setTimeout(() => this.setState({ loading: false }), 700); // simulates loading of data
     this.getPaymentsList(this.props.invoice);
+  //  this.getPaymentsTotalBill(this.props.invoice);
     console.log('Payments Modal Table did mount.');
   }
 
@@ -64,6 +77,7 @@ class PaymentsTableModal extends Component {
      <Modal style={style.modal} trigger={<Icon hover name='bars'/> }>
        <Modal.Header style={style.head}> PAYMENT(S) FOR INV: {this.props.invoice}</Modal.Header>
        <Modal.Content>
+          <Segment size='small' style={{float: 'left', width: '10%'}} riased> Total: {this.state.total}</Segment>
           <MainModal  button={'true'} buttonName={'New Payment'} header={'NEW PAYMENT'}/>
           <br/>
           <br/>

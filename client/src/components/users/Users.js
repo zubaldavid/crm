@@ -75,7 +75,6 @@ class UsersModal extends Component {
 
 const style = {
   modal : { marginTop: '.5%', height: '80%', width: '60%'},
-  button : { marginLeft: '5%', float:'left'},
   addButton : {float:'right'},
   head : { alignItems: 'center'}
 };

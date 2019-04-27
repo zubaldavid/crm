@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
+import PaginateTables from '../PaginateTables';
 import {
   Button,
   Checkbox,
   Dimmer,
+  Header,
+  Grid,
   Icon,
   Loader,
   Popup,
+  Segment,
   Table
 } from 'semantic-ui-react'
 
@@ -31,41 +36,59 @@ export class UsersTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       users: [],
-       quoters: {},
-       graingerAccess: {},
-       admins: {},
-       loading: true
+       users: [], quoters: {}, graingerAccess: {},admins: {},
+       loading: true, count:0,
     };
   }
 
-  getUsersList = () => {
-    fetch('/api/users')
+  getUsersList =  (activePage) => {
+    console.log("Page:",activePage);
+    if ( activePage === undefined) {activePage = 1;}
+    console.log("After if:",activePage)
+    let url = ('/api/users/?page=' + activePage);
+    fetch(url)
     .then(res => res.json())
     .then(data => {
       this.setState({users:data});
-      console.log("state", this.state.users)
     })
   }
 
+  getCount () {
+    fetch('/api/users/count')
+    .then(res => res.json())
+    .then(data => {
+      this.setState({count:data[0].count});
+      console.log("state", this.state.count);
+    });
+  }
+
   openEditForm (id) {
-      this.props.editUser(id);
+      //this.props.editUser(id);
   }
 
   componentDidMount () {
     setTimeout(() => this.setState({ loading: false }), 800); // simulates loading of data
+    this.getCount();
     this.getUsersList();
     console.log('Users Table did mount.');
   }
 
   render() {
-    const {users} = this.state;
+    const {users, count} = this.state;
+    const pages = Math.ceil(count / 15);
+    console.log('Total Pages:', pages);
     const style = {
         edit: { marginLeft: '8%'},
+        mainSegment: {marginLeft: '.5%', width: '99%', height: '90%'},
+        headerSegment: {marginLeft: '40%', width: "20%"},
     };
     return (
-      <div>
-        <Table  compact definition>
+      <Segment  textAlign= 'left' style={style.mainSegment}>
+      <Segment raised textAlign='center' style={style.headerSegment}>
+        <Header>ALL USERS </Header>
+        </Segment>
+      <br/>
+        <Table  style={{marginLeft: '5%', width: '90%'}} compact definition  >
           <TableHeaders/>
           {this.state.loading &&<Dimmer active>
             <Loader/>
@@ -90,15 +113,29 @@ export class UsersTable extends Component {
                     <Checkbox slider name='admin' checked={d.admin} />
                   </Table.Cell>
                   <Table.Cell>
-                    <Icon name='edit' on={this.openEditForm(d.id)}/>
+                    <Icon name='edit' onClick={this.openEditForm(d.id)}/>
                   </Table.Cell>
                 </Table.Row>
               )}
           </Table.Body>
+          <Table.Footer fullWidth>
+            <Table.Row>
+              <Table.HeaderCell />
+              <Table.HeaderCell colSpan='8'>
+              <Link to='/create-user'>
+                <Button floated='right' icon labelPosition='left' primary size='small'>
+                  <Icon name='user' /> Add User
+                </Button>
+               </Link>
+              <PaginateTables totalPages={pages}  handlePagination={this.getUsersList}/>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
         </Table>
-      </div>
+      </Segment>
     );
   }
 }
+
 
 export default UsersTable

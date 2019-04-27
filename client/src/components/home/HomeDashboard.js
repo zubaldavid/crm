@@ -28,7 +28,8 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div >
+      <Segment style={{height: '90%', width: '99%', marginLeft: '.5%'}}>
+      <br/>
       <Grid columns={2} style={style.grid}>
       <Grid.Column>
           <Grid.Column> <Segment compact raised > <Header> QUOTES | $25,721</Header></Segment> </Grid.Column>
@@ -71,12 +72,12 @@ class Dashboard extends Component {
             </Segment>
             </Grid.Column>
             </Grid>
-      </div>
+      </Segment>
     )
   }
 }
 
 const style = {
-  grid:{width: '90%'},
+  grid:{marginLeft: '1%', width: '98%'},
 }
 export default Dashboard

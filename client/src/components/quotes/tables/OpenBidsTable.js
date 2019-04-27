@@ -67,7 +67,7 @@ class OpenBidsTable extends Component {
 
   render() {
     const {allQuotes, loading, count} = this.state;
-    const pages = Math.round(count / 20) + 1;
+    const pages = Math.ceil(count / 20);
     const style = {
         edit: { marginLeft:'4%'},
         table: {width: '92%'},
@@ -83,6 +83,7 @@ class OpenBidsTable extends Component {
         {this.state.loading &&<Dimmer active>
           <Loader/>
         </Dimmer> }
+        <Table.Body style={{ overflow: 'auto' }}>
             {allQuotes.map(q =>
               <Table.Row key={q.id}>
                 <Table.Cell>{q.quote}</Table.Cell>
@@ -108,6 +109,7 @@ class OpenBidsTable extends Component {
                 header={'EDIT QUOTE'}/></Table.Cell>
               </Table.Row>
             )}
+          </Table.Body>
         </Table>
       </div>
     )

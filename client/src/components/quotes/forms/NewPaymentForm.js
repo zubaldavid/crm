@@ -31,7 +31,7 @@ class NewPaymentForm extends Component {
     super(props);
     this.state = {
       fields: {},  errors: [], showTable: false,showForm: true,vendors: [], quoters: [],
-      newVendor: '', vendor: '' , payment: '', status:'', ordered: 0, delivered: 0, total:0,
+      newVendor: '', vendor: '' , payment: '', status:'', ordered: null, delivered: null, total:null,
       fullBill : [
         {title: 'Subtotal', count: 0},
         {title: 'Shipping', count: 0},
@@ -52,17 +52,7 @@ class NewPaymentForm extends Component {
         i === index ? {...node, count: val} : node
       ))
     })
-    // Set to total value state
-    this.findTotal(this.state.total);
   }
-
- findTotal = (total) => {
-    this.setState({
-      total: this.state.fullBill.reduce((sum, i) => (
-           sum+= i.count
-     ), 0)
-   });
- }
 
  // Handle select handlers
  handleVendor = (vendor) => {this.setState({vendor})};
@@ -101,25 +91,16 @@ class NewPaymentForm extends Component {
         taxes: this.state.fullBill[2].count, total: this.state.fullBill.reduce((sum, i) => ( sum+= i.count), 0),
         comments: this.state.fields.comments
       })
+    }).then(response => response.json())
+    .then((data) => {
+      if (data === undefined || data.length == 0) {
+          this.setState({errors: []});
+          const message = "You have added a new payment to invoice: " + this.state.fields.invoice;
+          this.props.confirmation(message);
+      } else {
+        this.props.error(data.errors);
+      }
     })
-    .then(data => {
-        console.log(JSON.stringify(data));
-        console.log("Data field with then:", data);
-    })
-    .catch(err => {
-      console.error(err);
-      console.log(err);
-      this.setState({errors:err});
-      console.log("What are the errors:", errors);
-    })
-
-    let fields = {};
-    fields["invoice"] = "";
-    fields["quote"] = "";
-    fields["comments"] = "";
-    this.setState({fields, vendor: '', ordered: '', delivered: '', status: ''});
-    const message = "You have added a new payment to invoice: " + this.state.fields.invoice;
-    this.props.confirmation(message);
   }
 
   getVendors = () => {
@@ -141,9 +122,7 @@ class NewPaymentForm extends Component {
     const {vendors, quoters} = this.state;
     return (
       <div>
-      {this.state.errors.map(err => (
-        <Message color='red'>{err}</Message>
-      ))}
+
       <Popup style={style.popup} position='bottom left' trigger={<Button icon='plus' content='New Vendor'/>} on='click'>
         <Grid divided columns='equal'>
          <Grid.Column>
@@ -200,7 +179,7 @@ class NewPaymentForm extends Component {
              <label>Total</label>
              <Input readOnly fluid icon='dollar' iconPosition='left' placeholder='Total' type='number'
              name='quote'
-             value={this.state.fullBill.reduce((sum, i) => ( sum+= i.count ), 0)}
+             value={parseFloat(this.state.fullBill.reduce((sum, i) => ( sum+= i.count ), 0)).toFixed(2)}
              onChange={this.handleTotal}
              />
            </Form.Field>
@@ -213,7 +192,7 @@ class NewPaymentForm extends Component {
         <br/>
         <br/>
         <Grid centered>
-        <Button disabled={!this.state.fields.invoice} primary onClick={this.handleSubmit}> <Icon name='arrow up'/> Submit </Button>
+        <Button primary onClick={this.handleSubmit}> <Icon name='arrow up'/> Submit </Button>
         </Grid>
       </div>
     )
@@ -229,10 +208,9 @@ const BillingStatement = ({fullBill, onChange}) => (
         icon='dollar'
         iconPosition='left'
         fluid placeholder={fullBill.title}
-        type='text'
         name={fullBill.title}
-        value={fullBill.count}
-        onChange={e => onChange(i, parseInt(e.target.value) || 0)}
+        value={parseFloat(fullBill.count)}
+        onChange={e => onChange(i, parseFloat(e.target.value).toFixed(2) || 0.0)}
       />
     </Form.Field>
   ))}

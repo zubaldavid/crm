@@ -43,7 +43,11 @@ class OpenBids {
 
   static insert (data, callback) {
     console.log("Data:", data);
-    var employee = data.employee.label.toUpperCase();
+    if (typeof data.employee.label !== "undefined") {
+      var employee = null;
+    } else {
+      var employee = data.employee.label.toUpperCase();
+    }
     db.query('INSERT INTO quote_tracker (quote, agency, solicitation, revision, point_of_contact, employee, received_date, description, status, due_date, due_time, date_sent, date_po_received) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)',
     [data.quote, data.agency.label, data.solicitation, data.revision.label, data.poc.label, employee, data.received, data.description, data.status.label, data.dueDate, data.dueTime, data.dateSent, data.datePO], function (err,res) {
       if(err.error)

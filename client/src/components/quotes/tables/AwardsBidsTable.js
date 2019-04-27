@@ -72,7 +72,7 @@ class AwardsBidsTable extends Component {
 
   render() {
     const {allQuotes, loading, count} = this.state;
-    const pages = Math.round(count / 20) + 1;
+    const pages = Math.ceil(count / 20);
     return (
       <div>
       <MainModal button={'true'} buttonName={'New Payment'} header={'NEW PAYMENT'} />

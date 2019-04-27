@@ -68,7 +68,7 @@ class BilledBidsTable extends Component {
 
   render() {
     const {allBilled, loading, count} = this.state;
-    const pages = Math.round(count / 20);
+    const pages = Math.ceil(count / 20);
     return (
       <div>
       <PaginateTables  totalPages={pages} handlePagination={this.getBilledList}/>

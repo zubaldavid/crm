@@ -86,7 +86,7 @@ class CompletedBidsTable extends Component {
 
   render() {
     const {allCompleted, count, profit, margin} = this.state;
-    const pages = Math.round(count / 20) + 1;
+    const pages = Math.ceil(count / 20);
     const style = {
       header: {float: 'right', marginLeft: '5%'},
     }

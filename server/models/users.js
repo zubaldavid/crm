@@ -2,8 +2,11 @@ const db = require('../database');
 const saltRounds = 8;
 
 class Users {
-  static retreiveAll (callback) {
-    db.query('SELECT * from users', function (err,res) {
+  static retreiveAll (page, callback) {
+    let itemsPerPage = 15;
+    let offset = itemsPerPage;
+    let dataSet = ((page - 1) * itemsPerPage);
+    db.query('SELECT * from users ORDER by id LIMIT ($1) OFFSET ($2) ',[itemsPerPage, dataSet], function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);
@@ -27,6 +30,14 @@ class Users {
     });
   }
 
+  static getCount (callback) {
+    db.query('SELECT COUNT(*) FROM users',  function (err,res) {
+      if(err.error)
+        return callback(err);
+      callback(res);
+    });
+  }
+
   static getUserLogin (email,callback) {
     db.query('SELECT first_name from users WHERE email=($1)', [email], function (err,res) {
       if(err.error)
@@ -35,15 +46,14 @@ class Users {
     });
   }
 
-  static insert (first, last, email, password, grainger, quoter, admin, active, callback) {
-      bcrypt.hash(password, saltRounds, function(err,hash) {
-      db.query('INSERT INTO users (first_name, last_name, email, password, grainger_access, quoter, admin, active) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-      [first, last, email, hash, grainger, quoter, admin, active], function (err,res) {
-        if(err.error)
-          return callback(err);
-        callback(res);
-      })
-    });
+  static insert (hash, data, callback) {
+    console.log(data);
+    db.query('INSERT INTO users (first_name, last_name, email, password, grainger_access, quoter, admin, active) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+    [data.newFirst, data.newLast, data.newEmail, hash, data.grainger, data.quoter, data.admin, data.active], function (err,res) {
+      if(err.error)
+        return callback(err);
+      callback(res);
+    })
   }
 
   static remove (id, callback) {

@@ -1,13 +1,15 @@
 var express = require('express');
 var Users = require('../models/users');
 var router = express.Router();
+const { check, validationResult } = require('express-validator/check');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const saltRounds = 8;
 
 router.get('/', async function(req, res) { // request and response object
-  Users.retreiveAll(function(err, users) {
+  let page = req.query.page;
+  Users.retreiveAll(page, function(err, users) {
     if(err)
       return res.json(err);
     return res.json(users); //send users list or table
@@ -19,6 +21,15 @@ router.get('/quoters', async function(req, res) { // request and response object
     if(err)
       return res.json(err);
     return res.json(result); //send users list or table
+  });
+});
+
+// Get count of all submitted users for pagination
+router.get('/count', async function(req, res) {
+  Users.getCount(function(err, result) {
+    if(err)
+      return res.json(err);
+    return res.json(result);
   });
 });
 
@@ -82,38 +93,30 @@ router.post('/login', async function(req, res, next) { // request and response o
 
 });
 
-router.post('/', function (req, res) {
-  req.checkBody('newFirst', 'First Name field cannot be empty.').notEmpty();
-  req.checkBody('newLast', 'Last Name field cannot be empty.').notEmpty();
-  req.checkBody('newEmail', 'The email you entered is invalid, please try again.').isEmail();
-  req.checkBody('newEmail', 'Email address must be between 4-100 characters long, please try again.').len(4, 100);
-  req.checkBody('password', 'Password must be between 8-30 characters long.').len(8, 30);
-  req.checkBody("password", "Password must include one lowercase character, one uppercase character, a number, and a special character.").
-  matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* )(?=.*[^a-zA-Z0-9]).{8,}$/, "i");
+router.post('/create',  [
+    check('newFirst', 'First Name field cannot be empty.').not().isEmpty(),
+    check('newLast', 'Last Name field cannot be empty.').not().isEmpty(),
+    check('newEmail', 'The email you entered is invalid, please try again.').isEmail(),
+    check('newEmail', ' Please enter an Email address.').not().isEmpty(),
+    check('newPassword', ' Please enter an password.').not().isEmpty(),
+    check('newPassword', 'Password must be 8 or more characters long.').isLength({min:8})
+  ], function (req, res) {
 
-  if (errors) {
-    res.render('AddNewUser', {
-       errors: errors
-    });
-    throw new Error(errors);
+  var errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    console.log("If statemnet errir:", errors.array()[0].msg);
+    return res.status(400).json({ errors: errors.array() });
   }
-
-  var first  = req.body.newFirst; // from client
-  var last =  req.body.newLast;
-  var email =  req.body.newEmail;
-  var password =  req.body.newPassword;
-  var grainger = req.body.grainger;
-  var quoter =  req.body.quoter;
-  var admin = req.body.admin;
-  var active = req.body.active;
-
-  bcrypt.hash(password, saltRounds, function(err, hash) {
-    Users.insert(first, last, email, hash, grainger, quoter, admin, active, function(err, result) { // insert into datbase
-      if(err)
-        return res.json(err); // response to front end
-      return res.json(result);
-    })
-  });
+  else {
+    bcrypt.hash( req.body.newPassword, saltRounds, function(err, hash) {
+      Users.insert( hash, req.body, function(err, result) {
+        if(err)
+          return res.json(err);
+        return res.json(result);
+      })
+    });
+  }
 });
 
 function validUser (user) {

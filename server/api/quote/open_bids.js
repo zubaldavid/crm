@@ -1,6 +1,7 @@
 var express = require('express');
-var OpenBids=require('../../models/quote/open_bids');
 var router = express.Router();
+var OpenBids = require('../../models/quote/open_bids');
+const { check, validationResult } = require('express-validator/check');
 
 // Get all quotes submitted quotes from the the database by page.
 router.get('/', async function(req, res) {
@@ -49,16 +50,32 @@ router.get('/awards', async function(req, res) {
   });
 });
 
-router.post('/create', function (req, res) {
-  OpenBids.insert(req.body, function(err, result) { // insert into datbase
-    if(err)
-      return res.json(err); // response to front end
-    return res.json(result);
-  })
+router.post('/create', [
+    check('agency', 'An agency is required.').not().isEmpty(),
+    check('poc', 'A point of contact is required.').not().isEmpty(),
+    check('solicitation', 'Please enter a solicitation number.').not().isEmpty(),
+    check('employee', 'Please choose an employee for this quote.').not().isEmpty(),
+    check('description', 'Where is the description?').not().isEmpty(),
+    check('received', 'Please enter a received date.').not().isEmpty(),
+    check('dueDate', 'Enter a due date.').not().isEmpty(),
+    check('dueTime', 'Enter a due time.').not().isEmpty(),
+  ], function (req, res) {
+
+  var errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  else {
+    OpenBids.insert(req.body, function(err, result) {
+      if(err)
+        return res.json(err); 
+      return res.json(result);
+    })
+  }
 });
 
 router.put('/edit', function (req, res) {
-
   // Check for objects in body values
   for( var key in req.body) {
     if(typeof req.body[key] === 'object' && req.body[key] !== null) {

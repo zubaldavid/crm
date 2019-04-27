@@ -36,7 +36,6 @@ class Main extends Component {
 function Dashboard(props) {
   return(
     <div>
-      <TopHeader />
       <SideBar />
     </div>
   )

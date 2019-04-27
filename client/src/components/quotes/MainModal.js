@@ -6,10 +6,13 @@ import BilledForm from './forms/BilledForm';
 import PropTypes from 'prop-types';
 import {
   Button,
+  Header,
+  Grid,
   Icon,
   Input,
   Message,
   Modal,
+  Rail,
   Select,
   Transition
 } from 'semantic-ui-react'
@@ -38,7 +41,8 @@ class MainModal extends Component {
       showMessage: false,
       message: '',
       animation: 'fade',
-      duration: 800
+      duration: 800,
+      errors: []
     };
   }
 
@@ -69,9 +73,13 @@ class MainModal extends Component {
     this.props.updateBidsList(page);
   }
 
+  handleErrors = (errors) => {
+      this.setState({ showMessage: true , errors: errors })
+  }
+
   handleMessage = (newMessage) => {
     console.log("We got to handle message: ", newMessage );
-    this.setState({showMessage: true , message: newMessage});
+    this.setState({ showMessage: true , message: newMessage });
      setTimeout(() => {
        this.setState({showMessage: false});
      }, 3000);
@@ -110,16 +118,23 @@ class MainModal extends Component {
   }
 
   render() {
-    const { message, animation, duration, showMessage, quoteAction, paymentAction } = this.state
+    const {errors, message, animation, duration, showMessage, quoteAction, paymentAction } = this.state
     return (
       <div>
       <Modal style={style.modal} trigger={this.showTrigger()} closeIcon>
           <Modal.Header style={style.head}>{this.props.header}</Modal.Header>
-            <Transition visible={showMessage}animation={animation} duration={duration}>
-            <Message color='green'>{message}</Message>
-            </Transition>
+          <Transition visible={showMessage} animation={animation} duration={duration}>
+          <Rail position='right'>
+            <Message hidden={!this.state.message} style={{width: '80%'}} size='small' color='green'>
+              <Header as='h4' textAlign='center'> {message} </Header>
+             </Message>
+             {errors.map(e =>
+               <Message color='red' size='mini'> *{e.msg}</Message>
+             )}
+          </Rail>
+          </Transition>
            <Modal.Content>
-             { this.state.showQuote && <NewQuoteForm id={this.props.id} form={'quote'}
+             {  this.state.showQuote && <NewQuoteForm id={this.props.id} form={'quote'}
                 tableAgency={this.props.tableAgency}
                 tablePOC={this.props.tablePOC}
                 tableRev={this.props.tableRev}
@@ -128,14 +143,17 @@ class MainModal extends Component {
                 type={quoteAction}
                 extended={this.props.cost}
                 confirmation={this.handleMessage}
+                error={this.handleErrors}
                 costExtention={this.props.costExtention}
                 tableBuyer={this.props.buyer}
                 updateBidsTable={this.updateBidsTable}
                 />
               }
-             { this.state.showPayment && <NewPaymentForm id={this.props.id} form={'payment'}
-                type={paymentAction}
-                confirmation={this.handleMessage} />}
+             { this.state.showPayment && <NewPaymentForm
+               id={this.props.id} 
+               confirmation={this.handleMessage}
+               error={this.handleErrors} form={'payment'}
+              />}
              { this.state.showBilled && <BilledForm invoice={this.props.invoice} form={'billed'}/>}
            </Modal.Content>
         </Modal>

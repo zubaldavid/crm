@@ -69,7 +69,7 @@ class DeadBidsTable extends Component {
 
   render() {
     const {allQuotes, loading, count} = this.state;
-    const pages = Math.round(count / 20) + 1;
+    const pages = Math.ceil(count / 20);
     const style = {
         edit: { marginLeft:'4%'},
         table: {width: '92%'},
