@@ -18,12 +18,11 @@ import AllPaymentsTable from './finance/AllPaymentsTable'
 const App = () => (
   <BrowserRouter>
       <div className = "container">
-        <TopHeader/>
         <Route exact path="/login" component= {Login}/>
-        <Route exact path="/" component= {Dashboard}/>
+        <Route path="/" component= {TopHeader}/>
         <Route path="/main" component={Main}/>
         <Route path="/home" component={Dashboard}/>
-        <Route path="/quotes" component={QuoteTabBar}/>
+        <Route exact path="/quotes" component={QuoteTabBar}/>
         <Route path="/users" component={UsersTable}/>
         <Route path="/create-user" component={AddNewUser}/>
         <Route path="/create-quote" component={NewQuoteForm}/>

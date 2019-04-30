@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {dateFormat, numberFormat, removeMoneyFormat} from '../Formats';
 import { PropTypes } from 'prop-types';
 import PaginateTables from '../PaginateTables';
 import {
@@ -84,8 +85,8 @@ class AllPaymentsTable extends Component {
                 <Table.Row key={d.id}>
                   <Table.Cell>{d.invoice}</Table.Cell>
                   <Table.Cell>{d.vendor}</Table.Cell>
-                  <Table.Cell>{d.date_ordered}</Table.Cell>
-                  <Table.Cell>{d.date_delivered}</Table.Cell>
+                  <Table.Cell>{dateFormat(d.date_ordered)}</Table.Cell>
+                  <Table.Cell>{dateFormat(d.date_delivered)}</Table.Cell>
                   <Table.Cell>{d.subtotal}</Table.Cell>
                   <Table.Cell>{d.shipping}</Table.Cell>
                   <Table.Cell>{d.taxes}</Table.Cell>

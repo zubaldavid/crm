@@ -31,7 +31,7 @@ class TopHeader extends Component {
           <Button style={{marginLeft: '1%'}}> <Icon name='database'/> BPA </Button>
           <Link to='finance'><Button style={{marginLeft: '1%'}}> <Icon name='dollar'/> Finance </Button></Link>
           <Link to='users'> <Button style={{marginLeft: '1%'}}> <Icon name='user'/> Users </Button> </Link>
-          <Link to='/'>
+          <Link to='/login'>
             <LogoutButton/>
           </Link>
           </div>

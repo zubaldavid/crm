@@ -84,7 +84,7 @@ class PaymentsTableModal extends Component {
        </Grid.Row>
        </Modal.Header>
        <Modal.Content>
-          <Progress progress='value' value={removeMoneyFormat(this.state.total)} total={this.props.cost} color='blue' indicating> {numberFormat(this.props.cost)}</Progress>
+          <Progress progress='value' value={removeMoneyFormat(this.state.total)} total={this.props.cost} color='blue' indicating>Total: {numberFormat(this.props.cost) || 0}</Progress>
          <Table compact size='small'>
            <TableHeader/>
            {this.state.loading &&<Dimmer active>

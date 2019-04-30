@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   Card,
+  Button,
   Grid,
   Header,
   Label,
@@ -28,10 +29,22 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Segment style={{height: '90%', width: '99%', marginLeft: '.5%'}}>    
-      <Grid columns={2} style={style.grid}>
+      <Segment style={{height: '90%', width: '99%', marginLeft: '.5%'}}>
+      <Grid columns='equal' style={style.grid}>
       <Grid.Column>
-          <Grid.Column> <Segment compact raised > <Header> QUOTES | $25,721</Header></Segment> </Grid.Column>
+            <Grid.Row columns={2}>
+              <Grid.Column>
+                <Segment compact raised > <Header> QUOTES | $25,721</Header></Segment>
+              </Grid.Column>
+              <Grid.Column>
+                <Button.Group float='right'>
+                  <Button> Yesterday</Button>
+                  <Button> Month </Button>
+                  <Button> Year</Button>
+                </Button.Group>
+              </Grid.Column>
+            </Grid.Row>
+
           <Segment raised >
             <Statistic.Group >
             { quoteStats.map(stats =>
@@ -48,7 +61,7 @@ class Dashboard extends Component {
             <Progress progress='value' value={quoter.value} total={25} size='small' color='blue'> {quoter.name} </Progress>
             )}
           </Segment>
-          </Grid.Column>
+      </Grid.Column>
 
           <Grid.Column>
           <Segment compact raised> <Header> GRAINGER | $17,026</Header></Segment>
