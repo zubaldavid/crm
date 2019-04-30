@@ -110,7 +110,7 @@ class AwardsBidsTable extends Component {
                 buyer={q.buyer}
               />
               </Table.Cell>
-              <Table.Cell><PaymentsTableModal invoice={q.invoice}/></Table.Cell>
+              <Table.Cell><PaymentsTableModal invoice={q.invoice} cost={q.cost}/></Table.Cell>
             </Table.Row>
           )}
         </Table>

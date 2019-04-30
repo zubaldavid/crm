@@ -85,9 +85,8 @@ export class UsersTable extends Component {
     return (
       <Segment  textAlign= 'left' style={style.mainSegment}>
       <Segment raised textAlign='center' style={style.headerSegment}>
-        <Header>ALL USERS </Header>
+        <Header as='h3'>ALL USERS </Header>
         </Segment>
-      <br/>
         <Table  style={{marginLeft: '5%', width: '90%'}} compact definition  >
           <TableHeaders/>
           {this.state.loading &&<Dimmer active>
@@ -133,9 +132,8 @@ export class UsersTable extends Component {
           </Table.Footer>
         </Table>
       </Segment>
-    );
+    )
   }
 }
-
 
 export default UsersTable

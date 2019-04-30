@@ -28,8 +28,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Segment style={{height: '90%', width: '99%', marginLeft: '.5%'}}>
-      <br/>
+      <Segment style={{height: '90%', width: '99%', marginLeft: '.5%'}}>    
       <Grid columns={2} style={style.grid}>
       <Grid.Column>
           <Grid.Column> <Segment compact raised > <Header> QUOTES | $25,721</Header></Segment> </Grid.Column>

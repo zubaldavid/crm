@@ -16,6 +16,14 @@ export function numberFormat (dollar) {
   }
 }
 
+export function removeMoneyFormat (dollar) {
+  if (dollar == null || dollar === 0 ) {}
+  else {
+    let value = parseFloat(dollar.replace(/\$|,/g, ''))
+    return value;
+  }
+}
+
 export function percentFormat (double) {
   if ( double == null ) {}
   else {

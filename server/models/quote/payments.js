@@ -1,8 +1,27 @@
 const db = require('../../database');
 
-
 class Payments {
-  static getPayments(invoice,callback) {
+
+  static getAllPayments (page, callback) {
+    let itemsPerPage = 15;
+    let offset = itemsPerPage;
+    let dataSet = ((page - 1) * itemsPerPage);
+    db.query('SELECT * from quote_payments ORDER by id LIMIT ($1) OFFSET ($2) ',[itemsPerPage, dataSet], function (err,res) {
+      if(err.error)
+        return callback(err);
+      callback(res);
+    });
+  }
+
+  static getCount (callback) {
+    db.query('SELECT COUNT(*) FROM quote_payments',  function (err,res) {
+      if(err.error)
+        return callback(err);
+      callback(res);
+    });
+  }
+
+  static getPaymentsByInvoice (invoice,callback) {
     db.query('SELECT * FROM quote_payments WHERE invoice=($1)',[invoice],  function (err,res) {
       if(err.error)
         return callback(err);

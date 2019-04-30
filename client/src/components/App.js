@@ -13,6 +13,7 @@ import NewQuoteForm from './quotes/forms/NewQuoteForm'
 import Dashboard from './home/HomeDashboard'
 import UsersTable from './users/UsersTable'
 import AddNewUser from './users/AddNewUser'
+import AllPaymentsTable from './finance/AllPaymentsTable'
 
 const App = () => (
   <BrowserRouter>
@@ -26,6 +27,7 @@ const App = () => (
         <Route path="/users" component={UsersTable}/>
         <Route path="/create-user" component={AddNewUser}/>
         <Route path="/create-quote" component={NewQuoteForm}/>
+        <Route path="/finance" component={AllPaymentsTable}/>
       </div>
   </BrowserRouter>
 );

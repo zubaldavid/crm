@@ -104,21 +104,18 @@ class AddNewUser extends Component {
   render() {
     const style = {
         form : {top:'2em', bottom: '2em', left:'20%', width: '60%' },
-        segment : {top: '4em', left: '20%', width: '60%', height:'35em'},
+        segment : {top: '1em', left: '20%', width: '60%', height:'35em'},
         error: { color:'red' }
     };
     const {errors} = this.state;
     return (
-      <Segment inverted color='blue' secondary>
-      <br/>
+      <Segment style={{height: '50%'}}inverted color='blue' secondary>
       <Rail internal position='right'>
-      <br/>
       { <Message hidden={!this.state.successMessage} color='green' size='small'>{this.state.successMessage}</Message>}
       {errors.map(e =>
         <Message color='red' size='mini'> *{e.msg}</Message>
       )}
       </Rail>
-      <br/>
       <Segment textAlign='center' raised  style={{left: '40%',width: '20%'}}>
         <Header> CREATE NEW USER</Header>
       </Segment>

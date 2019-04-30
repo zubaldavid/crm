@@ -29,7 +29,7 @@ class TopHeader extends Component {
           <Link to='quotes'> <Button style={{marginLeft: '1%'}}> <Icon name='folder open'/> Quotes</Button></Link>
           <Button style={{marginLeft: '1%'}}> <Icon name='gofore'/> Grainger </Button>
           <Button style={{marginLeft: '1%'}}> <Icon name='database'/> BPA </Button>
-          <Button style={{marginLeft: '1%'}}> <Icon name='dollar'/> Finance </Button>
+          <Link to='finance'><Button style={{marginLeft: '1%'}}> <Icon name='dollar'/> Finance </Button></Link>
           <Link to='users'> <Button style={{marginLeft: '1%'}}> <Icon name='user'/> Users </Button> </Link>
           <Link to='/'>
             <LogoutButton/>

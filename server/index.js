@@ -32,6 +32,14 @@ app.use('/api/users', require('./api/users'));
 app.use('/api/dashBoard', require('./api/dashboard'));
 app.use('/api/dropdowns', require('./api/dropdowns'));
 
+// Builds project when in production
+// if (ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, '../client/build')));
+//   app.use(req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/build/index.html'));
+//   }
+// }
+
 // Express will listen to the port and handle the request
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);

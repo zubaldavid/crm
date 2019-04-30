@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import {dateFormat} from '../Formats';
+import {dateFormat, numberFormat, removeMoneyFormat} from '../Formats';
 import PropTypes from 'prop-types';
 import MainModal from './MainModal';
 import {
   Dimmer,
+  Grid,
   Icon,
   Loader,
   Modal,
+  Progress,
   Segment,
   Table,
 } from 'semantic-ui-react'
@@ -32,7 +34,7 @@ class PaymentsTableModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      payments: [], total: 0,
+      payments: [], total: 0, progressValue: 0
     };
   }
 
@@ -48,20 +50,20 @@ class PaymentsTableModal extends Component {
   }
 
   getPaymentsTotalBill (invoice) {
-    let url = ('/api/quote/payments/getTotal/?invoice=' + invoice);
+    let url = ('/api/quote/payments/gettotal/?invoice=' + invoice);
     console.log('Payment url:', url);
     fetch(url)
     .then(res => res.json())
     .then(data => {
-      this.setState({total:data});
-      console.log("payments", this.state.total);
+      console.log("Total from payments:", data[0].sum);
+      this.setState({total:data[0].sum});
     });
   }
 
   componentDidMount () {
     setTimeout(() => this.setState({ loading: false }), 700); // simulates loading of data
+    this.getPaymentsTotalBill(this.props.invoice);
     this.getPaymentsList(this.props.invoice);
-  //  this.getPaymentsTotalBill(this.props.invoice);
     console.log('Payments Modal Table did mount.');
   }
 
@@ -75,12 +77,14 @@ class PaymentsTableModal extends Component {
 
    return (
      <Modal style={style.modal} trigger={<Icon hover name='bars'/> }>
-       <Modal.Header style={style.head}> PAYMENT(S) FOR INV: {this.props.invoice}</Modal.Header>
+       <Modal.Header style={style.head}>
+       <Grid.Row>
+          PAYMENT(S) FOR INV: {this.props.invoice}
+         <Segment raised compact  size='mini' style={{width: '15%', float: 'right'}} >Balance: {numberFormat(this.props.cost - removeMoneyFormat(this.state.total)) || 0} </Segment>
+       </Grid.Row>
+       </Modal.Header>
        <Modal.Content>
-          <Segment size='small' style={{float: 'left', width: '10%'}} riased> Total: {this.state.total}</Segment>
-          <MainModal  button={'true'} buttonName={'New Payment'} header={'NEW PAYMENT'}/>
-          <br/>
-          <br/>
+          <Progress progress='value' value={removeMoneyFormat(this.state.total)} total={this.props.cost} color='blue' indicating> {numberFormat(this.props.cost)}</Progress>
          <Table compact size='small'>
            <TableHeader/>
            {this.state.loading &&<Dimmer active>
@@ -99,7 +103,7 @@ class PaymentsTableModal extends Component {
                    <Table.Cell>{q.payment_method}</Table.Cell>
                    <Table.Cell>{q.status}</Table.Cell>
                    <Table.Cell>{q.comment}</Table.Cell>
-                   <Table.Cell><MainModal icon={'true'} id={q.id} header={'EDIT PAYMENT'}/></Table.Cell>
+                   <Table.Cell><MainModal icon={'true'} id={q.id} dimmer='false'header={'EDIT PAYMENT'}/></Table.Cell>
                  </Table.Row>
                )}
          </Table>
