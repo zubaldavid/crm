@@ -103,8 +103,8 @@ class AddNewUser extends Component {
 
   render() {
     const style = {
-        form : {top:'2em', bottom: '2em', left:'20%', width: '60%' },
-        segment : {top: '1em', left: '20%', width: '60%', height:'35em'},
+        form : {top:'2em', bottom: '2em', left:'15%', width: '70%' },
+        segment : {top: '1em', left: '25%', width: '50%', height:'35em'},
         error: { color:'red' }
     };
     const {errors} = this.state;

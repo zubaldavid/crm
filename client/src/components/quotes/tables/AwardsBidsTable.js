@@ -16,7 +16,7 @@ import {
 const headers = [
   'INV', 'Quote Number', 'Agency','Point of Contact','Description','Status',
   'Buyer', 'Employee', 'Date PO Rec','PO Number', 'Cost','Date Exp Del',
-  'Date PO Ordered',
+  'Date PO Ordered',,'', ''
 ]
 
 function TableHeader(props) {

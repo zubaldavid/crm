@@ -10,8 +10,10 @@ import {
   Header,
   Grid,
   Icon,
+  Input,
   Loader,
   Popup,
+  Select,
   Segment,
   Table
 } from 'semantic-ui-react'
@@ -37,8 +39,12 @@ class AllPaymentsTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      payments: [], loading: true, count:0,
+      payments: [], loading: true, count:0, searchValue: ''
     };
+  }
+
+  handleSearch = () => {
+
   }
 
   getAllPayments = (activePage) => {
@@ -72,10 +78,18 @@ class AllPaymentsTable extends Component {
     const pages = Math.ceil(count / 15);
     return (
       <Segment textAlign= 'left' style={style.mainSegment}>
-      <Segment raised textAlign='center' style={style.headerSegment}>
-        <Header as='h3'>ALL PAYMENTS </Header>
-        </Segment>
-        <Table  style={{marginLeft: '5%', width: '90%'}} compact definition >
+      <div style={{marginLeft: '5%', width: '90%'}}>
+      <Grid columns={2}>
+      <Grid.Column>  <Segment compact raised textAlign='center' style={style.headerSegment}>
+          <Header as='h3'>ALL PAYMENTS </Header>
+        </Segment></Grid.Column>
+        <Grid.Column>
+          <Input  style={{float: 'right'}}'  placeholder='Search...'  name='searchValue' value={this.state.searchValue} onChange={this.handleSearch} />
+          <Select compact value = options={searchOptions} defaultValue='Invoice' />
+          <Button disable={!this.state.searchValue} primary type='submit'>Search</Button>
+        </Grid.Column>
+        </Grid>
+        <Table compact definition >
           <TableHeaders/>
           {this.state.loading &&<Dimmer active>
             <Loader/>
@@ -110,15 +124,22 @@ class AllPaymentsTable extends Component {
             </Table.Row>
           </Table.Footer>
         </Table>
+        </div>
       </Segment>
     )
   }
 }
 
+const searchOptions = [
+  { key: '1', text: 'Invoice', value: 'invoice' },
+  { key: 'org', text: 'Vendor', value: 'Vendor' },
+  { key: 'site', text: 'Pay Method', value: 'Pay Method'},
+]
+
 const style = {
     edit: { marginLeft: '8%'},
     mainSegment: {marginLeft: '.5%', width: '99%', height: '90%'},
-    headerSegment: {marginLeft: '40%', width: "20%"},
+    headerSegment: {marginLeft: '12%', width: "50%"},
 };
 
 export default AllPaymentsTable;

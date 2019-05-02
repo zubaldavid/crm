@@ -24,7 +24,6 @@ class Dashboard extends Component {
   }
 
   componentDidMount () {
-
   }
 
   render() {
@@ -32,18 +31,18 @@ class Dashboard extends Component {
       <Segment style={{height: '90%', width: '99%', marginLeft: '.5%'}}>
       <Grid columns='equal' style={style.grid}>
       <Grid.Column>
-            <Grid.Row columns={2}>
+            <Grid columns={2}>
               <Grid.Column>
-                <Segment compact raised > <Header> QUOTES | $25,721</Header></Segment>
+                <Segment compact raised > <Header> Contracts | $25,721</Header></Segment>
               </Grid.Column>
               <Grid.Column>
-                <Button.Group float='right'>
+                <Button.Group style={{float: 'right'}}>
                   <Button> Yesterday</Button>
                   <Button> Month </Button>
                   <Button> Year</Button>
                 </Button.Group>
               </Grid.Column>
-            </Grid.Row>
+            </Grid>
 
           <Segment raised >
             <Statistic.Group >
@@ -64,7 +63,18 @@ class Dashboard extends Component {
       </Grid.Column>
 
           <Grid.Column>
-          <Segment compact raised> <Header> GRAINGER | $17,026</Header></Segment>
+          <Grid columns={2}>
+            <Grid.Column>
+              <Segment compact raised > <Header> Grainger | $25,721</Header></Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Button.Group style={{float: 'right'}}>
+                <Button> Yesterday</Button>
+                <Button> Month </Button>
+                <Button> Year</Button>
+              </Button.Group>
+            </Grid.Column>
+          </Grid>
             <Segment raised >
               <Statistic.Group >
               { graingerStats.map(stats =>

@@ -125,7 +125,12 @@ export class UsersTable extends Component {
                 <Button floated='right' icon labelPosition='left' primary size='small'>
                   <Icon name='user' /> Add User
                 </Button>
-               </Link>
+                </Link>
+                <Link to='/reset-user'>
+                <Button floated='right' icon labelPosition='left' primary size='small'>
+                  <Icon name='redo' /> Reset User
+                </Button>
+                </Link>
               <PaginateTables totalPages={pages}  handlePagination={this.getUsersList}/>
               </Table.HeaderCell>
             </Table.Row>

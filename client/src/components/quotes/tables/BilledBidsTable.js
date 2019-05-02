@@ -12,7 +12,7 @@ import {
 
 const headers = [
   'Invoice', 'PO Number', 'Agency', 'Point of Contact', 'Description', 'Employee', 'Date Billed', 'Net Terms', 'Due Date',
-  'Total Bill', 'State', 'City', 'Tracking #', 'Balance'
+  'Total Bill', 'State', 'City', 'Tracking #', 'Balance', ''
 ]
 
 function TableHeader(props) {

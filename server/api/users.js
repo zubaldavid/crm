@@ -33,6 +33,35 @@ router.get('/count', async function(req, res) {
   });
 });
 
+router.post('/reset', [
+    check('email', 'Choose a user to reset.').not().isEmpty(),
+    check('password', 'Password field cannot be empty.').not().isEmpty(),
+    check('password', 'Password must be at least 8 characters long.').isLength({min:8})
+    ], function (req, res) {
+
+    var errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      console.log("If statemnet error:", errors.array()[0].msg);
+      return res.json({ errors: errors.array() });
+    }
+    else {
+      Users.UserReset(req.body, function(err, result) {
+        if(err)
+          return res.json(err);
+        return res.json(result);
+      });
+    }
+})
+
+router.get('/emails', async function (req, res) {
+  Users.getAllEmails(function(err, result) {
+    if(err)
+      return res.json(err);
+    return res.json(result);
+  });
+});
+
 // --------------
 router.get('/user', async function(req, res) { // request and response object
   let id = req.query.id;

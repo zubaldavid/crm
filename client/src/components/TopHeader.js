@@ -26,7 +26,7 @@ class TopHeader extends Component {
           </Header>
 
           <Link to='home'> <Button style={{marginLeft: '5%'}}> <Icon name='home'/> Home</Button> </Link>
-          <Link to='quotes'> <Button style={{marginLeft: '1%'}}> <Icon name='folder open'/> Quotes</Button></Link>
+          <Link to='quotes'> <Button style={{marginLeft: '1%'}}> <Icon name='folder open'/> Contracts</Button></Link>
           <Button style={{marginLeft: '1%'}}> <Icon name='gofore'/> Grainger </Button>
           <Button style={{marginLeft: '1%'}}> <Icon name='database'/> BPA </Button>
           <Link to='finance'><Button style={{marginLeft: '1%'}}> <Icon name='dollar'/> Finance </Button></Link>

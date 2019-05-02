@@ -11,7 +11,7 @@ import {
 
 const headers = [
   'Quote Number','Agency', 'Solictation', 'Revision', 'Point of Contact','Employee',
-  'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent'
+  'Received', 'Description', 'Status', 'Due Date','Due Time', 'Date Sent', ''
 ]
 
 function TableHeader(props) {

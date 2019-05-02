@@ -3,7 +3,6 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
-//const expressSession = require('express-session');
 const passport = require('passport-local');
 
 var db = require('./database');

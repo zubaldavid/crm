@@ -1,5 +1,6 @@
 const db = require('../database');
 const saltRounds = 8;
+const bcrypt = require('bcrypt');
 
 class Users {
   static retreiveAll (page, callback) {
@@ -37,6 +38,24 @@ class Users {
       callback(res);
     });
   }
+
+  static getAllEmails (callback) {
+    db.query('SELECT email FROM users',  function (err,res) {
+      if(err.error)
+        return callback(err);
+      callback(res);
+    });
+  }
+
+  static UserReset (data, callback) {
+  bcrypt.hash( data.password, saltRounds, function(err, hash) {
+    db.query('UPDATE users SET password=($1) WHERE email=($2)', [hash, data.email], function (err,res) {
+      if(err.error)
+        return callback(err);
+    });
+    callback(res);
+  })
+}
 
   static getUserLogin (email,callback) {
     db.query('SELECT first_name from users WHERE email=($1)', [email], function (err,res) {
