@@ -8,7 +8,6 @@ router.get('/', function(req, res, next) {
   res.session.errors = null;
 });
 
-
 // Get all payments.
 router.get('/all', async function(req, res) {
   let page = req.query.page;
@@ -19,6 +18,38 @@ router.get('/all', async function(req, res) {
   });
 });
 
+router.get('/search/', async function(req, res) {
+  var page = req.query.page;
+  var type = req.query.type;
+  var value = req.query.value;
+  console.log("What is page:", page);
+  console.log("What is type:", type);
+  console.log("What is value:", value);
+  switch(type) {
+    case 'invoice':
+      Payments.searchInvoice(value, page, function(err, result) {
+        if(err)
+          return res.json(err);
+        return res.json(result);
+      });
+      break;
+    case 'vendor':
+      Payments.searchVendor(value, page, function(err, result) {
+        if(err)
+          return res.json(err);
+        return res.json(result);
+      });
+      break;
+    default:
+      break;
+  }
+  Payments.searchAllPayments(invoice, page, function(err, result) {
+    if(err)
+      return res.json(err);
+    return res.json(result);
+  });
+})
+
 router.get('/count', async function(req, res) {
   let page = req.query.page;
   Payments.getCount(function(err, result) {
@@ -27,7 +58,6 @@ router.get('/count', async function(req, res) {
     return res.json(result);
   });
 });
-
 
 // Get all payments based on invoice.
 router.get('/inv', async function(req, res) {

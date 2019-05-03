@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {dateFormat, numberFormat, removeMoneyFormat} from '../Formats';
 import { PropTypes } from 'prop-types';
+import Select from 'react-select';
 import PaginateTables from '../PaginateTables';
 import {
   Button,
@@ -13,7 +14,6 @@ import {
   Input,
   Loader,
   Popup,
-  Select,
   Segment,
   Table
 } from 'semantic-ui-react'
@@ -39,27 +39,27 @@ class AllPaymentsTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      payments: [], loading: true, count:0, searchValue: ''
+      payments: [], loading: true, count:0, searchValue: '', searchType: 'invoice', count: 0
     };
   }
 
-  handleSearch = () => {
+  handleSearchSelect = (searchType) => {this.setState({searchType})}
+  handleSearch = (e) => {this.setState({[e.target.name]: e.target.value})}
 
-  }
-
-  getAllPayments = (activePage) => {
+  getAllPayments = (url, activePage) => {
     if ( activePage === undefined) {activePage = 1;}
-    let url = ('/api/quote/payments/all/?page=' + activePage);
-    fetch(url)
+    let newUrl = (url + activePage);
+    console.log("new url:",newUrl);
+    fetch(newUrl)
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      console.log("Return data:",data);
       this.setState({payments:data});
     })
   }
 
-  getCount () {
-    fetch('/api/quote/payments/count')
+  getCount (url) {
+    fetch(url)
     .then(res => res.json())
     .then(data => {
       this.setState({count:data[0].count});
@@ -67,10 +67,45 @@ class AllPaymentsTable extends Component {
     });
   }
 
+
+  searchPayments = (activePage) => {
+    console.log("selection:", this.state.searchType.value);
+    switch (this.state.searchType.value) {
+      case  'invoice':
+         console.log('/api/quote/payments/search/?value=' + this.state.searchValue +'&'+ 'type=' + this.state.searchType.value +'&'+ 'page=');
+         this.getAllPayments('/api/quote/payments/search/?value=' + this.state.searchValue +'&'+ 'type=' + this.state.searchType.value +'&'+ 'page=', activePage);
+         this.getCount('/api/quote/payments/count/?invoice=' + this.state.searchValue);
+        break;
+      case 'vendor':
+      console.log('/api/quote/payments/serach/?value=' + this.state.searchValue + 'page=');
+        this.getAllPayments('/api/quote/payments/all/?vendor=');
+        break;
+      case 'pay':
+        this.getAllPayments('/api/quote/payments/all/?pmethod=');
+        break;
+      default:
+        this.getAllPayments('/api/quote/payments/all/?page=', activePage);
+    }
+    this.setState({searchValue: ''});
+  }
+
+  searchPaymentsByInvoice = (url,activePage) => {
+    if ( activePage === undefined) {activePage = 1;}
+    let newUrl = (url + activePage);
+    console.log("new url:",url);
+    fetch(newUrl)
+    .then(res => res.json())
+    .then(data => {
+      console.log("Return data by invoice:",data);
+      this.setState({payments:data});
+    })
+  }
+
+
   componentDidMount () {
     setTimeout(() => this.setState({ loading: false }), 800);
-    this.getAllPayments();
-    this.getCount();
+    this.getAllPayments('/api/quote/payments/all/?page=');
+    this.getCount('/api/quote/payments/count');
   }
 
   render() {
@@ -84,12 +119,14 @@ class AllPaymentsTable extends Component {
           <Header as='h3'>ALL PAYMENTS </Header>
         </Segment></Grid.Column>
         <Grid.Column>
-          <Input  style={{float: 'right'}}'  placeholder='Search...'  name='searchValue' value={this.state.searchValue} onChange={this.handleSearch} />
-          <Select compact value = options={searchOptions} defaultValue='Invoice' />
-          <Button disable={!this.state.searchValue} primary type='submit'>Search</Button>
+            <Input style={{float: 'right'}}  placeholder='Search...' name='searchValue' value={this.state.searchValue} onChange={this.handleSearch} action>
+            <input/>
+            <Select options={searchOptions}  value={this.searchType} onChange={this.handleSearchSelect}/>
+            <Button disabled={!this.state.searchValue} primary type='submit' onClick={this.searchPayments}>Search</Button>
+          </Input>
         </Grid.Column>
         </Grid>
-        <Table compact definition >
+        <Table small compact definition >
           <TableHeaders/>
           {this.state.loading &&<Dimmer active>
             <Loader/>
@@ -119,11 +156,12 @@ class AllPaymentsTable extends Component {
                   <Icon name='user' /> Add Payment
                 </Button>
                </Link>
-              <PaginateTables totalPages={pages}  handlePagination={this.getAllPayments}/>
+              <PaginateTables totalPages={pages}  handlePagination={this.searchPayments}/>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
         </Table>
+        {this.state.searchValue} {this.state.selected}
         </div>
       </Segment>
     )
@@ -131,9 +169,9 @@ class AllPaymentsTable extends Component {
 }
 
 const searchOptions = [
-  { key: '1', text: 'Invoice', value: 'invoice' },
-  { key: 'org', text: 'Vendor', value: 'Vendor' },
-  { key: 'site', text: 'Pay Method', value: 'Pay Method'},
+  { label: 'Invoice', value: 'invoice' },
+  { label: 'Vendor', value: 'vendor' },
+  { label: 'Pay Method', value: 'pay'},
 ]
 
 const style = {

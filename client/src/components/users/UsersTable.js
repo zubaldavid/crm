@@ -87,7 +87,7 @@ export class UsersTable extends Component {
       <Segment raised textAlign='center' style={style.headerSegment}>
         <Header as='h3'>ALL USERS </Header>
         </Segment>
-        <Table  style={{marginLeft: '5%', width: '90%'}} compact definition  >
+        <Table small style={{marginLeft: '5%', width: '90%'}} compact definition  >
           <TableHeaders/>
           {this.state.loading &&<Dimmer active>
             <Loader/>

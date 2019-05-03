@@ -15,6 +15,7 @@ import UsersTable from './users/UsersTable'
 import AddNewUser from './users/AddNewUser'
 import ResetUser from './users/ResetUser'
 import AllPaymentsTable from './finance/AllPaymentsTable'
+import HOC from './AutoLogout';
 
 const App = () => (
   <BrowserRouter>
@@ -22,7 +23,7 @@ const App = () => (
         <Route exact path="/login" component= {Login}/>
         <Route path="/" component= {TopHeader}/>
         <Route path="/main" component={Main}/>
-        <Route path="/home" component={Dashboard}/>
+        <Route path="/home" component={HOC(Dashboard)}/>
         <Route exact path="/quotes" component={QuoteTabBar}/>
         <Route path="/users" component={UsersTable}/>
         <Route path="/create-user" component={AddNewUser}/>
