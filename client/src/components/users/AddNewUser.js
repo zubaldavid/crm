@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom'
+import {Route, Redirect, Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import UsersTable from './UsersTable'
 import {
@@ -14,6 +14,7 @@ import {
   Rail,
   Segment
 } from 'semantic-ui-react'
+
 
 class AddNewUser extends Component {
   constructor(props) {
@@ -64,9 +65,7 @@ class AddNewUser extends Component {
         } else
             this.setState({errors: data.errors});
     })
-    setTimeout(() => {
-      //<Redirect to='/users' />
-    }, 2500);
+    return <Link to='/users'></Link>
   }
 
   handleEditUser = (id, e) => {

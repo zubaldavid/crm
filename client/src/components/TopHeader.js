@@ -4,6 +4,7 @@ import UsersModal from './users/Users';
 import {
   Button,
   Divider,
+  Dropdown,
   Grid,
   Header,
   Icon,
@@ -30,11 +31,16 @@ class TopHeader extends Component {
           <Button style={{marginLeft: '1%'}}> <Icon name='gofore'/> Grainger </Button>
           <Button style={{marginLeft: '1%'}}> <Icon name='database'/> BPA </Button>
           <Link to='finance'><Button style={{marginLeft: '1%'}}> <Icon name='dollar'/> Finance </Button></Link>
-          <Link to='users'> <Button style={{marginLeft: '1%'}}> <Icon name='user'/> Users </Button> </Link>
+          <Dropdown style={{marginLeft: '1%'}} text='Admin' icon='user' floating labeled button className='icon'>
+            <Dropdown.Menu>
+              <Dropdown.Item><Link to='users'>Users </Link></Dropdown.Item>
+              <Dropdown.Item>Logs</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
           <Link to='/login'>
             <LogoutButton/>
           </Link>
-          </div>
+        </div>
         </Segment>
     )
   }

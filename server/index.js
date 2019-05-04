@@ -3,19 +3,25 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
-const passport = require('passport-local');
-
+const passport = require('passport');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 var db = require('./database');
 
 const ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(expressValidator());
-//app.use(expressSession({secret: 'max', saveUninitialized: false, resave: false}));
+app.use(session({ secret: 'abc 123 syx asd34', resave: true, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Register created API's
 app.use('/api/quote/awarded_bids', require('./api/quote/awarded_bids'));

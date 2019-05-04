@@ -57,13 +57,24 @@ class Users {
   })
 }
 
-  static getUserLogin (email,callback) {
-    db.query('SELECT first_name from users WHERE email=($1)', [email], function (err,res) {
+  static getUserForAuth (email, callback) {
+    db.query('SELECT id from users WHERE email=($1)', [email], function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);
     });
   }
+
+
+  static login (data, callback) {
+    db.query('SELECT password from users WHERE email=($1)', [data.email], function (err,res) {
+        if(err.error)
+          return callback(err);
+        callback(res);
+    });
+  }
+
+
 
   static insert (hash, data, callback) {
     console.log(data);

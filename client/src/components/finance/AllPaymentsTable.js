@@ -74,7 +74,7 @@ class AllPaymentsTable extends Component {
       case  'invoice':
          console.log('/api/quote/payments/search/?value=' + this.state.searchValue +'&'+ 'type=' + this.state.searchType.value +'&'+ 'page=');
          this.getAllPayments('/api/quote/payments/search/?value=' + this.state.searchValue +'&'+ 'type=' + this.state.searchType.value +'&'+ 'page=', activePage);
-         this.getCount('/api/quote/payments/count/?invoice=' + this.state.searchValue);
+         this.getCount('/api/quote/payments/count/');
         break;
       case 'vendor':
       console.log('/api/quote/payments/serach/?value=' + this.state.searchValue + 'page=');
@@ -100,7 +100,6 @@ class AllPaymentsTable extends Component {
       this.setState({payments:data});
     })
   }
-
 
   componentDidMount () {
     setTimeout(() => this.setState({ loading: false }), 800);
