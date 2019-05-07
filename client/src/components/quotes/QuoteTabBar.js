@@ -6,7 +6,7 @@ import CompletedBidsTable from './tables/CompletedBidsTable';
 import OpenBidsTable from './tables/OpenBidsTable';
 import SourcesSoughtTable from './tables/SourcesSoughtTable';
 import DeadBidsTable from './tables/DeadBidsTable';
-
+import TopHeader from '../TopHeader'
 import {
   Button,
   Header,
@@ -146,6 +146,7 @@ class QuoteTabBar extends Component {
     const {color, activeIndex} = this.state;
     return (
       <div>
+        <TopHeader/>
         <Tab style={style.tabBar}
           onTabChange={this.handleTabChange}
           style={style.panes}

@@ -1,4 +1,4 @@
-//const path = require('path');
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
@@ -15,11 +15,13 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.set('client/src/components', path.join(__dirname, 'components'));
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(expressValidator());
-app.use(session({ secret: 'abc 123 syx asd34', resave: true, saveUninitialized: false }));
+app.use(session({ secret: 'acbcyu451sd', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -33,9 +35,9 @@ app.use('/api/quote/payments', require('./api/quote/payments'));
 app.use('/api/quote/ss_bids', require('./api/quote/ss_bids'));
 
 app.use('/api/users', require('./api/users'));
-//app.use('/api/logs', require('./api/logs'));
-app.use('/api/dashBoard', require('./api/dashboard'));
+app.use('/api/dashboard', require('./api/dashboard'));
 app.use('/api/dropdowns', require('./api/dropdowns'));
+//app.use('/api/logs', require('./api/logs'));
 
 // Builds project when in production
 // if (ENV === 'production') {

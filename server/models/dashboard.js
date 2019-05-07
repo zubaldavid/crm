@@ -1,12 +1,13 @@
 const db = require('../database');
 
-class OpenBids {
-  static getSubmittedQuotes (callback) {
-    let submitted = 'Submitted';
-    db.query('SELECT COUNT(*) FROM quote_tracker WHERE (status = ($1)) ',[submitted],  function (err,res) {
+class DashBoard {
+
+  static openQuotes (days, callback) {
+    db.query('SELECT * FROM quote_tracker WHERE due_date between now() - interval $1 day and now()',[days],  function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);
     });
   }
+
 }

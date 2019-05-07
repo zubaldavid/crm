@@ -112,7 +112,7 @@ export class UsersTable extends Component {
                     <Checkbox slider name='admin' checked={d.admin} />
                   </Table.Cell>
                   <Table.Cell>
-                    <Icon name='edit' onClick={this.openEditForm(d.id)}/>
+                    <Link to={'/edit-user?id=' + d.id}><Icon name='edit'/></Link>
                   </Table.Cell>
                 </Table.Row>
               )}

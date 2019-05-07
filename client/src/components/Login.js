@@ -7,7 +7,7 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: '', password: '', errors:[],
+      email: '', password: '', errors: [], redirect: false
     };
   }
 
@@ -20,28 +20,28 @@ class Login extends Component {
 
   handleLogin = () => {
     fetch('/api/users/login', {
-      method: 'POST',
+      method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password
-      }).then(response => response.json())
-      .then((data) => {
-          if (data === undefined || data.length == 0) {
-              return <Redirect to="/home"/>
-          } else this.setState({errors: data.errors});
       })
+    }).then(response => response.json())
+    .then((data) => {
+      if (typeof data !== 'object') {
+          if(data === 'home')this.setState({redirect:true});
+      } else this.setState({errors: data.errors});
     })
   }
 
   render() {
     const {errors} = this.state;
+    if(this.state.redirect) {
+      return <Redirect to='/home'/>
+    }
     return (
       <div className='login-form'>
           <Grid textAlign='center' style={{ height: '100%'}} verticalAlign='middle'>
-          <Rail internal position='right'>
-            {errors.map(e => <Message color='red' size='mini'> *{e.msg}</Message> )}
-          </Rail>
           <Grid.Column style={{ width: '40%' }}>
             <Segment raised>
               <Header as='h2' color='00BAB4' textAlign='center'>
@@ -51,10 +51,11 @@ class Login extends Component {
                 {'TRACKSTER'}
               </Header>
               <Form style={{left: '15%', width: '70%', marginTop: '5%', marginBottom: '5%' }}>
+                {this.state.errors && errors.map(e => <Message color='red' size='mini'> *{e.msg}</Message> )}
                 <Form.Input icon='mail' iconPosition='left' name='email' placeholder='E-mail address' value={this.state.email} onChange={this.handleChange} />
                 <Form.Input icon='lock' iconPosition='left' placeholder='Password' name='password' type='password' value={this.state.password} onChange={this.handleChange} />
                 <br/>
-                  <Button disabled={!this.state.email} style={{marginLeft: '25%', width:'50%'}}color='blue' fluid size='large' onClick={this.handleLogin}> Log In</Button>
+                  <Button style={{marginLeft: '25%', width:'50%'}}color='blue' fluid size='large' onClick={this.handleLogin}> Log In</Button>
               </Form>
             </Segment>
             <Segment raised>

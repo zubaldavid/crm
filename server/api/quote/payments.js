@@ -3,10 +3,6 @@ var router = express.Router();
 var Payments = require('../../models/quote/payments');
 const { check, validationResult } = require('express-validator/check');
 
-router.get('/', function(req, res, next) {
-  res.render('NewPaymentForm', {title: 'Form Validation', success: req.session.success, errors:req.session.errors});
-  res.session.errors = null;
-});
 
 // Get all payments.
 router.get('/all', async function(req, res) {

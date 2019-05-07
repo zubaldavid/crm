@@ -20,7 +20,7 @@ class AddNewUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emails:[], errors: [], email: '', password: '', successMessage: ''
+      emails:[], errors: [], email: '', password: '', successMessage: '', redirect: false
     };
   }
 
@@ -35,7 +35,7 @@ class AddNewUser extends Component {
 
   handleUserReset = (e) => {
     e.preventDefault();
-    fetch('/api/users/login', {
+    fetch('/api/users/reset', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -51,8 +51,8 @@ class AddNewUser extends Component {
             this.setState({errors: data.errors});
     })
     setTimeout(() => {
-      return <Redirect to='/users'/>
-    }, 2500);
+      this.setState({redirect: true});
+    }, 2000)
   }
 
   getAllUsers = () => {
@@ -77,6 +77,11 @@ class AddNewUser extends Component {
         segment : {top: '1em', left: '30%', width: '40%', height:'35em'},
     };
     const {errors, emails} = this.state;
+
+    if(this.state.redirect) {
+      return <Redirect to='/users'/>
+    }
+    
     return (
       <Segment style={{height: '50%'}}inverted color='blue' secondary>
       <Rail internal position='right'>

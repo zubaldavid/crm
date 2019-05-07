@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import QuoteTabBar from './quotes/QuoteTabBar'
 import GraingerTabBar from './grainger/GraingerTabBar'
-import Dashboard from './home/HomeDashboard'
+import Dashboard from './HomeDashboard'
 import {
   Grid,
   Header,
@@ -89,7 +89,7 @@ class SideBar extends Component {
       div : { top:'.01em', left:'.5%', width: '99%', height: '61em', position:'relative'},
       gridCol: {width: '90%'},
     }
-    
+
     return (
       <div  style={style.div} >
         <Sidebar.Pushable as={Segment}>

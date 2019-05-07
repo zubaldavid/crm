@@ -53,7 +53,6 @@ class Users {
       if(err.error)
         return callback(err);
     });
-    callback(res);
   })
 }
 

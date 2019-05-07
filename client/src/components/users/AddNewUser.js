@@ -22,7 +22,7 @@ class AddNewUser extends Component {
     this.state = {
       showComplete: false,showForm: true,showTable: false,
       fields: {}, checks: {}, errors: [], singleUser:{},
-      grainger: false, quoter: false, admin: false, active: true, successMessage: ''
+      grainger: false, quoter: false, admin: false, active: true, successMessage: '', redirect: false
     };
   }
 
@@ -65,7 +65,9 @@ class AddNewUser extends Component {
         } else
             this.setState({errors: data.errors});
     })
-    return <Link to='/users'></Link>
+    setTimeout(() => {
+      this.setState({redirect: true});
+    }, 1000)
   }
 
   handleEditUser = (id, e) => {
@@ -80,9 +82,9 @@ class AddNewUser extends Component {
           grainger: this.state.grainger, quoter: this.state.quoter, admin: this.state.admin, active: this.state.active,
         })
       })
-
       setTimeout(() => {
-      }, 2500);
+        this.setState({redirect: true});
+      }, 1000)
   }
 
   getSingleUser = (id) => {
@@ -107,6 +109,11 @@ class AddNewUser extends Component {
         error: { color:'red' }
     };
     const {errors} = this.state;
+
+    if(this.state.redirect) {
+      return <Redirect to='/users'/>
+    }
+
     return (
       <Segment style={{height: '50%'}}inverted color='blue' secondary>
       <Rail internal position='right'>

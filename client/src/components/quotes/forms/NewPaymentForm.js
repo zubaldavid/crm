@@ -49,7 +49,7 @@ class NewPaymentForm extends Component {
   handleBill = (index, val ) => {
     this.setState({
       fullBill: this.state.fullBill.map((node, i) => (
-        i === index ? {...node, count: val} : node
+        i === index ? {...node, count: parseFloat(val)} : node
       ))
     })
   }
@@ -206,6 +206,7 @@ const BillingStatement = ({fullBill, onChange}) => (
       <label>{fullBill.title}</label>
       <Input
         icon='dollar'
+        type='number'
         iconPosition='left'
         fluid placeholder={fullBill.title}
         name={fullBill.title}

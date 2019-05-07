@@ -6,6 +6,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const saltRounds = 8;
+const db = require('../database')
 
 router.get('/', async function(req, res) { // request and response object
   let page = req.query.page;
@@ -73,59 +74,54 @@ router.get('/user', async function(req, res) { // request and response object
 });
 
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (!user.verifyPassword(password)) { return done(null, false); }
-      return done(null, user);
-    });
-  }
-));
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-});
+// passport.use(new LocalStrategy(
+//   function(username, password, done) {
+//     User.findOne({ username: username }, function (err, user) {
+//       if (err) { return done(err); }
+//       if (!user) { return done(null, false); }
+//       if (!user.verifyPassword(password)) { return done(null, false); }
+//       return done(null, user);
+//     });
+//   }
+// ));
+//
+// passport.serializeUser(function(user, done) {
+//   done(null, user.id);
+// });
+//
+// passport.deserializeUser(function(id, done) {
+// });
 
 
 router.post('/login', [
       check('email', 'Email field cannot be empty.').not().isEmpty(),
       check('password', 'Password field cannot be empty.').not().isEmpty(),
-    ], function (req, res) {
+    ], function (req, res, next) {
 
     var errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       console.log("If statemnet errir:", errors.array()[0].msg);
-      return res.json({ errors: errors.array() });
+      return res.json({ errors: errors.array()});
     }
     else {
-        Users.login(req.body, function(err, result) {
-          if(err)
-            return res.json(err);
-          return res.json(result);
-        })
+      console.log("We have entered the else");
+      db.query('SELECT password, id from users WHERE email=($1)', [req.body.email], function (error, results, fields) {
 
-        bcrypt.compare(req.body.password, result).then(function(res) {
-            if(res == true) {
-              Users.getUserForAuth(req.body, function(err, result) {
-                if(err)
-                  return res.json(err);
-                //return res.json(result);
+        const data = results[0];
 
-                console.log(result[0]);
-                req.login(results[0], function(err) {
-                    res.redirect('/home');
-                });
-              })
+        bcrypt.compare(req.body.password, data.password).then(function(result) {
+            if(result == true) {
+              console.log('Redirect to home.');
+              return res.json('home');
+            } else {
+              console.log("Passwords do not match");
+              return res.json({errors:[{msg: "Password is not correct"}]});
             }
         });
-    }
-  });
+      });
+   }
+})
 
 router.post('/create',  [
     check('newFirst', 'First Name field cannot be empty.').not().isEmpty(),
