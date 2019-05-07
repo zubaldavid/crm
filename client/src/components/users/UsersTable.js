@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
+import TopHeader from '../TopHeader'
 import PaginateTables from '../PaginateTables';
 import {
   Button,
@@ -83,6 +84,8 @@ export class UsersTable extends Component {
         headerSegment: {marginLeft: '40%', width: "20%"},
     };
     return (
+      <div>
+      <TopHeader/>
       <Segment  textAlign= 'left' style={style.mainSegment}>
       <Segment raised textAlign='center' style={style.headerSegment}>
         <Header as='h3'>ALL USERS </Header>
@@ -137,6 +140,7 @@ export class UsersTable extends Component {
           </Table.Footer>
         </Table>
       </Segment>
+     </div>
     )
   }
 }

@@ -10,6 +10,7 @@ import {
   Dimmer,
   Grid,
   Header,
+  Icon,
   Label,
   Loader,
   Progress,
@@ -26,7 +27,7 @@ const quoteStats = [{label:'Intake', value:12},{label:'Submitted', value:5},{lab
 const graingerStats = [{label:'Intake', value:8},{label:'Submitted', value:3},{label:'Awarded', value:2},{label:'Dead', value:1},{label:'Win Ratio', value:'25%'}]
 
 const headers = [
-  'Q-Number', 'Agency',' Description', 'Employee', 'Due Date', ''
+  'Q-Number', 'Agency',' Description', 'Employee', 'Due Date', ' Due Time'
 ]
 
 function TableHeader(props) {
@@ -49,29 +50,82 @@ class Dashboard extends Component {
     };
   }
 
-  getContractsYesterday = () => {
+  yearToDateContractSales = () => {
 
   }
 
-  getQuotesList () {
-    let url = ('/api/dashboard/contracts');
+  yearToDateGraingerSales = () => {
+
+  }
+
+  getQuoteStatsYesterDay = () => {
+
+  }
+
+  getQuoteStatsMonthToDate = () => {
+
+  }
+
+  getQuoteStatsYearToDate = () => {
+    let url = ('/api/quote/open_bids/contracts');
     console.log('Awards List:', url);
     fetch(url)
     .then(res => res.json())
     .then(data => {
+      this.setState({openGrainger:data});
+      console.log("state", this.state.openGrainger);
+    });
+  }
+
+
+  getGraingerStatsYesterday = () => {
+
+  }
+
+  getGraingerStatsMonthToDate = () => {
+
+  }
+
+  getGraingerStatsYearToDate = () => {
+
+  }
+
+  getQuotesList () {
+    let url = ('/api/quote/open_bids/contracts');
+    console.log('Awards List:', url);
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      console.log("Show quote data", data);
       this.setState({openContracts:data});
+      console.log("state", this.state.openContracts);
+    });
+  }
+
+  getGraingerList () {
+    let url = ('/api/grainger/open_bids/contracts');
+    console.log('Awards List:', url);
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      console.log("Show grainger data", data);
+      this.setState({openGrainger:data});
       console.log("state", this.state.openContracts);
     });
   }
 
   componentDidMount () {
       setTimeout(() => this.setState({ loading: false }), 1000);
+      this.getQuotesList();
+      this.getGraingerList();
   }
 
   render() {
+    const {openContracts, openGrainger} = this.state;
     return (
       <div>
       <TopHeader/>
+      <br/>
       <Grid columns='equal' style={style.grid}>
       <Grid.Column>
             <Grid columns={2}>
@@ -98,33 +152,31 @@ class Dashboard extends Component {
             </Statistic.Group>
           </Segment>
           <Segment raised>
-          <Table compact size='small'>
+          <Table selectable compact size='small'>
             <TableHeader/>
             {this.state.loading &&<Dimmer active>
               <Loader/>
             </Dimmer> }
-              {headers.map(q =>
+            <Table.Body>
+              {openContracts.map(q =>
                 <Table.Row key={q.id}>
                   <Table.Cell>{q.quote}</Table.Cell>
                   <Table.Cell>{q.agency}</Table.Cell>
                   <Table.Cell>{q.description}</Table.Cell>
-                  <Table.Cell>{numberFormat(q.cost)}</Table.Cell>
-                  <Table.Cell>{dateFormat(q.due_date)}</Table.Cell>
+                  <Table.Cell>{q.employee}</Table.Cell>
+                  <Table.Cell >{dateFormat(q.due_date)}</Table.Cell>
+                  <Table.Cell >{q.due_time}</Table.Cell>
                   <Table.Cell><MainModal
                     icon={'true'}
                     id={q.id}
                     header={'EDIT QUOTE'}
                     tableAgency={q.agency}
-                    tablePOC={q.point_of_contact}
-                    tableRev={q.revision}
                     tableEmployee={q.employee}
-                    tableStatus={q.status}
-                    costExtention={'true'}
-                    buyer={q.buyer}
                   />
                   </Table.Cell>
-                </Table.Row>
+                  </Table.Row>
               )}
+              </Table.Body>
           </Table>
           </Segment>
 
@@ -159,14 +211,22 @@ class Dashboard extends Component {
               {this.state.loading &&<Dimmer active>
                 <Loader/>
               </Dimmer> }
-                {headers.map(q =>
+                {openGrainger.map(q =>
                   <Table.Row key={q.id}>
-                    <Table.Cell>{q.quote}</Table.Cell>
-                    <Table.Cell>{q.agency}</Table.Cell>
-                    <Table.Cell>{q.description}</Table.Cell>
-                    <Table.Cell>{numberFormat(q.cost)}</Table.Cell>
-                    <Table.Cell>{dateFormat(q.due_date)}</Table.Cell>
-                    <Table.Cell><PaymentsTableModal invoice={q.invoice} cost={q.cost}/></Table.Cell>
+                  <Table.Cell>{q.quote}</Table.Cell>
+                  <Table.Cell>{q.agency}</Table.Cell>
+                  <Table.Cell>{q.description}</Table.Cell>
+                  <Table.Cell>{q.employee}</Table.Cell>
+                  <Table.Cell >{dateFormat(q.due_date)}</Table.Cell>
+                  <Table.Cell >{q.due_time}</Table.Cell>
+                    <Table.Cell><MainModal
+                      icon={'true'}
+                      id={q.id}
+                      header={'EDIT QUOTE'}
+                      tableAgency={q.agency}
+                      tableEmployee={q.employee}
+                    />
+                    </Table.Cell>
                   </Table.Row>
                 )}
             </Table>

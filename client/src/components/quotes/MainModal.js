@@ -42,13 +42,12 @@ class MainModal extends Component {
       message: '',
       animation: 'fade',
       duration: 800,
-      errors: []
+      errors: [],
+
     };
   }
 
-  updateBidsTable () {
-    this.props.updateBidsList();
-  }
+
 
   openQuoteForm = (type) => {
     this.setState(state => ({
@@ -118,10 +117,14 @@ class MainModal extends Component {
   }
 
   render() {
-    const {errors, message, animation, duration, showMessage, quoteAction, paymentAction } = this.state
+    const {errors, message, animation, duration, showMessage, quoteAction, paymentAction, open} = this.state
     return (
       <div>
-      <Modal style={style.modal} trigger={this.showTrigger()} closeIcon>
+      <Modal
+          style={style.modal}
+          trigger={this.showTrigger()}
+          closeIcon
+          >
           <Modal.Header style={style.head}>{this.props.header}</Modal.Header>
           <Transition visible={showMessage} animation={animation} duration={duration}>
           <Rail position='right'>
@@ -147,12 +150,14 @@ class MainModal extends Component {
                 costExtention={this.props.costExtention}
                 tableBuyer={this.props.buyer}
                 updateBidsTable={this.updateBidsTable}
+                closeModal={this.close}
                 />
               }
              { this.state.showPayment && <NewPaymentForm
-               id={this.props.id} 
+               id={this.props.id}
                confirmation={this.handleMessage}
                error={this.handleErrors} form={'payment'}
+               closeModal={this.close}
               />}
              { this.state.showBilled && <BilledForm invoice={this.props.invoice} form={'billed'}/>}
            </Modal.Content>

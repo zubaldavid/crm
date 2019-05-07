@@ -28,6 +28,7 @@ class Login extends Component {
       })
     }).then(response => response.json())
     .then((data) => {
+      console.log('Data:', data);
       if (typeof data !== 'object') {
           if(data === 'home')this.setState({redirect:true});
       } else this.setState({errors: data.errors});

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import TopHeader from '../TopHeader'
 import {
   Button,
   Tab
@@ -65,6 +66,7 @@ class GraingerTabBar extends Component {
     }
     return (
       <div>
+        <TopHeader/>
         <Tab
           onTabChange={this.handleTabChange}
           style={style.panes}

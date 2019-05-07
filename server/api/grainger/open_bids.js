@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var OpenBids = require('../../models/quote/open_bids');
+var OpenBids = require('../../models/grainger/open_bids');
 const { check, validationResult } = require('express-validator/check');
 
 // Get all quotes submitted quotes from the the database by page.

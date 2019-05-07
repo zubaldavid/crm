@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {dateFormat, numberFormat, removeMoneyFormat} from '../Formats';
 import { PropTypes } from 'prop-types';
 import Select from 'react-select';
+import TopHeader from '../TopHeader'
 import PaginateTables from '../PaginateTables';
 import {
   Button,
@@ -111,7 +112,8 @@ class AllPaymentsTable extends Component {
     const {payments, count} = this.state;
     const pages = Math.ceil(count / 15);
     return (
-      <Segment textAlign= 'left' style={style.mainSegment}>
+      <div>
+      <TopHeader/>
       <div style={{marginLeft: '5%', width: '90%'}}>
       <Grid columns={2}>
       <Grid.Column>  <Segment compact raised textAlign='center' style={style.headerSegment}>
@@ -162,7 +164,7 @@ class AllPaymentsTable extends Component {
         </Table>
         {this.state.searchValue} {this.state.selected}
         </div>
-      </Segment>
+      </div>
     )
   }
 }

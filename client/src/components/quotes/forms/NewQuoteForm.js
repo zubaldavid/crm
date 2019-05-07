@@ -45,7 +45,7 @@ class NewQuoteForm extends Component {
       receivedDate: null , dueDate: null, dateSent: null, datePO: null, expDelivery: null,
       billingTransfer: null, dateOrderPO: null,
       // Misc
-      poFields: false, editSelect: false, buttonAction: 'submit'
+      poFields: false, editSelect: false, buttonAction: 'submit', open: true
     };
   }
   // Input field handler
@@ -63,10 +63,14 @@ class NewQuoteForm extends Component {
   handlePOC = (poc) => { this.setState({poc});; console.log(poc);}
   handleRevision = (revision) => { this.setState({revision}); console.log(revision);}
   handleStatus = (status) => {
+    console.log(status);
     const newDate = new Date();
     this.setState({status});
-    if (status.label === "Submitted") { this.handleDateSent(newDate);}
-    if (status.label === "Awarded") { this.handleDatePO(newDate);}
+    if (status == null) {console.log("Empty Status");}
+    else {
+      if (status.label === "Submitted") { this.handleDateSent(newDate);}
+      if (status.label === "Awarded") { this.handleDatePO(newDate);}
+    }
   }
 
   handleReceived = (receivedDate) => { this.setState({receivedDate}); console.log(receivedDate);}
@@ -77,6 +81,13 @@ class NewQuoteForm extends Component {
   handleExpDelivery = (expDelivery) => { this.setState({expDelivery});}
   handleBillingTransfer = (billingTransfer) => {
     this.setState({billingTransfer});
+  }
+
+  clearForm = () => {
+    this.setState({
+        fields: {}, agency: null, employee: null, buyer: '', poc: '', revision: 0, status: '', dueTime: '',
+        receivedDate: null , dueDate: null, dateSent: null, datePO: null, expDelivery: null,
+    });
   }
 
   //Add new agency to the dropdown
@@ -133,6 +144,7 @@ class NewQuoteForm extends Component {
         this.props.error(data.errors);
       }
     });
+    this.clearForm();
   };
 
   editQuote = (id) => {
@@ -152,7 +164,7 @@ class NewQuoteForm extends Component {
     })
     const message = "You have modified quote: " + this.state.fields.quote_number;
     this.props.confirmation(message);
-    this.props.updateBidsTable(1);
+    this.clearForm();
   };
 
   // Gets a single bid with id

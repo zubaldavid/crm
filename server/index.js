@@ -34,6 +34,15 @@ app.use('/api/quote/open_bids', require('./api/quote/open_bids'));
 app.use('/api/quote/payments', require('./api/quote/payments'));
 app.use('/api/quote/ss_bids', require('./api/quote/ss_bids'));
 
+app.use('/api/grainger/awarded_bids', require('./api/grainger/awarded_bids'));
+app.use('/api/grainger/billed_bids', require('./api/grainger/billed_bids'));
+app.use('/api/grainger/completed_bids', require('./api/grainger/completed_bids'));
+app.use('/api/grainger/dead_bids', require('./api/grainger/dead_bids'));
+app.use('/api/grainger/open_bids', require('./api/grainger/open_bids'));
+app.use('/api/grainger/payments', require('./api/grainger/payments'));
+app.use('/api/grainger/ss_bids', require('./api/grainger/ss_bids'));
+
+
 app.use('/api/users', require('./api/users'));
 app.use('/api/dashboard', require('./api/dashboard'));
 app.use('/api/dropdowns', require('./api/dropdowns'));

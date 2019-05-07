@@ -9,13 +9,13 @@ import {
 import Login from './Login';
 import Main from './Main';
 import Users from './users/Users'
-import TopHeader from './TopHeader'
 import QuoteTabBar from './quotes/QuoteTabBar'
 import NewQuoteForm from './quotes/forms/NewQuoteForm'
 import Dashboard from './HomeDashboard'
 import UsersTable from './users/UsersTable'
 import AddNewUser from './users/AddNewUser'
 import ResetUser from './users/ResetUser'
+import GraingerTabBar from './grainger/GraingerTabBar'
 import AllPaymentsTable from './finance/AllPaymentsTable'
 import HOC from './AutoLogout';
 
@@ -53,7 +53,7 @@ const App = () => (
         <Route path="/reset-user" component={ResetUser}/>
         <Route path="/edit-user" component={AddNewUser}/>
         </Route>
-
+          <Route path="/grainger" component={GraingerTabBar}/>
         <Route path="/create-quote" component={NewQuoteForm}/>
         <Route path="/finance" component={AllPaymentsTable}/>
       </div>
