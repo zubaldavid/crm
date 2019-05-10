@@ -113,7 +113,8 @@ router.post('/login', [
         bcrypt.compare(req.body.password, data.password).then(function(result) {
             if(result == true) {
               console.log('Redirect to home.');
-              return res.json('home');
+              console.log('User Id.', data.id);
+              return res.json(data.id);
             } else {
               console.log("Passwords do not match");
               return res.json({errors:[{msg: "Password is not correct"}]});

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Payments = require('../../models/quote/payments');
+var Payments = require('../../models/grainger/payments');
 const { check, validationResult } = require('express-validator/check');
 
 
@@ -14,37 +14,17 @@ router.get('/all', async function(req, res) {
   });
 });
 
-router.get('/search/', async function(req, res) {
+router.get('/search', async function(req, res) {
   var page = req.query.page;
-  var type = req.query.type;
   var value = req.query.value;
-  console.log("What is page:", page);
-  console.log("What is type:", type);
-  console.log("What is value:", value);
-  switch(type) {
-    case 'invoice':
-      Payments.searchInvoice(value, page, function(err, result) {
-        if(err)
-          return res.json(err);
-        return res.json(result);
-      });
-      break;
-    case 'vendor':
-      Payments.searchVendor(value, page, function(err, result) {
-        if(err)
-          return res.json(err);
-        return res.json(result);
-      });
-      break;
-    default:
-      break;
-  }
-  Payments.searchAllPayments(invoice, page, function(err, result) {
+  console.log(page);
+  console.log(value);
+  Payments.searchValue(value, page, function(err, result) {
     if(err)
       return res.json(err);
     return res.json(result);
   });
-})
+});
 
 router.get('/count', async function(req, res) {
   let page = req.query.page;

@@ -1,8 +1,8 @@
 var express = require('express');
-var DeadBids =require('../../models/quote/dead_bids');
+var DeadBids =require('../../models/grainger/dead_bids');
 var router = express.Router();
 
-// Get all quotes dead quotes from the the database by page.
+// Get all graingers dead graingers from the the database by page.
 router.get('/', async function(req, res) {
   let page = req.query.page;
   DeadBids.retreiveAll(page, function(err, result) {

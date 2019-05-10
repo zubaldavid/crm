@@ -77,20 +77,20 @@ class AllPaymentsTable extends Component {
     console.log("What is the page:", activePage);
     if ( activePage === undefined || typeof activePage === 'object') {activePage = 1;}
     if(!this.state.searchValue) {
-        this.getAllPayments('/api/quote/payments/all/?page=', activePage);
-        //this.getCount('/api/quote/payments/count');
+        this.getAllPayments('/api/grainger/payments/all/?page=', activePage);
+        //this.getCount('/api/grainger/payments/count');
     } else {
-      console.log('/api/quote/payments/search/?value=' + this.state.searchValue +'&'+ 'page=' + activePage);
-      this.getAllPayments('/api/quote/payments/search/?value=' + this.state.searchValue +'&'+ 'page=', activePage);
-      //this.getCount('/api/quote/payments/searchCount/?value=' + this.state.searchValue);
+      console.log('/api/grainger/payments/search/?value=' + this.state.searchValue +'&'+ 'page=' + activePage);
+      this.getAllPayments('/api/grainger/payments/search/?value=' + this.state.searchValue +'&'+ 'page=', activePage);
+      //this.getCount('/api/grainger/payments/searchCount/?value=' + this.state.searchValue);
     }
   //  this.setState({searchValue: ''});
   }
 
   componentDidMount () {
     setTimeout(() => this.setState({ loading: false }), 800);
-    this.getAllPayments('/api/quote/payments/all/?page=');
-  //  this.getCount('/api/quote/payments/count');
+    this.getAllPayments('/api/grainger/payments/all/?page=');
+  //  this.getCount('/api/grainger/payments/count');
   }
 
   render() {
@@ -102,7 +102,7 @@ class AllPaymentsTable extends Component {
       <div style={{marginLeft: '5%', width: '90%'}}>
       <Grid columns={2}>
       <Grid.Column>  <Segment compact raised textAlign='center' style={style.headerSegment}>
-          <Header as='h3'>ALL PAYMENTS </Header>
+          <Header as='h3'>ALL GRAINGER PAYMENTS </Header>
         </Segment></Grid.Column>
         <Grid.Column>
             <Input style={{float: 'right'}}  placeholder='Search...' name='searchValue' value={this.state.searchValue} onChange={this.handleSearch} action>

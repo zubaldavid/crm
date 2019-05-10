@@ -1,5 +1,5 @@
 var express = require('express');
-var SourcesSought =require('../../models/quote/ss_bids');
+var SourcesSought =require('../../models/grainger/ss_bids');
 var router = express.Router();
 
 // Get all quotes dead quotes from the the database by page.

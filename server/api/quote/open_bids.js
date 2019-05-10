@@ -84,6 +84,7 @@ router.post('/create', [
   }
 });
 
+
 router.put('/edit', function (req, res) {
   // Check for objects in body values
   for( var key in req.body) {
@@ -94,6 +95,16 @@ router.put('/edit', function (req, res) {
   }
 
   OpenBids.editQuote(req.body, function(err, result) {
+    if(err)
+      return res.json(err);
+    return res.json(result);
+  });
+});
+
+
+router.get('/quotes/yesterday', function(req, res) {
+  console.log('In the route');
+  OpenBids.quotesYesterday(function(err, result) {
     if(err)
       return res.json(err);
     return res.json(result);

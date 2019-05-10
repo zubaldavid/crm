@@ -6,19 +6,30 @@ class Payments {
     let itemsPerPage = 15;
     let offset = itemsPerPage;
     let dataSet = ((page - 1) * itemsPerPage);
-    db.query('SELECT * from quote_payments ORDER by id LIMIT ($1) OFFSET ($2) ',[itemsPerPage, dataSet], function (err,res) {
+    db.query('SELECT *, (SELECT COUNT(*) from quote_payments) as count from quote_payments ORDER by id LIMIT ($1) OFFSET ($2) ',[itemsPerPage, dataSet], function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);
     });
   }
 
-
-  static searchAllPayments (inv, page, callback) {
+  static searchValue (value, page, callback) {
     let itemsPerPage = 15;
     let offset = itemsPerPage;
     let dataSet = ((page - 1) * itemsPerPage);
-    db.query('SELECT * from quote_payments where invoice like `%inv%`) ORDER by id LIMIT $1 OFFSET $3 ',[itemsPerPage, dataSet], function (err,res) {
+    console.log("what is Value in model", value);
+    let searchValue = '%' + value + '%';
+    console.log("what is Value in model", searchValue);
+    db.query(`SELECT *, (SELECT COUNT(id) from quote_payments WHERE invoice like $1) as count from quote_payments WHERE invoice like $1 ORDER by id LIMIT $2 OFFSET $3`,[searchValue,itemsPerPage, dataSet], function (err,res) {
+      if(err.error)
+        return callback(err);
+      callback(res);
+    });
+  }
+
+  static getSearchCount (value, callback) {
+      let searchValue = '%' + value + '%';
+    db.query(`SELECT COUNT(id) from quote_payments WHERE invoice like $1 or vendor like %1 or payment_method like $1 or status like $1`,[searchValue], function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);

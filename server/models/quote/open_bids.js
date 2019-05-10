@@ -3,7 +3,7 @@ const db = require('../../database');
 class OpenBids {
   static retreiveAll (page, callback) {
     let submitted = 'Submitted';
-    let yellow = '';
+    let yellow = null;
     let itemsPerPage = 20;
     let offset = 20;
     let dataSet = ((page - 1) * itemsPerPage);
@@ -64,6 +64,7 @@ class OpenBids {
     });
   }
 
+
   static editQuote (data, callback) {
     db.query('UPDATE quote_tracker SET invoice=$1, agency=$2, solicitation=$3, point_of_contact=$4, employee=$5 WHERE quote=($6)',
     [data.invoice, data.agency, data.solicitation, data.poc, data.employee, data.quote], function (err,res) {
@@ -72,6 +73,37 @@ class OpenBids {
       callback(res);
     });
   }
-}
 
+  static quotesYesterday (callback) {
+    var array = [];
+    // Takes care of intake
+    db.query('SELECT count(*) FROM quote_tracker WHERE due_date = current_date-$1',['1'],  function (err,res) {
+      if(err.error)
+        return callback(err);
+      return array[0] = res;
+    });
+    console.log(array);
+    // Takes care of submitted
+    db.query('SELECT count(*) FROM quote_tracker WHERE due_date = current_date-$1 and status=$2',['1', 'Submitted'],  function (err,res) {
+      if(err.error)
+        return callback(err);
+      return array[1] = res;
+    });
+    // Takes care of awards
+    db.query('SELECT count(*) FROM quote_tracker WHERE due_date = current_date-$1 and status=$2',['1', 'Awarded'],  function (err,res) {
+      if(err.error)
+        return callback(err);
+      return array[2] = res;
+    });
+    // Takes care of dead from yesterday
+    db.query('SELECT count(*) FROM quote_tracker WHERE due_date = current_date-$1 and status=$2',['1', 'Dead'],  function (err,res) {
+      if(err.error)
+        return callback(err);
+      return array[3] = res;
+    });
+
+    callback(array);
+  }
+
+}
 module.exports = OpenBids;

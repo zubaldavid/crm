@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(expressValidator());
-app.use(session({ secret: 'acbcyu451sd', resave: false, saveUninitialized: false }));
+//app.use(session({ secret: 'acbcyu451sd', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 

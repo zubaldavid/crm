@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom'
 
 import Login from './Login';
-import Main from './Main';
 import Users from './users/Users'
 import QuoteTabBar from './quotes/QuoteTabBar'
 import NewQuoteForm from './quotes/forms/NewQuoteForm'
@@ -17,9 +16,10 @@ import AddNewUser from './users/AddNewUser'
 import ResetUser from './users/ResetUser'
 import GraingerTabBar from './grainger/GraingerTabBar'
 import AllPaymentsTable from './finance/AllPaymentsTable'
-import HOC from './AutoLogout';
+import GraingerPaymentsTable from './finance/GraingerPaymentsTable'
+import HOC from './AutoLogout'; // logs user out after 15 minutes  TODO: not fully functional - find out why
 
-
+// This was a test fake auth
 const auth = {
   isAuthenticated: false,
     authenticate(cb) {
@@ -43,8 +43,7 @@ const PrivateRoute = ({ component : Component, ...rest}) => (
 const App = () => (
   <Router>
       <div className = "container">
-        <Route exact path="/login" component= {Login}/>
-        <Route path="/main" component={Main}/>
+        <Route exact path="/" component= {Login}/>
         <Route path="/home" component={Dashboard} />
         <Route exact path="/quotes" component={QuoteTabBar}/>
 
@@ -53,9 +52,10 @@ const App = () => (
         <Route path="/reset-user" component={ResetUser}/>
         <Route path="/edit-user" component={AddNewUser}/>
         </Route>
-          <Route path="/grainger" component={GraingerTabBar}/>
+        <Route path="/grainger" component={GraingerTabBar}/>
         <Route path="/create-quote" component={NewQuoteForm}/>
-        <Route path="/finance" component={AllPaymentsTable}/>
+        <Route path="/finance-contracts" component={AllPaymentsTable}/>
+        <Route path="/finance-grainger" component={GraingerPaymentsTable}/>
       </div>
   </Router>
 );

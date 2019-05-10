@@ -27,7 +27,7 @@ const quoteStats = [{label:'Intake', value:12},{label:'Submitted', value:5},{lab
 const graingerStats = [{label:'Intake', value:8},{label:'Submitted', value:3},{label:'Awarded', value:2},{label:'Dead', value:1},{label:'Win Ratio', value:'25%'}]
 
 const headers = [
-  'Q-Number', 'Agency',' Description', 'Employee', 'Due Date', ' Due Time'
+  'Q-Number', 'Agency',' Description', 'Employee', 'Due Date', ' Due Time', ''
 ]
 
 function TableHeader(props) {
@@ -59,7 +59,14 @@ class Dashboard extends Component {
   }
 
   getQuoteStatsYesterDay = () => {
-
+    let url = ('/api/dashboard/quotes/month');
+    console.log('Yesterday List:', url);
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      //this.setState({openGrainger:data});
+      console.log("Date from the stats", data);
+    });
   }
 
   getQuoteStatsMonthToDate = () => {

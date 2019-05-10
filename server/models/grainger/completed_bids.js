@@ -5,15 +5,15 @@ class CompletedBids {
     let itemsPerPage = 20;
     let offset = itemsPerPage;
     let dataSet = ((page - 1) * itemsPerPage);
-    let sql_string = "select quote_tracker.agency, quote_tracker.description, quote_tracker.employee, quote_billing.* "
-     + "from quote_billing "
-     + "inner join quote_tracker on quote_tracker.invoice = quote_billing.invoice "
-     + "where date_billed is not null and bill_balance = ($3)"
-     + "order by quote_billing.invoice ASC "
+    let sql_string = "select grainger_tracker.agency, grainger_tracker.description, grainger_tracker.employee, grainger_billing.* "
+     + "from grainger_billing "
+     + "inner join grainger_tracker on grainger_tracker.invoice = grainger_billing.invoice "
+     + "where date_billed is not null"
+     + "order by grainger_billing.invoice ASC "
      + "limit ($1) "
      + "offset ($2) ";
 
-    db.query(sql_string, [itemsPerPage, dataSet, "0"],  function (err,res) {
+    db.query(sql_string, [itemsPerPage, dataSet],  function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);
@@ -21,7 +21,7 @@ class CompletedBids {
   }
 
   static getCount (callback) {
-    db.query('SELECT COUNT(*) FROM quote_billing WHERE date_billed is not null and bill_balance = ($1)', ["0"], function (err,res) {
+    db.query('SELECT COUNT(*) FROM grainger_billing WHERE date_billed is not null and bill_balance is null', [], function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);
@@ -29,7 +29,7 @@ class CompletedBids {
   }
 
   static getProfit (callback) {
-    db.query('SELECT sum(profit) FROM quote_billing WHERE date_billed is not null and bill_balance = ($1)', ["0"], function (err,res) {
+    db.query('SELECT sum(profit) FROM grainger_billing WHERE date_billed is not null', [], function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);
@@ -37,7 +37,7 @@ class CompletedBids {
   }
 
   static getAvgMargin (callback) {
-    db.query('SELECT avg(profit_margin) FROM quote_billing WHERE date_billed is not null and bill_balance = ($1)', ["0"], function (err,res) {
+    db.query('SELECT avg(profit_margin) FROM grainger_billing WHERE date_billed is not null and bill_balance = ($1)', ["0"], function (err,res) {
       if(err.error)
         return callback(err);
       callback(res);

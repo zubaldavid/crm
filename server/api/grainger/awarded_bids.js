@@ -1,8 +1,8 @@
 var express = require('express');
-var AwardedBids = require('../../models/quote/awarded_bids');
+var AwardedBids = require('../../models/grainger/awarded_bids');
 var router = express.Router();
 
-// Get all awarded quotes from the the database by page.
+// Get all awarded graingers from the the database by page.
 router.get('/', async function(req, res) {
   let page = req.query.page;
   AwardedBids.retreiveAll(page, function(err, result) {

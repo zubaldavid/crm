@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { Button, Form, Grid, Header, Image, Message, Rail, Segment } from 'semantic-ui-react';
 import { Route, Redirect } from 'react-router'
+import { createBrowserHistory } from 'history';
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: '', password: '', errors: [], redirect: false
+      email: '', password: '', errors: [], redirect: false, userId: null
     };
   }
 
@@ -18,7 +19,7 @@ class Login extends Component {
      this.setState({ [name]: value });
    }
 
-  handleLogin = () => {
+  handleLogin = (userId) => {
     fetch('/api/users/login', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -30,7 +31,9 @@ class Login extends Component {
     .then((data) => {
       console.log('Data:', data);
       if (typeof data !== 'object') {
-          if(data === 'home')this.setState({redirect:true});
+          this.setState({userId:data});
+          console.log("userid is:", userId);
+          this.setState({redirect:true});
       } else this.setState({errors: data.errors});
     })
   }
@@ -38,7 +41,10 @@ class Login extends Component {
   render() {
     const {errors} = this.state;
     if(this.state.redirect) {
-      return <Redirect to='/home'/>
+      return <Redirect to={{
+        pathname: '/home',
+        state: {id: this.state.userId}
+      }}/>
     }
     return (
       <div className='login-form'>
